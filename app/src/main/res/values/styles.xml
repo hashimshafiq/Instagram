@@ -1,0 +1,130 @@
+<resources>
+
+    <!--
+    TO COME IN FUTURE MATERIAL LIBRARY
+    Attribute name  	        Description
+    .............               ........................................
+    colorPrimary    	        Displayed most frequently across your app.
+    colorPrimaryVariant	        A tonal variation of primary color.
+    colorSecondary  	        Accents select parts of your UI. If not provided, use primary.
+    colorSecondaryVariant	    A tonal variation of secondary color.
+    colorBackground	            The underlying color of an app’s content. Typically the background color of scrollable content.
+    colorError          	    The color used to indicate error status.
+    colorSurface        	    The color of surfaces such as cards, sheets, menus.
+    colorOnPrimary	            A color that passes accessibility guidelines for text/iconography when drawn on top of primary.
+    colorOnSecondary    	    A color that passes accessibility guidelines for text/iconography when drawn on top of secondary.
+    colorOnBackground   	    A color that passes accessibility guidelines for text/iconography when drawn on top of background.
+    colorOnError	            A color that passes accessibility guidelines for text/iconography when drawn on top of error.
+    colorOnSurface      	    A color that passes accessibility guidelines for text/iconography when drawn on top of surface.
+
+    textAppearanceHeadline1	    Light 96sp
+    textAppearanceHeadline2	    Light 60sp
+    textAppearanceHeadline3	    Regular 48sp
+    textAppearanceHeadline4	    Regular 34sp
+    textAppearanceHeadline5	    Regular 24sp
+    textAppearanceHeadline6	    Regular 20sp
+    textAppearanceSubtitle1	    Regular 16sp
+    textAppearanceSubtitle2	    Medium 14sp
+    textAppearanceBody1	        Regular 16sp
+    textAppearanceBody2	        Regular 14sp
+    textAppearanceCaption	    Regular 12sp
+    textAppearanceButton	    Medium all caps 14sp
+    textAppearanceOverline	    Medium all caps 12sp
+    -->
+
+    <style name="AppThemeFullscreen" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="AppTheme.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="fontFamily">@font/roboto_bold</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+    </style>
+
+    <style name="AppTheme.Headline2" parent="TextAppearance.MaterialComponents.Headline2">
+        <item name="fontFamily">@font/roboto_bold</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+    </style>
+
+    <style name="AppTheme.Headline3" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="fontFamily">@font/roboto_bold</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+    </style>
+
+    <style name="AppTheme.Headline4" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="fontFamily">@font/roboto_bold</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+    </style>
+
+    <style name="AppTheme.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="fontFamily">@font/roboto_bold</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+    </style>
+
+    <style name="AppTheme.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+    </style>
+
+    <style name="AppTheme.Body1" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="AppTheme.Body2" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="AppTheme.Caption" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="AppTheme.Overline" parent="TextAppearance.MaterialComponents.Overline">
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="AppTheme.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+    </style>
+
+    <style name="AppTheme.Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+    </style>
+
+    <style name="AppTheme.Button" parent="Widget.MaterialComponents.Button">
+        <item name="fontFamily">@font/roboto_bold</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+    </style>
+
+    <style name="AppTheme.Tab" parent="TextAppearance.MaterialComponents.Tab"/>
+    <style name="AppTheme.Chip" parent="TextAppearance.MaterialComponents.Chip"/>
+
+    <style name="AppTheme.Toolbar" parent="Base.Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+    </style>
+
+</resources>

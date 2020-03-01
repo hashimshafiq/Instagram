@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.dummy.DummyActivity">
+
+    <FrameLayout
+            android:id="@+id/container_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
