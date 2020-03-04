@@ -2,6 +2,7 @@ package com.mindorks.bootcamp.instagram.ui.home.post
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
+import com.mindorks.bootcamp.instagram.R
 import com.mindorks.bootcamp.instagram.data.model.Image
 import com.mindorks.bootcamp.instagram.data.model.Post
 import com.mindorks.bootcamp.instagram.data.model.User
@@ -9,6 +10,7 @@ import com.mindorks.bootcamp.instagram.data.remote.Networking
 import com.mindorks.bootcamp.instagram.data.repository.PostRepository
 import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.ui.base.BaseItemViewModel
+import com.mindorks.bootcamp.instagram.utils.common.Resource
 import com.mindorks.bootcamp.instagram.utils.common.TimeUtils
 import com.mindorks.bootcamp.instagram.utils.display.ScreenUtils
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
@@ -60,4 +62,22 @@ class PostItemViewModel @Inject constructor(
 
 
     override fun onCreate() {}
+
+    fun onLikeClick() = data.value?.let {
+        if(networkHelper.isNetworkConnected()){
+            val api = if(isLiked.value == true) postRepository.makeUnlikePost(it,user) else postRepository.makeLikePost(it,user)
+            compositeDisposable.add(api
+                .subscribeOn(schedulerProvider.io())
+                .subscribe({
+                    responsePost -> if (responsePost.id == it.id) updateData(it)
+                },{error->
+                    handleNetworkError(error)
+                }
+                )
+            )
+
+        }else{
+            messageStringId.postValue(Resource.error(R.string.network_connection_error))
+        }
+    }
 }

@@ -80,6 +80,6 @@ class PostItemViewHolder(parent: ViewGroup) : BaseItemViewHolder<Post,PostItemVi
     }
 
     override fun setupView(view: View) {
-
+        itemView.ivLike.setOnClickListener { viewModel.onLikeClick() }
     }
 }

@@ -2,11 +2,9 @@ package com.mindorks.bootcamp.instagram.data.remote
 
 import com.mindorks.bootcamp.instagram.data.remote.request.DummyRequest
 import com.mindorks.bootcamp.instagram.data.remote.request.LoginRequest
+import com.mindorks.bootcamp.instagram.data.remote.request.PostLikeModifyRequest
 import com.mindorks.bootcamp.instagram.data.remote.request.SignupRequest
-import com.mindorks.bootcamp.instagram.data.remote.response.DummyResponse
-import com.mindorks.bootcamp.instagram.data.remote.response.LoginResponse
-import com.mindorks.bootcamp.instagram.data.remote.response.PostListResponse
-import com.mindorks.bootcamp.instagram.data.remote.response.SignupResponse
+import com.mindorks.bootcamp.instagram.data.remote.response.*
 import io.reactivex.Single
 import retrofit2.http.*
 import javax.inject.Singleton
@@ -41,6 +39,22 @@ interface NetworkService {
         @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
         @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
     ): Single<PostListResponse>
+
+    @PUT(Endpoints.POST_LIKE)
+    fun doPostLikeCall(
+        @Body request: PostLikeModifyRequest,
+        @Header(Networking.HEADER_USER_ID) userId: String,
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
+        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
+    ): Single<GeneralResponse>
+
+    @PUT(Endpoints.POST_UNLIKE)
+    fun doPostUnlikeCall(
+        @Body request: PostLikeModifyRequest,
+        @Header(Networking.HEADER_USER_ID) userId: String,
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
+        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
+    ): Single<GeneralResponse>
 
 
 
