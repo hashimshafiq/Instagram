@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardUseCompatPadding="false"
+        app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="8dp"
+            android:paddingBottom="16dp">
+
+        <TextView
+                style="@style/AppTheme.Body1"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:lines="1"
+                android:ellipsize="end"
+                tools:text="Hashim Shafiq"
+                android:id="@+id/tvName"
+                app:layout_constraintStart_toEndOf="@+id/ivProfile"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="8dp"
+                android:gravity="center_vertical"/>
+
+        <ImageView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:scaleType="centerCrop"
+                tools:ignore="ContentDescription"
+                tools:src="@tools:sample/avatars"
+                android:layout_marginStart="16dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/ivProfile"/>
+
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="center"
+                tools:ignore="ContentDescription"
+                tools:src="@drawable/ic_photo"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/tvName"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                android:id="@+id/ivPost"/>
+
+        <ImageView android:layout_width="32dp"
+                   android:layout_height="32dp"
+                   android:padding="6dp"
+                   tools:src="@drawable/ic_heart_unselected"
+                   app:layout_constraintTop_toBottomOf="@+id/ivPost"
+                   app:layout_constraintStart_toStartOf="parent"
+                   android:layout_marginStart="10dp"
+                   android:layout_marginTop="5dp"
+                   tools:ignore="ContentDescription"
+                   android:id="@+id/ivLike"/>
+
+        <TextView
+                style="@style/AppTheme.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="@string/post_like_label"
+                app:layout_constraintStart_toEndOf="@+id/ivLike"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="2dp"
+                app:layout_constraintTop_toBottomOf="@+id/ivPost"
+                android:id="@+id/tvLikesCount"/>
+
+        <TextView
+                android:id="@+id/tvTime"
+                style="@style/AppTheme.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="4 Hrs ago"
+                android:textColor="@color/grey"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/ivPost"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="16dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
