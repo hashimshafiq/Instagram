@@ -35,4 +35,10 @@
     <!--posts-->
     <string name="post_like_label">%1d Likes</string>
     <string name="menu_home">Home</string>
+
+    <!--profile-->
+    <string name="user_image">User Image</string>
+    <string name="logout">Logout</string>
+    <string name="post_number_label">%1d Posts</string>
+    <string name="edit_profile">Edit Profile</string>
 </resources>

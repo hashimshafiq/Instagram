@@ -6,6 +6,7 @@ import com.mindorks.bootcamp.instagram.data.model.User
 import com.mindorks.bootcamp.instagram.data.remote.NetworkService
 import com.mindorks.bootcamp.instagram.data.remote.request.LoginRequest
 import com.mindorks.bootcamp.instagram.data.remote.request.SignupRequest
+import com.mindorks.bootcamp.instagram.data.remote.response.ProfileResponse
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -67,4 +68,9 @@ class UserRepository @Inject constructor(
                     it.profilePicUrl
                 )
             }
+
+    fun doUserProfileFetch(user: User) : Single<ProfileResponse> =
+        networkService.doProfileGetCall(user.id,user.accessToken).map {
+            return@map it
+        }
 }
