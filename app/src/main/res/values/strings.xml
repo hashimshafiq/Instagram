@@ -41,4 +41,9 @@
     <string name="logout">Logout</string>
     <string name="post_number_label">%1d Posts</string>
     <string name="edit_profile">Edit Profile</string>
+    <string name="change_photo">Change Photo</string>
+    <string name="bio_field_hint">Bio</string>
+    <string name="name_hint">Name</string>
+    <string name="private_information_label">Private Information</string>
+    <string name="email_hint">Email</string>
 </resources>

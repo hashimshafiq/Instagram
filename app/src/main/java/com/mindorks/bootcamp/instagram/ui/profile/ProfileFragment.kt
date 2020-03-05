@@ -1,17 +1,17 @@
 package com.mindorks.bootcamp.instagram.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-
 import com.mindorks.bootcamp.instagram.R
 import com.mindorks.bootcamp.instagram.di.component.FragmentComponent
 import com.mindorks.bootcamp.instagram.ui.base.BaseFragment
+import com.mindorks.bootcamp.instagram.ui.login.LoginActivity
+import com.mindorks.bootcamp.instagram.ui.profile.editprofile.EditProfileActivity
 import com.mindorks.bootcamp.instagram.utils.common.GlideHelper
 import kotlinx.android.synthetic.main.fragment_profile.*
 
@@ -36,7 +36,13 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
     override fun injectDependencies(fragmentComponent: FragmentComponent) = fragmentComponent.inject(this)
 
     override fun setupView(view: View) {
+        tvLogout.setOnClickListener {
+            viewModel.doLogout()
+        }
 
+        bt_edit_profile.setOnClickListener{
+            viewModel.doLaunchEditProfile()
+        }
     }
 
     override fun setupObservers() {
@@ -63,6 +69,19 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
                     .apply(RequestOptions.placeholderOf(R.drawable.ic_profile_selected))
 
                 glideRequest.into(ivProfile)
+            }
+        })
+
+        viewModel.launchLogin.observe(this, Observer {
+            it.getIfNotHandled()?.run {
+                fragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                startActivity(Intent(context,LoginActivity::class.java))
+            }
+        })
+
+        viewModel.launchEditProfile.observe(this, Observer {
+            it.getIfNotHandled()?.run {
+                startActivity(Intent(context,EditProfileActivity::class.java))
             }
         })
     }

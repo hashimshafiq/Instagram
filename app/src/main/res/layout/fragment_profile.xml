@@ -53,7 +53,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@id/tvLogout"
-        app:layout_constraintStart_toStartOf="@id/bt_login"
+        app:layout_constraintStart_toStartOf="@id/bt_edit_profile"
         tools:text="@string/post_number_label"
         android:textAlignment="center"
         android:textColor="@color/black"
@@ -61,7 +61,7 @@
         />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/bt_login"
+        android:id="@+id/bt_edit_profile"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -87,11 +87,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="@tools:sample/lorem/random"
-        android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="15sp"
         android:maxLines="3"
-        android:gravity="center"
+        android:gravity="left"
         />
 
     <ProgressBar

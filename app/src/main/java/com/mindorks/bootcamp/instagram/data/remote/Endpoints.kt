@@ -9,4 +9,5 @@ object Endpoints {
     const val POST_LIKE = "instagram/post/like"
     const val POST_UNLIKE = "instagram/post/unlike"
     const val PROFILE = "me"
+    const val LOGOUT = "logout"
 }

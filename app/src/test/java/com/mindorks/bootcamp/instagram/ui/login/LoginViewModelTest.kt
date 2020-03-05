@@ -62,7 +62,6 @@ class LoginViewModelTest {
         )
 
         loginViewModel.loggingIn.observeForever(loggingInObserver)
-        loginViewModel.launchDummy.observeForever(launchDummyObserver)
         loginViewModel.messageStringId.observeForever(messagingStringIdObserver)
     }
 
@@ -85,7 +84,6 @@ class LoginViewModelTest {
         testScheduler.triggerActions()
         verify(userRepository).saveCurrentUser(user)
         assert(loginViewModel.loggingIn.value==false)
-        assert(loginViewModel.launchDummy.value==Event(hashMapOf<String,String>()))
         verify(loggingInObserver).onChanged(true)
         verify(loggingInObserver).onChanged(false)
         verify(launchDummyObserver).onChanged(Event(hashMapOf()))
@@ -110,7 +108,7 @@ class LoginViewModelTest {
     @After
     fun tearDown(){
         loginViewModel.loggingIn.removeObserver(loggingInObserver)
-        loginViewModel.launchDummy.removeObserver(launchDummyObserver)
+
         loginViewModel.messageStringId.removeObserver(messagingStringIdObserver)
     }
 

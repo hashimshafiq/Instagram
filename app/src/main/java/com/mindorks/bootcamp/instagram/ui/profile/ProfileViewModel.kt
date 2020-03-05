@@ -8,6 +8,7 @@ import com.mindorks.bootcamp.instagram.data.model.User
 import com.mindorks.bootcamp.instagram.data.remote.Networking
 import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.ui.base.BaseViewModel
+import com.mindorks.bootcamp.instagram.utils.common.Event
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
 import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
@@ -27,7 +28,8 @@ class ProfileViewModel(
     val profile : MutableLiveData<Image> = MutableLiveData()
     val tagLine : MutableLiveData<String> = MutableLiveData()
     val loading : MutableLiveData<Boolean> = MutableLiveData()
-
+    val launchLogin: MutableLiveData<Event<Map<String, String>>> = MutableLiveData()
+    val launchEditProfile: MutableLiveData<Event<Map<String, String>>> = MutableLiveData()
 
 
     private val user : User = userRepository.getCurrentUser()!!
@@ -39,13 +41,13 @@ class ProfileViewModel(
     )
 
     private fun fetchProfileData(){
-
+        loading.postValue(true)
         compositeDisposable.add(
             userRepository.doUserProfileFetch(user)
                 .subscribeOn(schedulerProvider.io())
                 .subscribe(
                     {
-                        loading.postValue(true)
+                        loading.postValue(false)
                         name.postValue(it.data?.name)
                         profile.postValue(it.data?.profilePicUrl?.run {
                             Image(this,headers)
@@ -57,10 +59,27 @@ class ProfileViewModel(
                         handleNetworkError(it)
                     }
                 )
-
-
         )
 
+    }
 
+    fun doLogout(){
+        loading.postValue(true)
+        compositeDisposable.add(
+            userRepository.doLogout(user)
+                .subscribeOn(schedulerProvider.io())
+                .subscribe({
+                    loading.postValue(false)
+                    userRepository.removeCurrentUser()
+                    launchLogin.postValue(Event(mapOf()))
+                },{
+                    loading.postValue(false)
+                    handleNetworkError(it)
+                })
+        )
+    }
+
+    fun doLaunchEditProfile(){
+        launchEditProfile.postValue(Event(mapOf()))
     }
 }
