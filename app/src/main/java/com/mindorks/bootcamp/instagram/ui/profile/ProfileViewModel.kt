@@ -80,6 +80,7 @@ class ProfileViewModel(
     }
 
     fun doLaunchEditProfile(){
+
         launchEditProfile.postValue(Event(mapOf()))
     }
 }

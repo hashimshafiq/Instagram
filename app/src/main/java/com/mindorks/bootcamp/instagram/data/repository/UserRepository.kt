@@ -5,6 +5,7 @@ import com.mindorks.bootcamp.instagram.data.local.prefs.UserPreferences
 import com.mindorks.bootcamp.instagram.data.model.User
 import com.mindorks.bootcamp.instagram.data.remote.NetworkService
 import com.mindorks.bootcamp.instagram.data.remote.request.LoginRequest
+import com.mindorks.bootcamp.instagram.data.remote.request.ProfileUpdateRequest
 import com.mindorks.bootcamp.instagram.data.remote.request.SignupRequest
 import com.mindorks.bootcamp.instagram.data.remote.response.GeneralResponse
 import com.mindorks.bootcamp.instagram.data.remote.response.ProfileResponse
@@ -78,5 +79,10 @@ class UserRepository @Inject constructor(
     fun doLogout(user: User) : Single<GeneralResponse> =
         networkService.doLogoutCall(user.id,user.accessToken).map {
             return@map it
+        }
+
+    fun doUserProfileUpdate(user: User,name : String?, tagline : String?, profilePicUrl : String?) : Single<ProfileResponse.User> =
+        networkService.doProfileUpdateCall(ProfileUpdateRequest(name,profilePicUrl,tagline), user.id,user.accessToken).map {
+            ProfileResponse.User(user.id,name,profilePicUrl,tagline)
         }
 }

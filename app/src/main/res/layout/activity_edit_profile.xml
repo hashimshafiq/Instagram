@@ -174,9 +174,22 @@
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:lines="1"
+            android:enabled="false"
             android:textSize="16sp"/>
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <ProgressBar
+        android:id="@+id/pb_loading"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:visibility="visible"
+        android:visibility="gone"
+        />
 
 
 

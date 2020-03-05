@@ -24,11 +24,11 @@ data class ProfileResponse(
     data class User(
         @Expose
         @SerializedName("id")
-        val id: String,
+        val id: String?,
 
         @Expose
         @SerializedName("name")
-        val name: String,
+        val name: String?,
 
         @Expose
         @SerializedName("profilePicUrl")
@@ -36,7 +36,7 @@ data class ProfileResponse(
 
         @Expose
         @SerializedName("tagline")
-        val tagLine: String
+        val tagLine: String?
     )
 
 }
