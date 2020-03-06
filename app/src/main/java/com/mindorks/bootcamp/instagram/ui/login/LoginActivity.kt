@@ -1,18 +1,14 @@
 package com.mindorks.bootcamp.instagram.ui.login
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.EventLog
 import android.view.View
 import androidx.lifecycle.Observer
 import com.mindorks.bootcamp.instagram.R
 import com.mindorks.bootcamp.instagram.di.component.ActivityComponent
 import com.mindorks.bootcamp.instagram.ui.base.BaseActivity
-import com.mindorks.bootcamp.instagram.ui.base.BaseViewModel
-import com.mindorks.bootcamp.instagram.ui.dummy.DummyActivity
 import com.mindorks.bootcamp.instagram.ui.main.MainActivity
 import com.mindorks.bootcamp.instagram.ui.signup.SignupActivity
 import com.mindorks.bootcamp.instagram.utils.common.Event

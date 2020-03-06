@@ -90,7 +90,6 @@ class EditProfileViewModel(
                 loading.postValue(true)
                 compositeDisposable.add(
                     userRepository.doUserProfileUpdate(user,name,bio,fileName)
-
                         .subscribeOn(schedulerProvider.io())
                         .subscribe(
                             {

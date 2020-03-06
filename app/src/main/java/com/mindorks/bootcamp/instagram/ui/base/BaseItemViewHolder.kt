@@ -40,24 +40,25 @@ abstract class BaseItemViewHolder<T : Any, VM : BaseItemViewModel<T>>(
 
     protected fun onCreate() {
         injectDependencies(buildViewHolderComponent())
-        lifecycleRegistry.markState(Lifecycle.State.INITIALIZED)
-        lifecycleRegistry.markState(Lifecycle.State.CREATED)
+        lifecycleRegistry.currentState = Lifecycle.State.INITIALIZED
+        lifecycleRegistry.currentState = Lifecycle.State.CREATED
         setupObservers()
         setupView(itemView)
     }
 
     fun onStart() {
-        lifecycleRegistry.markState(Lifecycle.State.STARTED)
-        lifecycleRegistry.markState(Lifecycle.State.RESUMED)
+        lifecycleRegistry.currentState = Lifecycle.State.STARTED
+        lifecycleRegistry.currentState = Lifecycle.State.RESUMED
+
     }
 
     fun onStop() {
-        lifecycleRegistry.markState(Lifecycle.State.STARTED)
-        lifecycleRegistry.markState(Lifecycle.State.CREATED)
+        lifecycleRegistry.currentState = Lifecycle.State.STARTED
+        lifecycleRegistry.currentState = Lifecycle.State.CREATED
     }
 
     fun onDestroy() {
-        lifecycleRegistry.markState(Lifecycle.State.DESTROYED)
+        lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
     }
 
     private fun buildViewHolderComponent() =

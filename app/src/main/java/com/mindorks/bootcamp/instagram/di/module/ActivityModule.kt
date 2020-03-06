@@ -2,17 +2,12 @@ package com.mindorks.bootcamp.instagram.di.module
 
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mindorks.bootcamp.instagram.data.repository.DummyRepository
 import com.mindorks.bootcamp.instagram.data.repository.PhotoRepository
 import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.di.TempDirectory
 import com.mindorks.bootcamp.instagram.ui.base.BaseActivity
-import com.mindorks.bootcamp.instagram.ui.dummy.DummyViewModel
-import com.mindorks.bootcamp.instagram.ui.home.HomeViewModel
 import com.mindorks.bootcamp.instagram.ui.login.LoginViewModel
 import com.mindorks.bootcamp.instagram.ui.main.MainViewModel
-import com.mindorks.bootcamp.instagram.ui.photo.PhotoViewModel
-import com.mindorks.bootcamp.instagram.ui.profile.ProfileViewModel
 import com.mindorks.bootcamp.instagram.ui.profile.editprofile.EditProfileViewModel
 import com.mindorks.bootcamp.instagram.ui.signup.SignupViewModel
 import com.mindorks.bootcamp.instagram.ui.splash.SplashViewModel
@@ -46,17 +41,6 @@ class ActivityModule(private val activity: BaseActivity<*>) {
             SplashViewModel(schedulerProvider, compositeDisposable, networkHelper, userRepository)
             //this lambda creates and return SplashViewModel
         }).get(SplashViewModel::class.java)
-
-    @Provides
-    fun provideDummyViewModel(
-        schedulerProvider: SchedulerProvider,
-        compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper,
-        dummyRepository: DummyRepository
-    ): DummyViewModel = ViewModelProviders.of(
-        activity, ViewModelProviderFactory(DummyViewModel::class) {
-            DummyViewModel(schedulerProvider, compositeDisposable, networkHelper, dummyRepository)
-        }).get(DummyViewModel::class.java)
 
 
     @Provides
