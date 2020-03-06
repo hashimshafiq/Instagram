@@ -13,6 +13,7 @@ import com.mindorks.bootcamp.instagram.R
 import com.mindorks.bootcamp.instagram.di.component.FragmentComponent
 import com.mindorks.bootcamp.instagram.ui.base.BaseFragment
 import com.mindorks.bootcamp.instagram.ui.home.post.PostsAdapter
+import com.mindorks.bootcamp.instagram.ui.main.MainSharedViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
 
@@ -36,6 +37,9 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
 
     @Inject
     lateinit var postsAdapter: PostsAdapter
+
+    @Inject
+    lateinit var mainSharedViewModel: MainSharedViewModel
 
     override fun provideLayoutId(): Int = R.layout.fragment_home
 
@@ -69,6 +73,19 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
 
         viewModel.posts.observe(this, Observer {
             it.data?.run { postsAdapter.appendData(it.data) }
+        })
+
+        mainSharedViewModel.newPost.observe(this, Observer {
+            it.getIfNotHandled()?.run {
+                viewModel.onNewPost(this)
+            }
+        })
+
+        viewModel.refreshPosts.observe(this, Observer {
+            it.data?.run {
+                postsAdapter.updateData(this)
+                rvPosts.scrollToPosition(0)
+            }
         })
     }
 

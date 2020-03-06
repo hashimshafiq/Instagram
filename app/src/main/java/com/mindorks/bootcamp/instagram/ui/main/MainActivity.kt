@@ -16,6 +16,7 @@ import com.mindorks.bootcamp.instagram.ui.home.HomeFragment
 import com.mindorks.bootcamp.instagram.ui.photo.PhotoFragment
 import com.mindorks.bootcamp.instagram.ui.profile.ProfileFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
 
 
 class MainActivity : BaseActivity<MainViewModel>() {
@@ -24,6 +25,8 @@ class MainActivity : BaseActivity<MainViewModel>() {
         const val TAG = "MainActivity"
     }
 
+    @Inject
+    lateinit var mainSharedViewModel: MainSharedViewModel
     private var activeFragment: Fragment? = null
 
     override fun provideLayoutId(): Int = R.layout.activity_main
@@ -72,6 +75,12 @@ class MainActivity : BaseActivity<MainViewModel>() {
         viewModel.profileNavigation.observe(this, Observer {
             it.getIfNotHandled()?.run {
                 showProfile()
+            }
+        })
+
+        mainSharedViewModel.homeRedirection.observe(this, Observer {
+            it.getIfNotHandled()?.run {
+                bottomNavigation.selectedItemId = R.id.itemHome
             }
         })
 

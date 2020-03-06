@@ -47,4 +47,6 @@
     <string name="private_information_label">Private Information</string>
     <string name="email_hint">Email</string>
     <string name="try_again">Something went wrong Try Again</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
 </resources>

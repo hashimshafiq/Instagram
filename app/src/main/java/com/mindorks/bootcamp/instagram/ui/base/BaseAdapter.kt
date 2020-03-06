@@ -94,4 +94,10 @@ abstract class BaseAdapter<T : Any, VH : BaseItemViewHolder<T, out BaseItemViewM
         else if (oldCount > 0 && currentCount > oldCount)
             notifyItemRangeChanged(oldCount - 1, currentCount - oldCount)
     }
+
+    fun updateData(dataList: List<T>){
+        this.dataList.clear()
+        this.dataList.addAll(dataList)
+        notifyDataSetChanged()
+    }
 }
