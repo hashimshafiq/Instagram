@@ -46,4 +46,5 @@
     <string name="name_hint">Name</string>
     <string name="private_information_label">Private Information</string>
     <string name="email_hint">Email</string>
+    <string name="try_again">Something went wrong Try Again</string>
 </resources>

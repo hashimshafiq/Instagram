@@ -10,6 +10,8 @@ import com.mindorks.bootcamp.instagram.data.local.db.DatabaseService
 import com.mindorks.bootcamp.instagram.data.remote.NetworkService
 import com.mindorks.bootcamp.instagram.data.remote.Networking
 import com.mindorks.bootcamp.instagram.di.ApplicationContext
+import com.mindorks.bootcamp.instagram.di.TempDirectory
+import com.mindorks.bootcamp.instagram.utils.common.FileUtils
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
 import com.mindorks.bootcamp.instagram.utils.rx.RxSchedulerProvider
 import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
@@ -29,6 +31,11 @@ class ApplicationModule(private val application: InstagramApplication) {
     @Singleton
     @ApplicationContext
     fun provideContext(): Context = application
+
+    @Provides
+    @Singleton
+    @TempDirectory
+    fun provideTempDirectory() = FileUtils.getDirectory(application, "temp")
 
     /**
      * Since this function do not have @Singleton then each time CompositeDisposable is injected

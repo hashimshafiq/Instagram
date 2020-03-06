@@ -63,6 +63,10 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
     override fun setupObservers() {
         super.setupObservers()
 
+        viewModel.loading.observe(this, Observer {
+            progressBar.visibility = if (it) View.VISIBLE else View.GONE
+        })
+
         viewModel.posts.observe(this, Observer {
             it.data?.run { postsAdapter.appendData(it.data) }
         })

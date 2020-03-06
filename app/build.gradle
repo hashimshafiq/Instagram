@@ -115,4 +115,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-intents:$espresso_version"
     androidTestImplementation "org.mockito:mockito-core:$mockito_version"
     kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
+
+    //ParaCamera
+    implementation 'com.mindorks:paracamera:0.2.2'
 }

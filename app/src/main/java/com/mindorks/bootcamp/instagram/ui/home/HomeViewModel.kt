@@ -29,6 +29,7 @@ class HomeViewModel(
     private val user : User = userRepository.getCurrentUser()!!
 
     init {
+        loading.postValue(true)
         compositeDisposable.add(
             paginator
                 .onBackpressureDrop()
@@ -48,6 +49,7 @@ class HomeViewModel(
                     loading.postValue(false)
                     posts.postValue(Resource.success(it))
                 },{
+                    loading.postValue(false)
                     handleNetworkError(it)
                 })
         )

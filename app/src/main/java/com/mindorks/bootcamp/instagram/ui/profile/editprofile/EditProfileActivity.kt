@@ -1,17 +1,28 @@
 package com.mindorks.bootcamp.instagram.ui.profile.editprofile
 
+import android.content.Intent
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.mindorks.bootcamp.instagram.R
 import com.mindorks.bootcamp.instagram.di.component.ActivityComponent
 import com.mindorks.bootcamp.instagram.ui.base.BaseActivity
+import com.mindorks.bootcamp.instagram.utils.common.GlideHelper
 import kotlinx.android.synthetic.main.activity_edit_profile.*
+import java.io.FileNotFoundException
 
 class EditProfileActivity : BaseActivity<EditProfileViewModel>() {
+
+    companion object {
+        const val RESULT_GALLERY_IMAGE_CODE = 1001
+    }
 
     override fun provideLayoutId(): Int = R.layout.activity_edit_profile
 
@@ -20,6 +31,14 @@ class EditProfileActivity : BaseActivity<EditProfileViewModel>() {
     }
 
     override fun setupView(savedInstanceState: Bundle?) {
+
+        ivProfilePhoto.setOnClickListener {
+            Intent(Intent.ACTION_PICK).apply {
+                type = "image/*"
+            }.run {
+                startActivityForResult(this, RESULT_GALLERY_IMAGE_CODE)
+            }
+        }
 
 
         et_email.addTextChangedListener(object : TextWatcher {
@@ -100,5 +119,47 @@ class EditProfileActivity : BaseActivity<EditProfileViewModel>() {
                 et_email.setText(it.toString())
             }
         })
+
+        viewModel.profile.observe(this, Observer {
+            it?.run {
+                val glideRequest = Glide
+                    .with(ivProfilePhoto.context)
+                    .load(GlideHelper.getProtectedUrl(url, headers))
+                    .apply(RequestOptions.circleCropTransform())
+                    .apply(RequestOptions.placeholderOf(R.drawable.ic_profile_selected))
+
+                glideRequest.into(ivProfilePhoto)
+            }
+        })
+
+        viewModel.selectedProfile.observe(this, Observer {
+            val glideRequest = Glide
+                .with(ivProfilePhoto.context)
+                .load(it)
+                .apply(RequestOptions.circleCropTransform())
+                .apply(RequestOptions.placeholderOf(R.drawable.ic_profile_selected))
+
+            glideRequest.into(ivProfilePhoto)
+        })
+    }
+
+    override fun onActivityResult(reqCode: Int, resultCode: Int, intent: Intent?) {
+        super.onActivityResult(reqCode, resultCode, intent)
+        if (resultCode == RESULT_OK) {
+            when (reqCode) {
+                RESULT_GALLERY_IMAGE_CODE -> {
+                    try {
+                        intent?.data?.let {
+                            contentResolver?.openInputStream(it)?.run {
+                                viewModel.onGalleryImageSelected(this)
+                            }
+                        } ?: showMessage(R.string.try_again)
+                    } catch (e: FileNotFoundException) {
+                        e.printStackTrace()
+                        showMessage(R.string.try_again)
+                    }
+                }
+            }
+        }
     }
 }
