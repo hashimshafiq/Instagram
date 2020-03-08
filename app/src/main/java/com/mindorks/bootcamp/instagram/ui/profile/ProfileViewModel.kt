@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.mindorks.bootcamp.instagram.data.model.Image
+import com.mindorks.bootcamp.instagram.data.model.Post
 import com.mindorks.bootcamp.instagram.data.model.User
 import com.mindorks.bootcamp.instagram.data.remote.Networking
+import com.mindorks.bootcamp.instagram.data.repository.PostRepository
 import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.ui.base.BaseViewModel
 import com.mindorks.bootcamp.instagram.utils.common.Event
@@ -17,11 +19,13 @@ class ProfileViewModel(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
     networkHelper: NetworkHelper,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val postRepository: PostRepository
 ) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
 
     override fun onCreate() {
         fetchProfileData()
+        fetchUserPostList()
     }
 
     val name : MutableLiveData<String> = MutableLiveData()
@@ -30,6 +34,8 @@ class ProfileViewModel(
     val loading : MutableLiveData<Boolean> = MutableLiveData()
     val launchLogin: MutableLiveData<Event<Map<String, String>>> = MutableLiveData()
     val launchEditProfile: MutableLiveData<Event<Map<String, String>>> = MutableLiveData()
+    val userPosts : MutableLiveData<List<Post>> = MutableLiveData()
+    val numberOfPosts : MutableLiveData<Int> = MutableLiveData()
 
 
     private val user : User = userRepository.getCurrentUser()!!
@@ -61,6 +67,22 @@ class ProfileViewModel(
                 )
         )
 
+    }
+
+    private fun fetchUserPostList(){
+        compositeDisposable.add(
+            postRepository.fetchUserPostList(user)
+                .subscribeOn(schedulerProvider.io())
+                .subscribe (
+                    {
+                        userPosts.postValue(it)
+                        numberOfPosts.postValue(it.size)
+                    },
+                    {
+                        handleNetworkError(it)
+                    }
+                )
+            )
     }
 
     fun doLogout(){

@@ -3,6 +3,7 @@ package com.mindorks.bootcamp.instagram.di.component
 import com.mindorks.bootcamp.instagram.di.ViewModelScope
 import com.mindorks.bootcamp.instagram.di.module.ViewHolderModule
 import com.mindorks.bootcamp.instagram.ui.home.post.PostItemViewHolder
+import com.mindorks.bootcamp.instagram.ui.profile.userposts.UserPostItemViewHolder
 import dagger.Component
 
 @ViewModelScope
@@ -15,4 +16,5 @@ interface ViewHolderComponent {
 
 
     fun inject(viewHolder: PostItemViewHolder)
+    fun inject(viewHolder : UserPostItemViewHolder)
 }

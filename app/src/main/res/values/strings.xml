@@ -49,4 +49,5 @@
     <string name="try_again">Something went wrong Try Again</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
+    <string name="image_post_description">Image Post</string>
 </resources>

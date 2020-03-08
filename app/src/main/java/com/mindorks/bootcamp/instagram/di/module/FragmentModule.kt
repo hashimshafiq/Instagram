@@ -1,6 +1,7 @@
 package com.mindorks.bootcamp.instagram.di.module
 
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mindorks.bootcamp.instagram.data.repository.PhotoRepository
 import com.mindorks.bootcamp.instagram.data.repository.PostRepository
@@ -12,6 +13,7 @@ import com.mindorks.bootcamp.instagram.ui.home.post.PostsAdapter
 import com.mindorks.bootcamp.instagram.ui.main.MainSharedViewModel
 import com.mindorks.bootcamp.instagram.ui.photo.PhotoViewModel
 import com.mindorks.bootcamp.instagram.ui.profile.ProfileViewModel
+import com.mindorks.bootcamp.instagram.ui.profile.userposts.UserPostAdapter
 import com.mindorks.bootcamp.instagram.utils.ViewModelProviderFactory
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
 import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
@@ -31,6 +33,13 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
 
     @Provides
     fun providePostsAdapter() = PostsAdapter(fragment.lifecycle, ArrayList())
+
+    @Provides
+    fun provideGridLayoutManager(): GridLayoutManager = GridLayoutManager(fragment.context,3)
+
+
+    @Provides
+    fun provideUserPostsAdapter() = UserPostAdapter(fragment.lifecycle, ArrayList())
 
     @Provides
     fun provideHomeViewModel(
@@ -66,10 +75,11 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
         schedulerProvider: SchedulerProvider,
         compositeDisposable: CompositeDisposable,
         networkHelper: NetworkHelper,
-        userRepository: UserRepository
+        userRepository: UserRepository,
+        postRepository: PostRepository
     ): ProfileViewModel = ViewModelProviders.of(
         fragment, ViewModelProviderFactory(ProfileViewModel::class) {
-            ProfileViewModel(schedulerProvider, compositeDisposable, networkHelper,userRepository)
+            ProfileViewModel(schedulerProvider, compositeDisposable, networkHelper,userRepository,postRepository)
         }).get(ProfileViewModel::class.java)
 
     @Provides

@@ -89,6 +89,13 @@ interface NetworkService {
         @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
     ) : Single<PostCreationResponse>
 
+    @GET(Endpoints.MY_POSTS)
+    fun doMyPostsCall(
+        @Header(Networking.HEADER_USER_ID) userId: String,
+        @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
+        @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
+    ): Single<PostListResponse>
+
 
 
 

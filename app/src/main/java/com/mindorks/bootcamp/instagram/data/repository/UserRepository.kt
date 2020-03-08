@@ -8,6 +8,7 @@ import com.mindorks.bootcamp.instagram.data.remote.request.LoginRequest
 import com.mindorks.bootcamp.instagram.data.remote.request.ProfileUpdateRequest
 import com.mindorks.bootcamp.instagram.data.remote.request.SignupRequest
 import com.mindorks.bootcamp.instagram.data.remote.response.GeneralResponse
+import com.mindorks.bootcamp.instagram.data.remote.response.PostListResponse
 import com.mindorks.bootcamp.instagram.data.remote.response.ProfileResponse
 import io.reactivex.Single
 import javax.inject.Inject
@@ -85,4 +86,6 @@ class UserRepository @Inject constructor(
         networkService.doProfileUpdateCall(ProfileUpdateRequest(name,profilePicUrl,tagline), user.id,user.accessToken).map {
             ProfileResponse.User(user.id,name,profilePicUrl,tagline)
         }
+
+
 }
