@@ -21,8 +21,7 @@ import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Singleton
 
 @Module
-class ApplicationModule(private val application: InstagramApplication) {
-
+class ApplicationTestModule(private val application: InstagramApplication) {
 
     @Singleton
     @Provides
@@ -30,13 +29,13 @@ class ApplicationModule(private val application: InstagramApplication) {
 
 
     @Singleton
-    @ApplicationContext
+    //@ApplicationContext
     @Provides
     fun provideContext(): Context = application
 
     @Provides
     @Singleton
-    @TempDirectory
+    //@TempDirectory
     fun provideTempDirectory() = FileUtils.getDirectory(application, "temp")
 
     /**
