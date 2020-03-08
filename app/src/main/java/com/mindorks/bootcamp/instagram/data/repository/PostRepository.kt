@@ -1,18 +1,15 @@
 package com.mindorks.bootcamp.instagram.data.repository
 
-import com.mindorks.bootcamp.instagram.data.local.db.DatabaseService
 import com.mindorks.bootcamp.instagram.data.model.Post
 import com.mindorks.bootcamp.instagram.data.model.User
 import com.mindorks.bootcamp.instagram.data.remote.NetworkService
 import com.mindorks.bootcamp.instagram.data.remote.request.PostCreationRequest
 import com.mindorks.bootcamp.instagram.data.remote.request.PostLikeModifyRequest
-import com.mindorks.bootcamp.instagram.data.remote.response.PostListResponse
 import io.reactivex.Single
 import javax.inject.Inject
 
 class PostRepository @Inject constructor(
-    private val networkService: NetworkService,
-    private val databaseService: DatabaseService
+    private val networkService: NetworkService
 ) {
 
 
