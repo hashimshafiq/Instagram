@@ -33,6 +33,15 @@ android {
             buildConfigField("String", "API_KEY", "\"HBNA19QVVAPP\"")
         }
     }
+
+    compileOptions{
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions{
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 }
 
 dependencies {
@@ -113,8 +122,10 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$test_ext_runner_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
     androidTestImplementation "androidx.test.espresso:espresso-intents:$espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_version"
     androidTestImplementation "org.mockito:mockito-core:$mockito_version"
     kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
+    debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
 
     //ParaCamera
     implementation 'com.mindorks:paracamera:0.2.2'

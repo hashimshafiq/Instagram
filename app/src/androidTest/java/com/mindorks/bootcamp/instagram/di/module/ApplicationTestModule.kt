@@ -7,6 +7,7 @@ import androidx.room.Room
 import com.mindorks.bootcamp.instagram.BuildConfig
 import com.mindorks.bootcamp.instagram.InstagramApplication
 import com.mindorks.bootcamp.instagram.data.local.db.DatabaseService
+import com.mindorks.bootcamp.instagram.data.remote.FakeNetworkService
 import com.mindorks.bootcamp.instagram.data.remote.NetworkService
 import com.mindorks.bootcamp.instagram.data.remote.Networking
 import com.mindorks.bootcamp.instagram.di.ApplicationContext
@@ -67,13 +68,10 @@ class ApplicationTestModule(private val application: InstagramApplication) {
 
     @Provides
     @Singleton
-    fun provideNetworkService(): NetworkService =
-        Networking.create(
-            BuildConfig.API_KEY,
-            BuildConfig.BASE_URL,
-            application.cacheDir,
-            10 * 1024 * 1024 // 10MB
-        )
+    fun provideNetworkService(): NetworkService {
+        Networking.API_KEY = "FAKE_API_KEY"
+        return FakeNetworkService()
+    }
 
     @Singleton
     @Provides

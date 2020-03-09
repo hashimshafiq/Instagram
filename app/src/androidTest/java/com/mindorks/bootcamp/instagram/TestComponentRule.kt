@@ -10,7 +10,7 @@ import org.junit.runners.model.Statement
 
 class TestComponentRule(private val context: Context) : TestRule {
 
-    private var testComponent : TestComponent? = null
+    var testComponent : TestComponent? = null
 
     fun getContext() = context
 
