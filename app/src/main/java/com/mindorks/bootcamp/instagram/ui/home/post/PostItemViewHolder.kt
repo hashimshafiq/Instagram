@@ -89,5 +89,6 @@ class PostItemViewHolder(parent: ViewGroup,private val onClickListener: onClickL
         itemView.ivLike.setOnClickListener { viewModel.onLikeClick() }
         itemView.ivProfile.setOnClickListener { viewModel.onProfilePhotoClicked(onClickListener) }
         itemView.tvName.setOnClickListener { viewModel.onProfilePhotoClicked(onClickListener) }
+        itemView.ivPost.setOnLongClickListener { viewModel.UserPostClick(onClickListener) }
     }
 }

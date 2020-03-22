@@ -1,15 +1,18 @@
 package com.mindorks.bootcamp.instagram.ui.home
 
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.mindorks.bootcamp.instagram.R
+import com.mindorks.bootcamp.instagram.data.model.Post
 import com.mindorks.bootcamp.instagram.di.component.FragmentComponent
 import com.mindorks.bootcamp.instagram.ui.base.BaseFragment
 import com.mindorks.bootcamp.instagram.ui.home.post.PostsAdapter
@@ -97,5 +100,46 @@ class HomeFragment : BaseFragment<HomeViewModel>() , onClickListener {
         mainSharedViewModel.onProfileRedirect()
     }
 
+    override fun onLongClickPost(post: Post) {
+
+        showDialog(post)
+    }
+
+    private fun showDialog(post: Post){
+        // Late initialize an alert dialog object
+        lateinit var dialog: AlertDialog
+
+
+        // Initialize a new instance of alert dialog builder object
+        val builder = AlertDialog.Builder(requireContext())
+
+        // Set a title for alert dialog
+        builder.setTitle("Delete Post")
+
+        // Set a message for alert dialog
+        builder.setMessage("Do you want to delete this post?")
+
+
+        // On click listener for dialog buttons
+        val dialogClickListener = DialogInterface.OnClickListener{ _, which ->
+            when(which){
+                DialogInterface.BUTTON_POSITIVE -> viewModel.deleteUserPost(post)
+                DialogInterface.BUTTON_NEGATIVE -> dialog.dismiss()
+            }
+        }
+
+
+        // Set the alert dialog positive/yes button
+        builder.setPositiveButton("YES",dialogClickListener)
+
+        // Set the alert dialog negative/no button
+        builder.setNegativeButton("NO",dialogClickListener)
+
+        // Initialize the AlertDialog using builder object
+        dialog = builder.create()
+
+        // Finally, display the alert dialog
+        dialog.show()
+    }
 
 }

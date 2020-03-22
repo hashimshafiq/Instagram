@@ -5,6 +5,7 @@ import com.mindorks.bootcamp.instagram.data.model.User
 import com.mindorks.bootcamp.instagram.data.remote.NetworkService
 import com.mindorks.bootcamp.instagram.data.remote.request.PostCreationRequest
 import com.mindorks.bootcamp.instagram.data.remote.request.PostLikeModifyRequest
+import com.mindorks.bootcamp.instagram.data.remote.response.GeneralResponse
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -77,5 +78,8 @@ class PostRepository @Inject constructor(
 
     fun fetchUserPostList(user: User) : Single<List<Post>> =
         networkService.doMyPostsCall(user.id,user.accessToken).map { it.data }
+
+    fun deleteUserPost(postId: String, user: User) : Single<GeneralResponse> =
+        networkService.doPostDelete(postId,user.id,user.accessToken)
 
 }

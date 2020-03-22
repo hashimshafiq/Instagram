@@ -89,7 +89,14 @@ class PostItemViewModel @Inject constructor(
         }
     }
 
+    fun UserPostClick(onClickListener: onClickListener) : Boolean {
+        data.value?.let {
+            if(it.creator.id==user.id)
+                onClickListener.onLongClickPost(it)
+        }
 
+        return true
+    }
 
 
 }

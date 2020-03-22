@@ -1,5 +1,7 @@
 package com.mindorks.bootcamp.instagram.ui.home
 
+import android.content.DialogInterface
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.MutableLiveData
 import com.mindorks.bootcamp.instagram.data.model.Post
 import com.mindorks.bootcamp.instagram.data.model.User
@@ -7,6 +9,7 @@ import com.mindorks.bootcamp.instagram.data.repository.PostRepository
 import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.ui.base.BaseViewModel
 import com.mindorks.bootcamp.instagram.utils.common.Resource
+import com.mindorks.bootcamp.instagram.utils.display.Toaster
 import com.mindorks.bootcamp.instagram.utils.network.NetworkHelper
 import com.mindorks.bootcamp.instagram.utils.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
@@ -80,6 +83,37 @@ class HomeViewModel(
         allpostList.add(0, post)
         refreshPosts.postValue(Resource.success(mutableListOf<Post>().apply { addAll(allpostList) }))
     }
+
+    private fun onDeletePost(post: Post){
+        allpostList.remove(post)
+        refreshPosts.postValue(Resource.success(mutableListOf<Post>().apply { addAll(allpostList) }))
+    }
+
+    fun deleteUserPost(post: Post) {
+        if(networkHelper.isNetworkConnected()){
+            loading.postValue(true)
+            compositeDisposable.addAll(
+                postRepository.deleteUserPost(post.id, user)
+                    .subscribeOn(schedulerProvider.io())
+                    .subscribe({
+                        loading.postValue(false)
+                        onDeletePost(post)
+
+                    }, {
+                        loading.postValue(false)
+                        handleNetworkError(it)
+                    }
+                    )
+            )
+        }
+    }
+
+
+
+
+
+
+
 
 
 }
