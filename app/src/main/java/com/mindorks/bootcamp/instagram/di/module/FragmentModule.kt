@@ -9,6 +9,7 @@ import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.di.TempDirectory
 import com.mindorks.bootcamp.instagram.ui.base.BaseFragment
 import com.mindorks.bootcamp.instagram.ui.home.HomeViewModel
+import com.mindorks.bootcamp.instagram.ui.home.onClickListener
 import com.mindorks.bootcamp.instagram.ui.home.post.PostsAdapter
 import com.mindorks.bootcamp.instagram.ui.main.MainSharedViewModel
 import com.mindorks.bootcamp.instagram.ui.photo.PhotoViewModel
@@ -29,7 +30,6 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
 
     @Provides
     fun provideLinearLayoutManager(): LinearLayoutManager = LinearLayoutManager(fragment.context)
-
 
     @Provides
     fun providePostsAdapter() = PostsAdapter(fragment.lifecycle, ArrayList())

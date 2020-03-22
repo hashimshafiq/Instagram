@@ -78,6 +78,12 @@ class MainActivity : BaseActivity<MainViewModel>() {
             }
         })
 
+        mainSharedViewModel.profileRedirection.observe(this, Observer {
+            it.getIfNotHandled()?.run {
+                bottomNavigation.selectedItemId = R.id.itemProfile
+            }
+        })
+
         mainSharedViewModel.homeRedirection.observe(this, Observer {
             it.getIfNotHandled()?.run {
                 bottomNavigation.selectedItemId = R.id.itemHome

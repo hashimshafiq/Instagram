@@ -10,13 +10,18 @@ import com.mindorks.bootcamp.instagram.R
 import com.mindorks.bootcamp.instagram.data.model.Post
 import com.mindorks.bootcamp.instagram.di.component.ViewHolderComponent
 import com.mindorks.bootcamp.instagram.ui.base.BaseItemViewHolder
+import com.mindorks.bootcamp.instagram.ui.home.onClickListener
+import com.mindorks.bootcamp.instagram.ui.main.MainSharedViewModel
 import com.mindorks.bootcamp.instagram.utils.common.GlideHelper
 import kotlinx.android.synthetic.main.item_view_post.view.*
+import javax.inject.Inject
 
-class PostItemViewHolder(parent: ViewGroup) : BaseItemViewHolder<Post,PostItemViewModel>(R.layout.item_view_post,parent) {
+class PostItemViewHolder(parent: ViewGroup,private val onClickListener: onClickListener) : BaseItemViewHolder<Post,PostItemViewModel>(R.layout.item_view_post,parent) {
+
     override fun injectDependencies(viewHolderComponent: ViewHolderComponent) {
         viewHolderComponent.inject(this)
     }
+
 
     override fun setupObservers() {
         super.setupObservers()
@@ -37,6 +42,7 @@ class PostItemViewHolder(parent: ViewGroup) : BaseItemViewHolder<Post,PostItemVi
             if (it) itemView.ivLike.setImageResource(R.drawable.ic_heart_selected)
             else itemView.ivLike.setImageResource(R.drawable.ic_heart_unselected)
         })
+
 
         viewModel.profileImage.observe(this, Observer {
             it?.run {
@@ -81,5 +87,7 @@ class PostItemViewHolder(parent: ViewGroup) : BaseItemViewHolder<Post,PostItemVi
 
     override fun setupView(view: View) {
         itemView.ivLike.setOnClickListener { viewModel.onLikeClick() }
+        itemView.ivProfile.setOnClickListener { viewModel.onProfilePhotoClicked(onClickListener) }
+        itemView.tvName.setOnClickListener { viewModel.onProfilePhotoClicked(onClickListener) }
     }
 }

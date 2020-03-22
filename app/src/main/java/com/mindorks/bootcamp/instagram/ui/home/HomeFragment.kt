@@ -14,11 +14,12 @@ import com.mindorks.bootcamp.instagram.di.component.FragmentComponent
 import com.mindorks.bootcamp.instagram.ui.base.BaseFragment
 import com.mindorks.bootcamp.instagram.ui.home.post.PostsAdapter
 import com.mindorks.bootcamp.instagram.ui.main.MainSharedViewModel
+import com.mindorks.bootcamp.instagram.utils.display.Toaster
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
 
 
-class HomeFragment : BaseFragment<HomeViewModel>() {
+class HomeFragment : BaseFragment<HomeViewModel>() , onClickListener {
 
     companion object {
 
@@ -46,6 +47,9 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
     override fun injectDependencies(fragmentComponent: FragmentComponent) = fragmentComponent.inject(this)
 
     override fun setupView(view: View) {
+
+        postsAdapter.setupOnClickListener(this)
+
         rvPosts.apply {
             layoutManager = linearLayoutManager
             adapter = postsAdapter
@@ -87,6 +91,10 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
                 rvPosts.scrollToPosition(0)
             }
         })
+    }
+
+    override fun onClickPhoto() {
+        mainSharedViewModel.onProfileRedirect()
     }
 
 

@@ -10,6 +10,7 @@ import com.mindorks.bootcamp.instagram.data.remote.Networking
 import com.mindorks.bootcamp.instagram.data.repository.PostRepository
 import com.mindorks.bootcamp.instagram.data.repository.UserRepository
 import com.mindorks.bootcamp.instagram.ui.base.BaseItemViewModel
+import com.mindorks.bootcamp.instagram.ui.home.onClickListener
 import com.mindorks.bootcamp.instagram.utils.common.Resource
 import com.mindorks.bootcamp.instagram.utils.common.TimeUtils
 import com.mindorks.bootcamp.instagram.utils.display.ScreenUtils
@@ -80,4 +81,15 @@ class PostItemViewModel @Inject constructor(
             messageStringId.postValue(Resource.error(R.string.network_connection_error))
         }
     }
+
+    fun onProfilePhotoClicked(onClickListener: onClickListener){
+        data.value?.let {
+            if(it.creator.id==user.id)
+                onClickListener.onClickPhoto()
+        }
+    }
+
+
+
+
 }

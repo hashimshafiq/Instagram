@@ -18,9 +18,15 @@ class MainSharedViewModel(
 
     val homeRedirection = MutableLiveData<Event<Boolean>>()
 
+    val profileRedirection = MutableLiveData<Event<Boolean>>()
+
     val newPost: MutableLiveData<Event<Post>> = MutableLiveData()
 
     fun onHomeRedirect() {
         homeRedirection.postValue(Event(true))
+    }
+
+    fun onProfileRedirect(){
+        profileRedirection.postValue(Event(true))
     }
 }

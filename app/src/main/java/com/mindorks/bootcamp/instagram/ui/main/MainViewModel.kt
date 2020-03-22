@@ -1,6 +1,5 @@
 package com.mindorks.bootcamp.instagram.ui.main
 
-import android.util.EventLog
 import androidx.lifecycle.MutableLiveData
 import com.mindorks.bootcamp.instagram.ui.base.BaseViewModel
 import com.mindorks.bootcamp.instagram.utils.common.Event
