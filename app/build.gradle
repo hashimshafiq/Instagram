@@ -11,7 +11,7 @@ android {
     compileSdkVersion rootProject.ext.compile_sdk_version
 
     defaultConfig {
-        applicationId "com.mindorks.bootcamp.instagram"
+        applicationId "com.hashim.instagram"
         minSdkVersion rootProject.ext.min_sdk_version
         targetSdkVersion rootProject.ext.target_sdk_version
         versionCode 1
