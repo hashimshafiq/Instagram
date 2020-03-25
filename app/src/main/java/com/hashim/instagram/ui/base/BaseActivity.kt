@@ -9,6 +9,9 @@ import com.hashim.instagram.InstagramApplication
 import com.hashim.instagram.di.component.ActivityComponent
 import com.hashim.instagram.di.component.DaggerActivityComponent
 import com.hashim.instagram.di.module.ActivityModule
+import com.hashim.instagram.ui.home.HomeFragment
+import com.hashim.instagram.ui.photo.PhotoFragment
+import com.hashim.instagram.ui.profile.ProfileFragment
 import com.hashim.instagram.utils.display.Toaster
 import javax.inject.Inject
 
@@ -54,8 +57,10 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
     open fun goBack() = onBackPressed()
 
     override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount > 0)
+
+        if (supportFragmentManager.backStackEntryCount > 0) {
             supportFragmentManager.popBackStackImmediate()
+        }
         else super.onBackPressed()
     }
 

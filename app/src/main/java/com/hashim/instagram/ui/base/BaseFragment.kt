@@ -67,6 +67,8 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
         if (activity is BaseActivity<*>) (activity as BaseActivity<*>).goBack()
     }
 
+
+
     @LayoutRes
     protected abstract fun provideLayoutId(): Int
 

@@ -137,4 +137,6 @@ class HomeFragment : BaseFragment<HomeViewModel>() , onClickListener {
         dialog.show()
     }
 
+
+
 }

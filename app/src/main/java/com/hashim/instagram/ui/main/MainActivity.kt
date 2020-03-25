@@ -1,7 +1,9 @@
 package com.hashim.instagram.ui.main
 
 import android.os.Bundle
+import androidx.annotation.IntegerRes
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import com.hashim.instagram.R
 import com.hashim.instagram.di.component.ActivityComponent
@@ -9,11 +11,13 @@ import com.hashim.instagram.ui.base.BaseActivity
 import com.hashim.instagram.ui.home.HomeFragment
 import com.hashim.instagram.ui.photo.PhotoFragment
 import com.hashim.instagram.ui.profile.ProfileFragment
+import com.hashim.instagram.utils.display.Toaster
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 import javax.inject.Inject
 
 
-class MainActivity : BaseActivity<MainViewModel>() {
+class MainActivity : BaseActivity<MainViewModel>(),FragmentManager.OnBackStackChangedListener {
 
     companion object {
         const val TAG = "MainActivity"
@@ -22,12 +26,16 @@ class MainActivity : BaseActivity<MainViewModel>() {
     @Inject
     lateinit var mainSharedViewModel: MainSharedViewModel
     private var activeFragment: Fragment? = null
+    private lateinit var fragmentStack : ArrayDeque<Int>
 
     override fun provideLayoutId(): Int = R.layout.activity_main
 
     override fun injectDependencies(activityComponent: ActivityComponent) = activityComponent.inject(this)
 
     override fun setupView(savedInstanceState: Bundle?) {
+        fragmentStack = ArrayDeque<Int>()
+        //supportFragmentManager.addOnBackStackChangedListener(this)
+
         bottomNavigation.run {
             itemIconTintList = null
             setOnNavigationItemSelectedListener {
@@ -94,6 +102,8 @@ class MainActivity : BaseActivity<MainViewModel>() {
         if(fragment == null){
             fragment = HomeFragment.newInstance()
             fragmentTransaction.add(R.id.containerFragment,fragment,HomeFragment.TAG)
+            //fragmentTransaction.addToBackStack(HomeFragment.TAG)
+            fragmentStack.add(R.id.itemHome)
         }else{
             fragmentTransaction.show(fragment)
         }
@@ -113,12 +123,12 @@ class MainActivity : BaseActivity<MainViewModel>() {
         if(fragment == null){
             fragment = PhotoFragment.newInstance()
             fragmentTransaction.add(R.id.containerFragment,fragment,PhotoFragment.TAG)
+            //fragmentTransaction.addToBackStack(PhotoFragment.TAG)
+            fragmentStack.add(R.id.itemAddPhotos)
         }else{
             fragmentTransaction.show(fragment)
         }
-
         if(activeFragment != null) fragmentTransaction.hide(activeFragment as Fragment)
-
         fragmentTransaction.commit()
         activeFragment = fragment
 
@@ -132,14 +142,31 @@ class MainActivity : BaseActivity<MainViewModel>() {
         if(fragment == null){
             fragment = ProfileFragment.newInstance()
             fragmentTransaction.add(R.id.containerFragment,fragment,ProfileFragment.TAG)
+            //fragmentTransaction.addToBackStack(ProfileFragment.TAG)
+            fragmentStack.add(R.id.itemProfile)
         }else{
             fragmentTransaction.show(fragment)
         }
-
         if(activeFragment != null) fragmentTransaction.hide(activeFragment as Fragment)
-
         fragmentTransaction.commit()
         activeFragment = fragment
+
+    }
+
+    override fun onBackStackChanged() {
+        Toaster.show(applicationContext,"POP")
+
+
+    }
+
+    override fun onBackPressed() {
+       if(fragmentStack.size>1){
+           fragmentStack.removeLast()
+           bottomNavigation.selectedItemId = fragmentStack.peekLast()
+
+       }else{
+            super.onBackPressed()
+       }
 
     }
 }
