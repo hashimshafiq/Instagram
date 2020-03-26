@@ -17,7 +17,7 @@ import java.util.*
 import javax.inject.Inject
 
 
-class MainActivity : BaseActivity<MainViewModel>(),FragmentManager.OnBackStackChangedListener {
+class MainActivity : BaseActivity<MainViewModel>() {
 
     companion object {
         const val TAG = "MainActivity"
@@ -102,12 +102,10 @@ class MainActivity : BaseActivity<MainViewModel>(),FragmentManager.OnBackStackCh
         if(fragment == null){
             fragment = HomeFragment.newInstance()
             fragmentTransaction.add(R.id.containerFragment,fragment,HomeFragment.TAG)
-            //fragmentTransaction.addToBackStack(HomeFragment.TAG)
-            fragmentStack.add(R.id.itemHome)
         }else{
             fragmentTransaction.show(fragment)
         }
-
+        addFragment(R.id.itemHome)
         if(activeFragment != null) fragmentTransaction.hide(activeFragment as Fragment)
 
         fragmentTransaction.commit()
@@ -123,11 +121,10 @@ class MainActivity : BaseActivity<MainViewModel>(),FragmentManager.OnBackStackCh
         if(fragment == null){
             fragment = PhotoFragment.newInstance()
             fragmentTransaction.add(R.id.containerFragment,fragment,PhotoFragment.TAG)
-            //fragmentTransaction.addToBackStack(PhotoFragment.TAG)
-            fragmentStack.add(R.id.itemAddPhotos)
         }else{
             fragmentTransaction.show(fragment)
         }
+        addFragment(R.id.itemAddPhotos)
         if(activeFragment != null) fragmentTransaction.hide(activeFragment as Fragment)
         fragmentTransaction.commit()
         activeFragment = fragment
@@ -142,22 +139,17 @@ class MainActivity : BaseActivity<MainViewModel>(),FragmentManager.OnBackStackCh
         if(fragment == null){
             fragment = ProfileFragment.newInstance()
             fragmentTransaction.add(R.id.containerFragment,fragment,ProfileFragment.TAG)
-            //fragmentTransaction.addToBackStack(ProfileFragment.TAG)
-            fragmentStack.add(R.id.itemProfile)
         }else{
             fragmentTransaction.show(fragment)
         }
+        addFragment(R.id.itemProfile)
         if(activeFragment != null) fragmentTransaction.hide(activeFragment as Fragment)
         fragmentTransaction.commit()
         activeFragment = fragment
 
     }
 
-    override fun onBackStackChanged() {
-        Toaster.show(applicationContext,"POP")
 
-
-    }
 
     override fun onBackPressed() {
        if(fragmentStack.size>1){
@@ -168,5 +160,15 @@ class MainActivity : BaseActivity<MainViewModel>(),FragmentManager.OnBackStackCh
             super.onBackPressed()
        }
 
+    }
+
+    private fun addFragment(id: Int){
+        if(fragmentStack.contains(id)){
+            fragmentStack.remove(id)
+            fragmentStack.add(id)
+
+        }else{
+            fragmentStack.add(id)
+        }
     }
 }
