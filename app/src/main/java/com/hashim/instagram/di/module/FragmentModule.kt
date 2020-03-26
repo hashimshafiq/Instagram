@@ -10,6 +10,7 @@ import com.hashim.instagram.di.TempDirectory
 import com.hashim.instagram.ui.base.BaseFragment
 import com.hashim.instagram.ui.home.HomeViewModel
 import com.hashim.instagram.ui.home.post.PostsAdapter
+import com.hashim.instagram.ui.home.post.likeduser.LikedUserAdapter
 import com.hashim.instagram.ui.main.MainSharedViewModel
 import com.hashim.instagram.ui.photo.PhotoViewModel
 import com.hashim.instagram.ui.profile.ProfileViewModel
@@ -32,6 +33,7 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
 
     @Provides
     fun providePostsAdapter() = PostsAdapter(fragment.lifecycle, ArrayList())
+
 
     @Provides
     fun provideGridLayoutManager(): GridLayoutManager = GridLayoutManager(fragment.context,3)

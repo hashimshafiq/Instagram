@@ -1,6 +1,7 @@
 package com.hashim.instagram.ui.home.post
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.hashim.instagram.R
 import com.hashim.instagram.data.model.Image
@@ -11,6 +12,7 @@ import com.hashim.instagram.data.repository.PostRepository
 import com.hashim.instagram.data.repository.UserRepository
 import com.hashim.instagram.ui.base.BaseItemViewModel
 import com.hashim.instagram.ui.home.onClickListener
+import com.hashim.instagram.utils.common.Event
 import com.hashim.instagram.utils.common.Resource
 import com.hashim.instagram.utils.common.TimeUtils
 import com.hashim.instagram.utils.display.ScreenUtils
@@ -36,6 +38,7 @@ class PostItemViewModel @Inject constructor(
         Pair(Networking.HEADER_ACCESS_TOKEN, user.accessToken)
     )
 
+    val launchLikesDetail: MutableLiveData<Event<Map<String,MutableList<Post.User>?>>> = MutableLiveData()
     val name : LiveData<String> = Transformations.map(data){ it.creator.name}
     val postTime : LiveData<String> = Transformations.map(data){TimeUtils.getTimeAgo(it.createdAt)}
     val likesCount : LiveData<Int> = Transformations.map(data){it.likedBy?.size}
@@ -89,13 +92,17 @@ class PostItemViewModel @Inject constructor(
         }
     }
 
-    fun UserPostClick(onClickListener: onClickListener) : Boolean {
+    fun userPostClick(onClickListener: onClickListener) : Boolean {
         data.value?.let {
             if(it.creator.id==user.id)
                 onClickListener.onLongClickPost(it)
         }
 
         return true
+    }
+
+    fun onLikeCountClick() {
+            launchLikesDetail.postValue(Event(mapOf("data" to data.value?.likedBy)))
     }
 
 

@@ -1,5 +1,7 @@
 package com.hashim.instagram.ui.home.post
 
+import android.content.Intent
+import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
@@ -10,7 +12,9 @@ import com.hashim.instagram.data.model.Post
 import com.hashim.instagram.di.component.ViewHolderComponent
 import com.hashim.instagram.ui.base.BaseItemViewHolder
 import com.hashim.instagram.ui.home.onClickListener
+import com.hashim.instagram.ui.home.post.likeduser.LikedUserActivity
 import com.hashim.instagram.utils.common.GlideHelper
+import com.hashim.instagram.utils.display.Toaster
 import kotlinx.android.synthetic.main.item_view_post.view.*
 
 class PostItemViewHolder(parent: ViewGroup,private val onClickListener: onClickListener) : BaseItemViewHolder<Post,PostItemViewModel>(R.layout.item_view_post,parent) {
@@ -80,12 +84,23 @@ class PostItemViewHolder(parent: ViewGroup,private val onClickListener: onClickL
                 glideRequest.into(itemView.ivPost)
             }
         })
+
+        viewModel.launchLikesDetail.observe(this, Observer {
+            it.getIfNotHandled()?.run {
+                this["data"]?.run {
+                    val intent = Intent(itemView.context,LikedUserActivity::class.java)
+                    intent.putParcelableArrayListExtra("data",ArrayList(this))
+                    itemView.context.startActivity(intent)
+                }
+            }
+        })
     }
 
     override fun setupView(view: View) {
         itemView.ivLike.setOnClickListener { viewModel.onLikeClick() }
         itemView.ivProfile.setOnClickListener { viewModel.onProfilePhotoClicked(onClickListener) }
         itemView.tvName.setOnClickListener { viewModel.onProfilePhotoClicked(onClickListener) }
-        itemView.ivPost.setOnLongClickListener { viewModel.UserPostClick(onClickListener) }
+        itemView.ivPost.setOnLongClickListener { viewModel.userPostClick(onClickListener) }
+        itemView.tvLikesCount.setOnClickListener { viewModel.onLikeCountClick() }
     }
 }

@@ -2,6 +2,7 @@ package com.hashim.instagram.di.component
 
 import com.hashim.instagram.di.ActivityScope
 import com.hashim.instagram.di.module.ActivityModule
+import com.hashim.instagram.ui.home.post.likeduser.LikedUserActivity
 import com.hashim.instagram.ui.login.LoginActivity
 import com.hashim.instagram.ui.main.MainActivity
 import com.hashim.instagram.ui.profile.editprofile.EditProfileActivity
@@ -25,4 +26,5 @@ interface ActivityComponent {
     fun inject(activity: MainActivity)
 
     fun inject(activity: EditProfileActivity)
+    fun inject(likedUserActivity: LikedUserActivity)
 }

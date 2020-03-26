@@ -6,6 +6,8 @@ import com.hashim.instagram.data.repository.PhotoRepository
 import com.hashim.instagram.data.repository.UserRepository
 import com.hashim.instagram.di.TempDirectory
 import com.hashim.instagram.ui.base.BaseActivity
+import com.hashim.instagram.ui.home.post.likeduser.LikedUserAdapter
+import com.hashim.instagram.ui.home.post.likeduser.LikedUserViewModel
 import com.hashim.instagram.ui.login.LoginViewModel
 import com.hashim.instagram.ui.main.MainSharedViewModel
 import com.hashim.instagram.ui.main.MainViewModel
@@ -32,6 +34,9 @@ class ActivityModule(private val activity: BaseActivity<*>) {
     fun provideLinearLayoutManager(): LinearLayoutManager = LinearLayoutManager(activity)
 
     @Provides
+    fun providesLikedUserAdapter() = LikedUserAdapter(activity.lifecycle, ArrayList())
+
+    @Provides
     fun provideSplashViewModel(
         schedulerProvider: SchedulerProvider,
         compositeDisposable: CompositeDisposable,
@@ -42,6 +47,17 @@ class ActivityModule(private val activity: BaseActivity<*>) {
             SplashViewModel(schedulerProvider, compositeDisposable, networkHelper, userRepository)
             //this lambda creates and return SplashViewModel
         }).get(SplashViewModel::class.java)
+
+    @Provides
+    fun providesLikedUserViewModel(
+        schedulerProvider: SchedulerProvider,
+        compositeDisposable: CompositeDisposable,
+        networkHelper: NetworkHelper
+    ): LikedUserViewModel = ViewModelProviders.of(
+        activity, ViewModelProviderFactory(LikedUserViewModel::class) {
+            LikedUserViewModel(schedulerProvider, compositeDisposable, networkHelper)
+            //this lambda creates and return SplashViewModel
+        }).get(LikedUserViewModel::class.java)
 
 
     @Provides

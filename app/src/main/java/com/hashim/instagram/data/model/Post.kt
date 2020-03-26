@@ -1,7 +1,10 @@
 package com.hashim.instagram.data.model
 
+import android.os.Parcel
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 data class Post(
@@ -34,6 +37,7 @@ data class Post(
     val createdAt: Date
 ) {
 
+    @Parcelize
     data class User(
         @Expose
         @SerializedName("id")
@@ -46,5 +50,6 @@ data class Post(
         @Expose
         @SerializedName("profilePicUrl")
         val profilePicUrl: String?
-    )
+    ) : Parcelable
+
 }

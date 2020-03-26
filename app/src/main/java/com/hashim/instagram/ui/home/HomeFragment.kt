@@ -12,6 +12,7 @@ import com.hashim.instagram.data.model.Post
 import com.hashim.instagram.di.component.FragmentComponent
 import com.hashim.instagram.ui.base.BaseFragment
 import com.hashim.instagram.ui.home.post.PostsAdapter
+import com.hashim.instagram.ui.home.post.likeduser.LikedUserAdapter
 import com.hashim.instagram.ui.main.MainSharedViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject

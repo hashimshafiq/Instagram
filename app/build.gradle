@@ -10,6 +10,10 @@ android {
     // user the variables like compile_sdk_version to keep the dependencies same throughout the application
     compileSdkVersion rootProject.ext.compile_sdk_version
 
+    androidExtensions {
+        experimental = true
+    }
+
     defaultConfig {
         applicationId "com.hashim.instagram"
         minSdkVersion rootProject.ext.min_sdk_version
@@ -34,12 +38,12 @@ android {
         }
     }
 
-    compileOptions{
+    compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions{
+    kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 }
