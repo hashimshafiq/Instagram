@@ -46,6 +46,7 @@ class LikedUserActivity : BaseActivity<LikedUserViewModel>() {
 
         viewModel.likedUsers.observe(this, Observer {
             likedUserAdapter.appendData(it.data!!)
+            tvLikesNumber.text = getString(R.string.user_post_likes_label,it.data.size)
         })
 
 

@@ -35,6 +35,7 @@
     <!--posts-->
     <string name="post_like_label">%1d Likes</string>
     <string name="menu_home">Home</string>
+    <string name="user_post_likes_label">%1d users liked this post</string>
 
     <!--profile-->
     <string name="user_image">User Image</string>
