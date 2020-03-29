@@ -104,6 +104,7 @@ dependencies {
     // Reactive
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rxjava_version"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroid_version"
+    implementation "android.arch.lifecycle:reactivestreams:1.1.1"
 
     // logger
     implementation "com.jakewharton.timber:timber:$timber_version"

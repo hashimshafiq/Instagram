@@ -2,6 +2,7 @@ package com.hashim.instagram.data.remote
 
 import com.hashim.instagram.data.remote.request.*
 import com.hashim.instagram.data.remote.response.*
+import io.reactivex.Flowable
 import io.reactivex.Single
 import okhttp3.MultipartBody
 import retrofit2.http.*

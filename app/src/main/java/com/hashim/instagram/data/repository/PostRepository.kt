@@ -6,11 +6,17 @@ import com.hashim.instagram.data.remote.NetworkService
 import com.hashim.instagram.data.remote.request.PostCreationRequest
 import com.hashim.instagram.data.remote.request.PostLikeModifyRequest
 import com.hashim.instagram.data.remote.response.GeneralResponse
+import com.hashim.instagram.data.remote.response.PostListResponse
+import com.hashim.instagram.utils.common.Resource
+import com.hashim.instagram.utils.network.NetworkBoundResource
+import com.hashim.instagram.utils.network.NetworkHelper
+import io.reactivex.Flowable
 import io.reactivex.Single
 import javax.inject.Inject
 
 class PostRepository @Inject constructor(
-    private val networkService: NetworkService
+    private val networkService: NetworkService,
+    private val networkHelper: NetworkHelper
 ) {
 
 
@@ -81,5 +87,8 @@ class PostRepository @Inject constructor(
 
     fun deleteUserPost(postId: String, user: User) : Single<GeneralResponse> =
         networkService.doPostDelete(postId,user.id,user.accessToken)
+
+
+
 
 }
