@@ -1,8 +1,10 @@
 package com.hashim.instagram.data.remote
 
+import com.hashim.instagram.data.model.Post
 import com.hashim.instagram.data.remote.request.*
 import com.hashim.instagram.data.remote.response.*
 import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.Single
 import okhttp3.MultipartBody
 import retrofit2.http.*
@@ -105,7 +107,6 @@ interface NetworkService {
         @Header(Networking.HEADER_ACCESS_TOKEN) accessToken: String,
         @Header(Networking.HEADER_API_KEY) apiKey: String = Networking.API_KEY
     ): Single<GeneralResponse>
-
 
 
 

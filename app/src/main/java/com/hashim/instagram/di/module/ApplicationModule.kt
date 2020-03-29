@@ -7,6 +7,7 @@ import androidx.room.Room
 import com.hashim.instagram.BuildConfig
 import com.hashim.instagram.InstagramApplication
 import com.hashim.instagram.data.local.db.DatabaseService
+import com.hashim.instagram.data.local.db.dao.PostDao
 import com.hashim.instagram.data.remote.NetworkService
 import com.hashim.instagram.data.remote.Networking
 import com.hashim.instagram.di.ApplicationContext
@@ -79,6 +80,11 @@ class ApplicationModule(private val application: InstagramApplication) {
     @Singleton
     @Provides
     fun provideNetworkHelper(): NetworkHelper = NetworkHelper(application)
+
+    @Provides
+    @Singleton
+    fun providePostDao(
+        database: DatabaseService): PostDao = database.PostDao()
 
     
 }

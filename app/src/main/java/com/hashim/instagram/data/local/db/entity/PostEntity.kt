@@ -1,10 +1,7 @@
 package com.hashim.instagram.data.local.db.entity
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
+import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
-import androidx.room.PrimaryKey
 import org.jetbrains.annotations.NotNull
 import java.util.*
 
@@ -27,19 +24,19 @@ data class PostEntity(
     @ColumnInfo(name = "imgHeight")
     val imageHeight: Int?,
 
-    @NotNull
-    @ColumnInfo(name = "user")
-    val creator: UserEntity,
-
-    @NotNull
-    @ColumnInfo(name = "likedBy")
-    val likedBy: MutableList<UserEntity>?,
+//    @Ignore
+//    val creator: UserEntity,
+//
+//    @Ignore
+//    val likedBy: MutableList<UserEntity>?,
 
     @NotNull
     @ColumnInfo(name = "createdAt")
     val createdAt: Date
 
 ){
+
+
     @Entity(tableName = "user_entity",
             foreignKeys = [
                 ForeignKey(

@@ -1,5 +1,7 @@
 package com.hashim.instagram.data.repository
 
+import com.hashim.instagram.data.local.db.dao.PostDao
+import com.hashim.instagram.data.local.db.entity.PostEntity
 import com.hashim.instagram.data.model.Post
 import com.hashim.instagram.data.model.User
 import com.hashim.instagram.data.remote.NetworkService
@@ -11,12 +13,14 @@ import com.hashim.instagram.utils.common.Resource
 import com.hashim.instagram.utils.network.NetworkBoundResource
 import com.hashim.instagram.utils.network.NetworkHelper
 import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.Single
 import javax.inject.Inject
 
 class PostRepository @Inject constructor(
     private val networkService: NetworkService,
-    private val networkHelper: NetworkHelper
+    private val networkHelper: NetworkHelper,
+    private val postDao: PostDao
 ) {
 
 
@@ -87,7 +91,6 @@ class PostRepository @Inject constructor(
 
     fun deleteUserPost(postId: String, user: User) : Single<GeneralResponse> =
         networkService.doPostDelete(postId,user.id,user.accessToken)
-
 
 
 
