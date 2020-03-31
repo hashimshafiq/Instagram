@@ -69,7 +69,7 @@ class HomeViewModel(
     }
 
     private fun loadMorePosts(){
-        if(checkInternetConnectionWithMessage()) paginator.onNext(Pair(firstId,lastId))
+         paginator.onNext(Pair(firstId,lastId))
     }
 
     fun onLoadMore(){

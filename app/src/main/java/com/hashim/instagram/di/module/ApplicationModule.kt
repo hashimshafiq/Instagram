@@ -84,7 +84,7 @@ class ApplicationModule(private val application: InstagramApplication) {
     @Provides
     @Singleton
     fun providePostDao(
-        database: DatabaseService): PostDao = database.PostDao()
+        database: DatabaseService): PostDao = database.postDao()
 
     
 }
