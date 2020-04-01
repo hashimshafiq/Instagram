@@ -5,15 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "liked_user_entity",
-    foreignKeys = [
-        ForeignKey(
-            entity = PostEntity::class,
-            parentColumns = ["id"],
-            childColumns = ["postId"],
-            onDelete = ForeignKey.CASCADE
-        )
-    ])
+@Entity(tableName = "liked_user_entity")
 data class LikedUserEntity(
 
     @PrimaryKey(autoGenerate = true)

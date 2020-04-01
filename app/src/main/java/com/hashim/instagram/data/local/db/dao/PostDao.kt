@@ -1,7 +1,7 @@
 package com.hashim.instagram.data.local.db.dao
 
 import androidx.room.*
-import com.hashim.instagram.data.local.db.entity.CompletePost
+import com.hashim.instagram.data.local.db.entity.PostWithUser
 import com.hashim.instagram.data.local.db.entity.LikedUserEntity
 import com.hashim.instagram.data.local.db.entity.PostEntity
 import com.hashim.instagram.data.local.db.entity.UserEntity
@@ -14,7 +14,7 @@ abstract class PostDao {
 
     @Transaction
     @Query("SELECT * FROM user_entity")
-    abstract fun getAll(): Single<List<CompletePost>>
+    abstract fun getAll(): Single<List<PostWithUser>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insert(entity: PostEntity)

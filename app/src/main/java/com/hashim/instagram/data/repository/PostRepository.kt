@@ -1,7 +1,7 @@
 package com.hashim.instagram.data.repository
 
 import com.hashim.instagram.data.local.db.dao.PostDao
-import com.hashim.instagram.data.local.db.entity.CompletePost
+import com.hashim.instagram.data.local.db.entity.LikedUserEntity
 import com.hashim.instagram.data.model.Post
 import com.hashim.instagram.data.model.User
 import com.hashim.instagram.data.remote.NetworkService
@@ -39,7 +39,6 @@ class PostRepository @Inject constructor(
         val observableFromDb = fetchHomePostListFromDB()
 
         return if (hasNetworkConnection) observableFromApi!! else observableFromDb!!
-        return observableFromApi!!
 
     }
 
@@ -102,7 +101,7 @@ class PostRepository @Inject constructor(
         networkService.doPostDelete(postId,user.id,user.accessToken)
 
 
-    fun fetchHomePostListFromApi(firstPostId: String?, lastPostId: String?, user: User): Single<List<Post>> {
+    private fun fetchHomePostListFromApi(firstPostId: String?, lastPostId: String?, user: User): Single<List<Post>> {
         return networkService.doHomePostListCall(
             firstPostId,
             lastPostId,
@@ -115,7 +114,7 @@ class PostRepository @Inject constructor(
 
     }
 
-    fun fetchHomePostListFromDB() : Single<List<Post>>?{
+    private fun fetchHomePostListFromDB() : Single<List<Post>>?{
         return postDao.getAll().map {
             val arrayList = mutableListOf<Post>()
             for (item in it) {
@@ -131,15 +130,32 @@ class PostRepository @Inject constructor(
                                 item.userEntity.name,
                                 item.userEntity.profilePicUrl
                             ),
-                            null,
+                            mutableListOf(),
                             items.createdAt
                         )
                     )
                     Logger.d(TAG, items.toString())
                 }
             }
+            write(arrayList)
             arrayList
 
+        }
+    }
+
+    private fun processLikes(list: MutableList<LikedUserEntity>?) : MutableList<Post.User>?{
+        var mutableList = mutableListOf<Post.User>()
+        mutableList.clear()
+        for (item in list!!){
+            mutableList.add(Post.User(item.id,item.name,item.profilePicUrl))
+        }
+
+        return mutableList
+    }
+
+    private fun write(mutableList : MutableList<Post>){
+        for(item in mutableList){
+            Logger.d(TAG,item.toString())
         }
     }
 
