@@ -3,6 +3,7 @@ package com.hashim.instagram.di.component
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import com.bumptech.glide.util.ViewPreloadSizeProvider
 import com.hashim.instagram.InstagramApplication
 import com.hashim.instagram.data.local.db.DatabaseService
 import com.hashim.instagram.data.local.db.dao.PostDao
@@ -66,4 +67,6 @@ interface ApplicationComponent {
 
     @TempDirectory
     fun getTempDirectory(): File
+
+    fun getViewPreloadSizeProvider() : ViewPreloadSizeProvider<String>
 }

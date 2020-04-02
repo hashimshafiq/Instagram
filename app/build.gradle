@@ -93,6 +93,10 @@ dependencies {
     // Image
     implementation "com.github.bumptech.glide:glide:$glide_version"
     kapt "com.github.bumptech.glide:compiler:$glide_version"
+    compile ("com.github.bumptech.glide:recyclerview-integration:$glide_version") {
+        // Excludes the support library because it's already included by Glide.
+        transitive = false
+    }
 
     // Networking
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"

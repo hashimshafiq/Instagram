@@ -3,7 +3,6 @@ package com.hashim.instagram.ui.profile
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
@@ -87,8 +86,13 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
 
         viewModel.launchLogin.observe(this, Observer {
             it.getIfNotHandled()?.run {
-                fragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-                startActivity(Intent(context, LoginActivity::class.java))
+                val intent = Intent(context,LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                        Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
+
+
             }
         })
 
