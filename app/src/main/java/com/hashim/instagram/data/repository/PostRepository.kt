@@ -1,6 +1,7 @@
 package com.hashim.instagram.data.repository
 
 import com.hashim.instagram.data.local.db.dao.PostDao
+import com.hashim.instagram.data.local.db.entity.PostWithUser
 import com.hashim.instagram.data.model.Post
 import com.hashim.instagram.data.model.User
 import com.hashim.instagram.data.remote.NetworkService
@@ -20,26 +21,10 @@ class PostRepository @Inject constructor(
 ) {
 
     companion object{
-        val TAG = "PostRepository"
+        const val TAG = "PostRepository"
     }
 
     fun fetchHomePostList(firstPostId: String?, lastPostId: String?, user: User): Single<List<Post>> {
-//      return networkService.doHomePostListCall(
-//            firstPostId,
-//            lastPostId,
-//            user.id,
-//            user.accessToken
-//        ).map { it.data }
-//
-//          val hasNetworkConnection = networkHelper.isNetworkConnected()
-//        var observableFromApi: Single<List<Post>>? = null
-//        if (hasNetworkConnection){
-//            observableFromApi = fetchHomePostListFromApi(firstPostId,lastPostId,user)
-//        }
-//        val observableFromDb = fetchHomePostListFromDB()
-//
-//        return if (hasNetworkConnection) observableFromApi!! else observableFromDb!!
-
         return object : NetworkBoundResource(){
             override fun saveCallResult(request: List<Post>) {
                 postDao.preparePostAndCreator(request)
@@ -47,29 +32,7 @@ class PostRepository @Inject constructor(
 
             override fun loadFromDb(): Single<List<Post>> {
                 return postDao.getAll().map {
-                    val arrayList = mutableListOf<Post>()
-                    for (item in it) {
-                        for (items in item.postEntity) {
-                            arrayList.add(
-                                Post(
-                                    items.id,
-                                    items.imageUrl,
-                                    items.imageWidth,
-                                    items.imageHeight,
-                                    Post.User(
-                                        item.userEntity.id,
-                                        item.userEntity.name,
-                                        item.userEntity.profilePicUrl
-                                    ),
-                                    mutableListOf(),
-                                    items.createdAt
-                                )
-                            )
-                            Logger.d(TAG, items.toString())
-                        }
-                    }
-                    arrayList
-
+                    processData(it)
                 }
             }
 
@@ -151,69 +114,29 @@ class PostRepository @Inject constructor(
         networkService.doPostDelete(postId,user.id,user.accessToken)
 
 
-//    private fun fetchHomePostListFromApi(firstPostId: String?, lastPostId: String?, user: User): Single<List<Post>> {
-//        return networkService.doHomePostListCall(
-//            firstPostId,
-//            lastPostId,
-//            user.id,
-//            user.accessToken
-//        ).map {
-//            postDao.preparePostAndCreator(it.data)
-//            it.data
-//        }
-//
-//    }
-//
-//    private fun fetchHomePostListFromDB() : Single<List<Post>>?{
-//        return postDao.getAll().map {
-//            val arrayList = mutableListOf<Post>()
-//            for (item in it) {
-//                for (items in item.postEntity) {
-//                    arrayList.add(
-//                        Post(
-//                            items.id,
-//                            items.imageUrl,
-//                            items.imageWidth,
-//                            items.imageHeight,
-//                            Post.User(
-//                                item.userEntity.id,
-//                                item.userEntity.name,
-//                                item.userEntity.profilePicUrl
-//                            ),
-//                            mutableListOf(),
-//                            items.createdAt
-//                        )
-//                    )
-//                    Logger.d(TAG, items.toString())
-//                }
-//            }
-//            write(arrayList)
-//            arrayList
-//
-//        }
-//    }
-//
-//    private fun processLikes(list: MutableList<LikedUserEntity>?) : MutableList<Post.User>?{
-//        var mutableList = mutableListOf<Post.User>()
-//        mutableList.clear()
-//        for (item in list!!){
-//            mutableList.add(Post.User(item.id,item.name,item.profilePicUrl))
-//        }
-//
-//        return mutableList
-//    }
-//
-//    private fun write(mutableList : MutableList<Post>){
-//        for(item in mutableList){
-//            Logger.d(TAG,item.toString())
-//        }
-//    }
-
-
-
-
-
-
-
+    private fun processData(listItems : List<PostWithUser>) : MutableList<Post>{
+        val arrayList = mutableListOf<Post>()
+        for (item in listItems) {
+            for (items in item.postEntity) {
+                arrayList.add(
+                    Post(
+                        items.id,
+                        items.imageUrl,
+                        items.imageWidth,
+                        items.imageHeight,
+                        Post.User(
+                            item.userEntity.id,
+                            item.userEntity.name,
+                            item.userEntity.profilePicUrl
+                        ),
+                        mutableListOf(),
+                        items.createdAt
+                    )
+                )
+                Logger.d(TAG, items.toString())
+            }
+        }
+        return arrayList
+    }
 
 }
