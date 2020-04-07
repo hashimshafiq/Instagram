@@ -18,15 +18,13 @@
         tools:src="@tools:sample/avatars" />
 
     <TextView
+        style="@style/AppTheme.Body1"
         android:id="@+id/tvName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="15dp"
         android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivProfile"
         tools:text="Hashim Shafiq" />
@@ -39,23 +37,33 @@
         android:layout_marginEnd="16dp"
         android:text="@string/logout"
         android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="18sp"
+        style="@style/AppTheme.Body1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        style="@style/AppTheme.Body2"
         android:id="@+id/tvPostNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="@id/bt_edit_profile"
         app:layout_constraintTop_toBottomOf="@id/tvLogout"
         tools:text="@string/post_number_label" />
+
+    <TextView
+        android:id="@+id/tvNighMode"
+        style="@style/AppTheme.Body1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/night_mode"
+        app:layout_constraintEnd_toStartOf="@id/tvLogout"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="15dp"
+        />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/bt_edit_profile"
@@ -73,6 +81,7 @@
         app:layout_constraintTop_toBottomOf="@id/tvPostNumber" />
 
     <TextView
+        style="@style/AppTheme.Body2"
         android:id="@+id/tvDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -81,8 +90,6 @@
         android:layout_marginEnd="16dp"
         android:gravity="start"
         android:maxLines="3"
-
-        android:textColor="@color/black"
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvName"

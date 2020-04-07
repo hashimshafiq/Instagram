@@ -51,6 +51,15 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
             viewModel.doLaunchEditProfile()
         }
 
+        tvNighMode.setOnClickListener {
+            viewModel.doSetTheme(tvNighMode.text.toString())
+            if (tvNighMode.text.toString().equals(getString(R.string.night_mode),true)){
+                tvNighMode.text = "Light Mode"
+            }else{
+                tvNighMode.text = getString(R.string.night_mode)
+            }
+        }
+
         rvPosts.apply {
             layoutManager = gridLayoutManager
             adapter = userPostAdapter

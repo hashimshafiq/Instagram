@@ -61,7 +61,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraint_version"
 
     // Material Design
-    implementation "com.google.android.material:material:$support_library_version"
+    implementation "com.google.android.material:material:1.1.0"
 
     // RecyclerView
     implementation "androidx.recyclerview:recyclerview:$support_library_version"
@@ -93,7 +93,7 @@ dependencies {
     // Image
     implementation "com.github.bumptech.glide:glide:$glide_version"
     kapt "com.github.bumptech.glide:compiler:$glide_version"
-    compile ("com.github.bumptech.glide:recyclerview-integration:$glide_version") {
+    implementation ("com.github.bumptech.glide:recyclerview-integration:$glide_version") {
         // Excludes the support library because it's already included by Glide.
         transitive = false
     }

@@ -3,6 +3,7 @@ package com.hashim.instagram.di.module
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import android.preference.PreferenceManager
 import androidx.room.Room
 import com.bumptech.glide.util.ViewPreloadSizeProvider
 import com.hashim.instagram.BuildConfig

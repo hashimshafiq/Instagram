@@ -47,6 +47,16 @@ class UserRepository @Inject constructor(
             null
     }
 
+    fun getThemeMode() : String?{
+        return userPreferences.getThemeMode()
+    }
+
+    fun saveThemeMode(mode : String){
+        userPreferences.setThemeMode(mode)
+    }
+
+
+
     fun doUserLogin(email : String, password : String) : Single<User> =
         networkService.doLoginCall(LoginRequest(email,password))
             .map {
@@ -85,6 +95,7 @@ class UserRepository @Inject constructor(
         networkService.doProfileUpdateCall(ProfileUpdateRequest(name,profilePicUrl,tagline), user.id,user.accessToken).map {
             ProfileResponse.User(user.id,name,profilePicUrl,tagline)
         }
+
 
 
 }

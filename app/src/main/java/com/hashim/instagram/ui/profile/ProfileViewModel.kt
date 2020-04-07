@@ -1,6 +1,10 @@
 package com.hashim.instagram.ui.profile
 
+import android.content.SharedPreferences
+import android.provider.Settings.Secure.getString
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.MutableLiveData
+import com.hashim.instagram.R
 import com.hashim.instagram.data.model.Image
 import com.hashim.instagram.data.model.Post
 import com.hashim.instagram.data.model.User
@@ -8,10 +12,13 @@ import com.hashim.instagram.data.remote.Networking
 import com.hashim.instagram.data.repository.PostRepository
 import com.hashim.instagram.data.repository.UserRepository
 import com.hashim.instagram.ui.base.BaseViewModel
+import com.hashim.instagram.utils.ThemeManager
 import com.hashim.instagram.utils.common.Event
 import com.hashim.instagram.utils.network.NetworkHelper
 import com.hashim.instagram.utils.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
+import javax.inject.Inject
+import kotlin.coroutines.coroutineContext
 
 class ProfileViewModel(
     schedulerProvider: SchedulerProvider,
@@ -25,6 +32,7 @@ class ProfileViewModel(
         fetchProfileData()
         fetchUserPostList()
     }
+
 
     val name : MutableLiveData<String> = MutableLiveData()
     val profile : MutableLiveData<Image> = MutableLiveData()
@@ -102,5 +110,21 @@ class ProfileViewModel(
     fun doLaunchEditProfile(){
 
         launchEditProfile.postValue(Event(mapOf()))
+    }
+
+    private fun setTheme(mode: Int) {
+        AppCompatDelegate.setDefaultNightMode(mode)
+
+    }
+
+    fun doSetTheme(text: String) {
+        if(text.equals("Night Mode",true)){
+            userRepository.saveThemeMode("Night")
+            setTheme(AppCompatDelegate.MODE_NIGHT_YES)
+
+        }else{
+            userRepository.saveThemeMode("Light")
+            setTheme(AppCompatDelegate.MODE_NIGHT_NO)
+        }
     }
 }

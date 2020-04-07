@@ -69,4 +69,5 @@ interface ApplicationComponent {
     fun getTempDirectory(): File
 
     fun getViewPreloadSizeProvider() : ViewPreloadSizeProvider<String>
+
 }
