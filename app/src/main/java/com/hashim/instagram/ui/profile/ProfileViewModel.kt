@@ -1,10 +1,7 @@
 package com.hashim.instagram.ui.profile
 
-import android.content.SharedPreferences
-import android.provider.Settings.Secure.getString
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.MutableLiveData
-import com.hashim.instagram.R
 import com.hashim.instagram.data.model.Image
 import com.hashim.instagram.data.model.Post
 import com.hashim.instagram.data.model.User
@@ -12,13 +9,10 @@ import com.hashim.instagram.data.remote.Networking
 import com.hashim.instagram.data.repository.PostRepository
 import com.hashim.instagram.data.repository.UserRepository
 import com.hashim.instagram.ui.base.BaseViewModel
-import com.hashim.instagram.utils.ThemeManager
 import com.hashim.instagram.utils.common.Event
 import com.hashim.instagram.utils.network.NetworkHelper
 import com.hashim.instagram.utils.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
-import javax.inject.Inject
-import kotlin.coroutines.coroutineContext
 
 class ProfileViewModel(
     schedulerProvider: SchedulerProvider,
@@ -29,6 +23,7 @@ class ProfileViewModel(
 ) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
 
     override fun onCreate() {
+        isLightMode()
         fetchProfileData()
         fetchUserPostList()
     }
@@ -42,6 +37,8 @@ class ProfileViewModel(
     val launchEditProfile: MutableLiveData<Event<Map<String, String>>> = MutableLiveData()
     val userPosts : MutableLiveData<List<Post>> = MutableLiveData()
     val numberOfPosts : MutableLiveData<Int> = MutableLiveData()
+    val isLightMode : MutableLiveData<Boolean> = MutableLiveData()
+    val launchSettingsDialog : MutableLiveData<Event<Map<String,String>>> = MutableLiveData()
 
 
     private val user : User = userRepository.getCurrentUser()!!
@@ -120,11 +117,19 @@ class ProfileViewModel(
     fun doSetTheme(text: String) {
         if(text.equals("Night Mode",true)){
             userRepository.saveThemeMode("Night")
-            setTheme(AppCompatDelegate.MODE_NIGHT_YES)
+            isLightMode.value = false
 
         }else{
             userRepository.saveThemeMode("Light")
-            setTheme(AppCompatDelegate.MODE_NIGHT_NO)
+            isLightMode.value = true
         }
+    }
+
+    private fun isLightMode(){
+        isLightMode.value = userRepository.getThemeMode().equals("Light",true)
+    }
+
+    fun doLaunchSettingDialog(){
+        launchSettingsDialog.postValue(Event(emptyMap()))
     }
 }

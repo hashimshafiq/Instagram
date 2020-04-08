@@ -12,6 +12,7 @@ import com.hashim.instagram.di.component.FragmentComponent
 import com.hashim.instagram.ui.base.BaseFragment
 import com.hashim.instagram.ui.login.LoginActivity
 import com.hashim.instagram.ui.profile.editprofile.EditProfileActivity
+import com.hashim.instagram.ui.profile.settings.SettingsDialog
 import com.hashim.instagram.ui.profile.userposts.UserPostAdapter
 import com.hashim.instagram.utils.common.GlideHelper
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -52,12 +53,8 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
         }
 
         tvNighMode.setOnClickListener {
-            viewModel.doSetTheme(tvNighMode.text.toString())
-            if (tvNighMode.text.toString().equals(getString(R.string.night_mode),true)){
-                tvNighMode.text = "Light Mode"
-            }else{
-                tvNighMode.text = getString(R.string.night_mode)
-            }
+           // viewModel.doSetTheme(tvNighMode.text.toString())
+            viewModel.doLaunchSettingDialog()
         }
 
         rvPosts.apply {
@@ -117,6 +114,21 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
 
         viewModel.userPosts.observe(this, Observer {
             userPostAdapter.appendData(it)
+        })
+
+        viewModel.isLightMode.observe(this, Observer {
+            if (!it){
+                tvNighMode.text = "Light Mode"
+            }else{
+                tvNighMode.text = getString(R.string.night_mode)
+            }
+
+        })
+
+        viewModel.launchSettingsDialog.observe(this, Observer {
+            it.getIfNotHandled()?.run {
+                SettingsDialog.newInstance().show(requireActivity().supportFragmentManager,"SettingsDialog")
+            }
         })
     }
 }
