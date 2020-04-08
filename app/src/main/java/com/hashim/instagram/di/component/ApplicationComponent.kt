@@ -3,8 +3,10 @@ package com.hashim.instagram.di.component
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import com.bumptech.glide.util.ViewPreloadSizeProvider
 import com.hashim.instagram.InstagramApplication
 import com.hashim.instagram.data.local.db.DatabaseService
+import com.hashim.instagram.data.local.db.dao.PostDao
 import com.hashim.instagram.data.remote.NetworkService
 import com.hashim.instagram.data.repository.UserRepository
 import com.hashim.instagram.di.ApplicationContext
@@ -61,6 +63,11 @@ interface ApplicationComponent {
 
     fun getCompositeDisposable(): CompositeDisposable
 
+    fun getPostDao(): PostDao
+
     @TempDirectory
     fun getTempDirectory(): File
+
+    fun getViewPreloadSizeProvider() : ViewPreloadSizeProvider<String>
+
 }

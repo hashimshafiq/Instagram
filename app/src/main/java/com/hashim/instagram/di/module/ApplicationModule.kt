@@ -3,10 +3,13 @@ package com.hashim.instagram.di.module
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import android.preference.PreferenceManager
 import androidx.room.Room
+import com.bumptech.glide.util.ViewPreloadSizeProvider
 import com.hashim.instagram.BuildConfig
 import com.hashim.instagram.InstagramApplication
 import com.hashim.instagram.data.local.db.DatabaseService
+import com.hashim.instagram.data.local.db.dao.PostDao
 import com.hashim.instagram.data.remote.NetworkService
 import com.hashim.instagram.data.remote.Networking
 import com.hashim.instagram.di.ApplicationContext
@@ -79,6 +82,15 @@ class ApplicationModule(private val application: InstagramApplication) {
     @Singleton
     @Provides
     fun provideNetworkHelper(): NetworkHelper = NetworkHelper(application)
+
+    @Provides
+    @Singleton
+    fun providePostDao(
+        database: DatabaseService): PostDao = database.postDao()
+
+    @Provides
+    @Singleton
+    fun provideViewPreloadSizeProvider(): ViewPreloadSizeProvider<String> = ViewPreloadSizeProvider<String>()
 
     
 }

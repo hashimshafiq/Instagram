@@ -1,6 +1,6 @@
 package com.hashim.instagram.di.module
 
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hashim.instagram.data.repository.PhotoRepository
@@ -49,7 +49,7 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
         networkHelper: NetworkHelper,
         userRepository: UserRepository,
         postRepository: PostRepository
-    ): HomeViewModel = ViewModelProviders.of(
+    ): HomeViewModel = ViewModelProvider(
         fragment, ViewModelProviderFactory(HomeViewModel::class) {
             HomeViewModel(schedulerProvider, compositeDisposable, networkHelper,userRepository,postRepository,
                 ArrayList(),
@@ -66,7 +66,7 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
         photoRepository: PhotoRepository,
         postRepository: PostRepository,
         @TempDirectory directory: File
-    ): PhotoViewModel = ViewModelProviders.of(
+    ): PhotoViewModel = ViewModelProvider(
         fragment, ViewModelProviderFactory(PhotoViewModel::class) {
             PhotoViewModel(schedulerProvider, compositeDisposable, networkHelper,userRepository, photoRepository, postRepository, directory)
         }).get(PhotoViewModel::class.java)
@@ -78,7 +78,7 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
         networkHelper: NetworkHelper,
         userRepository: UserRepository,
         postRepository: PostRepository
-    ): ProfileViewModel = ViewModelProviders.of(
+    ): ProfileViewModel = ViewModelProvider(
         fragment, ViewModelProviderFactory(ProfileViewModel::class) {
             ProfileViewModel(schedulerProvider, compositeDisposable, networkHelper,userRepository,postRepository)
         }).get(ProfileViewModel::class.java)
@@ -99,7 +99,7 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
         schedulerProvider: SchedulerProvider,
         compositeDisposable: CompositeDisposable,
         networkHelper: NetworkHelper
-    ): MainSharedViewModel = ViewModelProviders.of(
+    ): MainSharedViewModel = ViewModelProvider(
         fragment.activity!!, ViewModelProviderFactory(MainSharedViewModel::class) {
             MainSharedViewModel(schedulerProvider, compositeDisposable, networkHelper)
         }).get(MainSharedViewModel::class.java)

@@ -51,4 +51,11 @@
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="image_post_description">Image Post</string>
+    <string name="night_mode">Night Mode</string>
+    <string name="theme_settings">Theme Settings</string>
+    <string name="system_default_menu">System Default</string>
+    <string name="light_menu">Light</string>
+    <string name="dark_menu">Dark</string>
+    <string name="apply_menu">Apply</string>
+    <string name="cancel_menu">Cancel</string>
 </resources>

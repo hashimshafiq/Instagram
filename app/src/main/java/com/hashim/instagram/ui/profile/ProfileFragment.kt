@@ -3,7 +3,6 @@ package com.hashim.instagram.ui.profile
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
@@ -13,6 +12,7 @@ import com.hashim.instagram.di.component.FragmentComponent
 import com.hashim.instagram.ui.base.BaseFragment
 import com.hashim.instagram.ui.login.LoginActivity
 import com.hashim.instagram.ui.profile.editprofile.EditProfileActivity
+import com.hashim.instagram.ui.profile.settings.SettingsDialog
 import com.hashim.instagram.ui.profile.userposts.UserPostAdapter
 import com.hashim.instagram.utils.common.GlideHelper
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -52,6 +52,11 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
             viewModel.doLaunchEditProfile()
         }
 
+        tvNighMode.setOnClickListener {
+           // viewModel.doSetTheme(tvNighMode.text.toString())
+            viewModel.doLaunchSettingDialog()
+        }
+
         rvPosts.apply {
             layoutManager = gridLayoutManager
             adapter = userPostAdapter
@@ -87,8 +92,13 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
 
         viewModel.launchLogin.observe(this, Observer {
             it.getIfNotHandled()?.run {
-                fragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-                startActivity(Intent(context, LoginActivity::class.java))
+                val intent = Intent(context,LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                        Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
+
+
             }
         })
 
@@ -104,6 +114,21 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
 
         viewModel.userPosts.observe(this, Observer {
             userPostAdapter.appendData(it)
+        })
+
+        viewModel.isLightMode.observe(this, Observer {
+            if (!it){
+                tvNighMode.text = "Light Mode"
+            }else{
+                tvNighMode.text = getString(R.string.night_mode)
+            }
+
+        })
+
+        viewModel.launchSettingsDialog.observe(this, Observer {
+            it.getIfNotHandled()?.run {
+                SettingsDialog.newInstance().show(requireActivity().supportFragmentManager,"SettingsDialog")
+            }
         })
     }
 }
