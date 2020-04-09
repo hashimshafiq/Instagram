@@ -53,7 +53,6 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
         }
 
         tvNighMode.setOnClickListener {
-           // viewModel.doSetTheme(tvNighMode.text.toString())
             viewModel.doLaunchSettingDialog()
         }
 
@@ -116,18 +115,18 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
             userPostAdapter.appendData(it)
         })
 
-        viewModel.isLightMode.observe(this, Observer {
-            if (!it){
-                tvNighMode.text = "Light Mode"
-            }else{
-                tvNighMode.text = getString(R.string.night_mode)
-            }
-
-        })
+//        viewModel.isLightMode.observe(this, Observer {
+//            if (!it){
+//                tvNighMode.text = "Light Mode"
+//            }else{
+//                tvNighMode.text = getString(R.string.night_mode)
+//            }
+//
+//        })
 
         viewModel.launchSettingsDialog.observe(this, Observer {
             it.getIfNotHandled()?.run {
-                SettingsDialog.newInstance().show(requireActivity().supportFragmentManager,"SettingsDialog")
+                SettingsDialog.newInstance().show(requireActivity().supportFragmentManager,SettingsDialog.TAG)
             }
         })
     }

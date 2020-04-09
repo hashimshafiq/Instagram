@@ -64,6 +64,8 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
         else super.onBackPressed()
     }
 
+
+
     @LayoutRes
     protected abstract fun provideLayoutId(): Int
 

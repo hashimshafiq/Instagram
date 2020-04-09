@@ -1,9 +1,12 @@
 package com.hashim.instagram.ui.profile.settings
 
 import android.os.Bundle
+import android.view.View
+import androidx.lifecycle.Observer
 import com.hashim.instagram.R
 import com.hashim.instagram.di.component.DialogFragmentComponent
 import com.hashim.instagram.ui.base.BaseDialog
+import kotlinx.android.synthetic.main.dialog_settings_layout.*
 
 class SettingsDialog : BaseDialog<SettingsDialogViewModel>() {
 
@@ -22,11 +25,39 @@ class SettingsDialog : BaseDialog<SettingsDialogViewModel>() {
 
     override fun provideLayoutId(): Int = R.layout.dialog_settings_layout
 
-    override fun injectDependencies(dialogComponent: DialogFragmentComponent) {
+    override fun injectDependencies(dialogComponent: DialogFragmentComponent) =
         dialogComponent.inject(this)
+
+
+    override fun setupView(view: View) {
+
+        btCancel.setOnClickListener {
+            viewModel.doDismissDialog()
+        }
+
+        btApply.setOnClickListener {
+            viewModel.doApplySettings(rgM.checkedRadioButtonId)
+        }
     }
 
-    override fun setupView(savedInstanceState: Bundle?) {
+
+    override fun setupObservers() {
+        super.setupObservers()
+        viewModel.dismissDialog.observe(this, Observer {
+            dismiss()
+        })
+
+        viewModel.rDefault.observe(this, Observer {
+            rbSystemDefault.isChecked = true
+        })
+
+        viewModel.rLight.observe(this, Observer {
+            rbLight.isChecked = true
+        })
+
+        viewModel.rDark.observe(this, Observer {
+            rbDark.isChecked = true
+        })
 
     }
 }

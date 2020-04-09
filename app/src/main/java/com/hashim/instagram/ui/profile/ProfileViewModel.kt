@@ -23,7 +23,7 @@ class ProfileViewModel(
 ) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
 
     override fun onCreate() {
-        isLightMode()
+        //isLightMode()
         fetchProfileData()
         fetchUserPostList()
     }
@@ -37,7 +37,7 @@ class ProfileViewModel(
     val launchEditProfile: MutableLiveData<Event<Map<String, String>>> = MutableLiveData()
     val userPosts : MutableLiveData<List<Post>> = MutableLiveData()
     val numberOfPosts : MutableLiveData<Int> = MutableLiveData()
-    val isLightMode : MutableLiveData<Boolean> = MutableLiveData()
+    //val isLightMode : MutableLiveData<Boolean> = MutableLiveData()
     val launchSettingsDialog : MutableLiveData<Event<Map<String,String>>> = MutableLiveData()
 
 
@@ -109,25 +109,25 @@ class ProfileViewModel(
         launchEditProfile.postValue(Event(mapOf()))
     }
 
-    private fun setTheme(mode: Int) {
-        AppCompatDelegate.setDefaultNightMode(mode)
-
-    }
-
-    fun doSetTheme(text: String) {
-        if(text.equals("Night Mode",true)){
-            userRepository.saveThemeMode("Night")
-            isLightMode.value = false
-
-        }else{
-            userRepository.saveThemeMode("Light")
-            isLightMode.value = true
-        }
-    }
-
-    private fun isLightMode(){
-        isLightMode.value = userRepository.getThemeMode().equals("Light",true)
-    }
+//    private fun setTheme(mode: Int) {
+//        AppCompatDelegate.setDefaultNightMode(mode)
+//
+//    }
+//
+//    fun doSetTheme(text: String) {
+//        if(text.equals("Night Mode",true)){
+//            userRepository.saveThemeMode("Night")
+//            isLightMode.value = false
+//
+//        }else{
+//            userRepository.saveThemeMode("Light")
+//            isLightMode.value = true
+//        }
+//    }
+//
+//    private fun isLightMode(){
+//        isLightMode.value = userRepository.getThemeMode().equals("Light",true)
+//    }
 
     fun doLaunchSettingDialog(){
         launchSettingsDialog.postValue(Event(emptyMap()))

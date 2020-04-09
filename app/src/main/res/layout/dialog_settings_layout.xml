@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="250dp"
-    android:layout_height="250dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minWidth="250dp"
+    android:minHeight="250dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintTop_toTopOf="parent"
@@ -30,6 +32,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
+        android:id="@+id/rgM"
         >
 
         <com.google.android.material.radiobutton.MaterialRadioButton
@@ -59,28 +62,30 @@
     </RadioGroup>
 
 
-    <TextView
-        style="@style/AppTheme.Body1"
-        android:id="@+id/tvApply"
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+        android:id="@+id/btApply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rgM"
         android:text="@string/apply_menu"
         android:layout_marginBottom="20dp"
         android:layout_marginEnd="5dp"
         />
 
-    <TextView
-        style="@style/AppTheme.Body1"
-        android:id="@+id/tvCancel"
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+        android:id="@+id/btCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/tvApply"
+        app:layout_constraintEnd_toStartOf="@id/btApply"
         android:text="@string/cancel_menu"
         android:layout_marginBottom="20dp"
         android:layout_marginEnd="20dp"
+        app:layout_constraintTop_toBottomOf="@id/rgM"
         />
 
 

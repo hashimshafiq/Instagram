@@ -8,7 +8,7 @@ object ThemeManager {
     private const val LIGHT_MODE = "Light"
     private const val DARK_MODE = "Dark"
     private const val AUTO_BATTERY_MODE = "Auto-battery"
-    private const val FOLLOW_SYSTEM_MODE = "System"
+    private const val FOLLOW_SYSTEM_MODE = "Default"
 
     fun applyTheme(themePreference: String) {
         when (themePreference) {
