@@ -1,5 +1,7 @@
 package com.hashim.instagram.ui.home.post
 
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -21,6 +23,7 @@ import com.hashim.instagram.utils.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
+
 class PostItemViewModel @Inject constructor(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
@@ -38,6 +41,7 @@ class PostItemViewModel @Inject constructor(
         Pair(Networking.HEADER_ACCESS_TOKEN, user.accessToken)
     )
 
+    val sharePost : MutableLiveData<Event<Bitmap>> = MutableLiveData()
     val launchLikesDetail: MutableLiveData<Event<Map<String,MutableList<Post.User>?>>> = MutableLiveData()
     val name : LiveData<String> = Transformations.map(data){ it.creator.name}
     val postTime : LiveData<String> = Transformations.map(data){TimeUtils.getTimeAgo(it.createdAt)}
@@ -103,6 +107,10 @@ class PostItemViewModel @Inject constructor(
 
     fun onLikeCountClick() {
             launchLikesDetail.postValue(Event(mapOf("data" to data.value?.likedBy)))
+    }
+
+    fun onShareClick(bitmap: Bitmap){
+        sharePost.value = Event(bitmap)
     }
 
 

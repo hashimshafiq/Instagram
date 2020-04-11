@@ -1,9 +1,15 @@
 package com.hashim.instagram.ui.home.post
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -94,6 +100,23 @@ class PostItemViewHolder(parent: ViewGroup,private val onClickListener: onClickL
                 }
             }
         })
+
+        viewModel.sharePost.observe(this, Observer {
+            it.getIfNotHandled()?.run {
+                val path: String = MediaStore.Images.Media.insertImage(
+                    itemView.context.contentResolver,
+                    this,
+                    "Image I want to share",
+                    null
+                )
+                val uri: Uri = Uri.parse(path)
+                val shareIntent = Intent()
+                shareIntent.action = Intent.ACTION_SEND
+                shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
+                shareIntent.type = "image/*"
+                ContextCompat.startActivity(itemView.context,Intent.createChooser(shareIntent, "Share Image"),null)
+            }
+        })
     }
 
     override fun setupView(view: View) {
@@ -102,5 +125,6 @@ class PostItemViewHolder(parent: ViewGroup,private val onClickListener: onClickL
         itemView.tvName.setOnClickListener { viewModel.onProfilePhotoClicked(onClickListener) }
         itemView.ivPost.setOnLongClickListener { viewModel.userPostClick(onClickListener) }
         itemView.tvLikesCount.setOnClickListener { viewModel.onLikeCountClick() }
+        itemView.tvShare.setOnClickListener { viewModel.onShareClick(itemView.ivPost.drawable.toBitmap(itemView.ivPost.width,itemView.ivPost.height,Bitmap.Config.ARGB_8888)) }
     }
 }
