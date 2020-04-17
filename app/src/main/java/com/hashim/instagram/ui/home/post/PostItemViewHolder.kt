@@ -106,7 +106,7 @@ class PostItemViewHolder(parent: ViewGroup,private val onClickListener: onClickL
                 val path: String = MediaStore.Images.Media.insertImage(
                     itemView.context.contentResolver,
                     this,
-                    "Image I want to share",
+                    null,
                     null
                 )
                 val uri: Uri = Uri.parse(path)

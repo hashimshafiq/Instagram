@@ -59,4 +59,15 @@
     <string name="apply_menu">Apply</string>
     <string name="cancel_menu">Cancel</string>
     <string name="share">Share</string>
+    <string name="submit">Submit</string>
+
+    <string name="returned_from_app_settings_to_activity">
+        Returned from app settings to MainActivity with the following permissions:
+        \n\nWrite: %s
+    </string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="rationale_read">This app needs to access your reading permission</string>
+
 </resources>

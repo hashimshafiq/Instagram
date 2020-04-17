@@ -1,9 +1,11 @@
 package com.hashim.instagram.data.repository
 
+import com.hashim.instagram.data.local.db.dao.PostDao
 import com.hashim.instagram.data.model.User
 import com.hashim.instagram.data.remote.NetworkService
 import com.hashim.instagram.data.remote.Networking
 import com.hashim.instagram.data.remote.response.PostListResponse
+import com.hashim.instagram.utils.network.NetworkHelper
 import io.reactivex.Single
 import org.junit.Before
 import org.junit.Test
@@ -19,12 +21,19 @@ class PostRepositoryTest {
     @Mock
     lateinit var networkService: NetworkService
 
+    @Mock
+    lateinit var postDao: PostDao
+    
+    @Mock
+    lateinit var networkHelper: NetworkHelper
+
     lateinit var postRepository: PostRepository
+
 
     @Before
     fun setUp(){
         Networking.API_KEY = "FAKE API"
-        postRepository = PostRepository(networkService)
+        postRepository = PostRepository(networkService,networkHelper,postDao)
     }
 
     @Test

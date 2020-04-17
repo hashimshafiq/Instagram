@@ -2,12 +2,18 @@ package com.hashim.instagram.utils.common
 
 import android.content.Context
 import android.graphics.BitmapFactory
+import android.os.Environment
 import com.mindorks.paracamera.Camera
 import com.mindorks.paracamera.Utils
 import java.io.*
 
 
 object FileUtils {
+
+    // /storage/emulated/0
+    var ROOT_DIR: String = Environment.getExternalStorageDirectory().path
+    var PICTURES = "$ROOT_DIR/Pictures"
+    var CAMERA = "$ROOT_DIR/DCIM/camera"
 
     fun getDirectory(context: Context, dirName: String): File {
         val file = File(context.filesDir.path + File.separator + dirName)
@@ -50,5 +56,29 @@ object FileUtils {
             e.printStackTrace()
             return null
         }
+    }
+
+    fun getDirectoryPaths(directory: String?): ArrayList<String>? {
+        val pathArray: ArrayList<String> = ArrayList()
+        val file = File(directory)
+        val listfiles = file.listFiles()
+        for (i in listfiles.indices) {
+            if (listfiles[i].isDirectory) {
+                pathArray.add(listfiles[i].absolutePath)
+            }
+        }
+        return pathArray
+    }
+
+    fun getFilePaths(directory: String?): ArrayList<String>? {
+        val pathArray: ArrayList<String> = ArrayList()
+        val file = File(directory)
+        val listfiles = file.listFiles()
+        for (i in listfiles.indices) {
+            if (listfiles[i].isFile) {
+                pathArray.add(listfiles[i].absolutePath)
+            }
+        }
+        return pathArray
     }
 }

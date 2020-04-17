@@ -116,14 +116,16 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPosts"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guideline"
-        tools:itemCount="4"
+        tools:itemCount="12"
+        app:spanCount="4"
         tools:listitem="@layout/item_view_grid_post"
-        android:layout_height="wrap_content" />
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        android:layout_height="0dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

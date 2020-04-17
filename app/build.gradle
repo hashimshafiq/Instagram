@@ -138,4 +138,7 @@ dependencies {
 
     //ParaCamera
     implementation 'com.mindorks:paracamera:0.2.2'
+
+    //Permissions
+    implementation "pub.devrel:easypermissions:$permission_version"
 }

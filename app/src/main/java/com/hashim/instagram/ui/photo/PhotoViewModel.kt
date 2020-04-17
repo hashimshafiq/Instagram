@@ -1,7 +1,9 @@
 package com.hashim.instagram.ui.photo
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.hashim.instagram.R
+import com.hashim.instagram.data.model.Image
 import com.hashim.instagram.data.model.Post
 import com.hashim.instagram.data.model.User
 import com.hashim.instagram.data.repository.PhotoRepository
@@ -31,9 +33,14 @@ class PhotoViewModel(
 
     override fun onCreate() {}
 
+    private var directries: ArrayList<String>? = ArrayList()
+    private var imgageUrls : ArrayList<Image>? = ArrayList()
     private val user: User = userRepository.getCurrentUser()!! // should not be used without logged in user
     val loading: MutableLiveData<Boolean> = MutableLiveData()
     val post: MutableLiveData<Event<Post>> = MutableLiveData()
+    val directoriesList: MutableLiveData<List<String>> = MutableLiveData()
+    val imagesList: MutableLiveData<List<Image>> = MutableLiveData()
+    val imageDetail : MutableLiveData<Image> = MutableLiveData()
 
     fun onGalleryImageSelected(inputStream: InputStream) {
         loading.postValue(true)
@@ -104,5 +111,45 @@ class PhotoViewModel(
                 )
 
         )
+    }
+
+    fun getFilePaths() {
+
+        if (FileUtils.getDirectoryPaths(FileUtils.PICTURES) != null) {
+            directries = FileUtils.getDirectoryPaths(FileUtils.PICTURES)
+        }
+        val directoryNames: ArrayList<String> = ArrayList()
+        for (i in 0 until directries!!.size) {
+            val index: Int = directries!!.get(i).lastIndexOf("/")
+            val name: String = directries!!.get(i).substring(index)
+            directoryNames.add(name)
+        }
+        directries = FileUtils.getDirectoryPaths(FileUtils.ROOT_DIR)
+        directries?.add(FileUtils.CAMERA)
+
+        directoriesList.value = directries
+
+        //System.out.println("lol "+Arrays.asList(directries));
+//        for (String dir : directries) {
+//            imgURLs.addAll(FileSearch.getFilePaths(dir));
+//
+//        }
+      //  imgURLs.addAll(FileSearch.getFilePaths(directries.get(1)))
+       // setupGridView()
+    }
+
+
+    fun getImagePaths(indice : Int){
+
+        imgageUrls = FileUtils.getFilePaths(directries?.get(indice))?.map {
+            Image(it, mapOf())
+        } as ArrayList<Image>?
+
+        imagesList.value = imgageUrls
+
+    }
+
+    fun fetchDetailedImage(it: String) {
+        imageDetail.value = Image(it, mapOf())
     }
 }
