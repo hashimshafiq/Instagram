@@ -74,7 +74,6 @@
         android:gravity="center"
         android:minWidth="200dp"
         android:text="@string/edit_profile"
-        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@id/ivProfile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ivProfile"

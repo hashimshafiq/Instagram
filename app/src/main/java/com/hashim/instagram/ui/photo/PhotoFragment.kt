@@ -20,7 +20,6 @@ import com.hashim.instagram.ui.photo.images.ImagesAdapter
 import com.hashim.instagram.utils.common.Event
 import com.hashim.instagram.utils.common.GridSpacingItemDecoration
 import com.mindorks.paracamera.Camera
-import kotlinx.android.synthetic.main.fragment_photo.pb_loading
 import kotlinx.android.synthetic.main.fragment_photo_temp.*
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.FileNotFoundException
