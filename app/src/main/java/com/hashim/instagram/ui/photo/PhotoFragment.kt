@@ -18,6 +18,7 @@ import com.hashim.instagram.ui.base.BaseFragment
 import com.hashim.instagram.ui.main.MainSharedViewModel
 import com.hashim.instagram.ui.photo.images.ImagesAdapter
 import com.hashim.instagram.utils.common.Event
+import com.hashim.instagram.utils.common.GridSpacingItemDecoration
 import com.mindorks.paracamera.Camera
 import kotlinx.android.synthetic.main.fragment_photo.pb_loading
 import kotlinx.android.synthetic.main.fragment_photo_temp.*
@@ -55,6 +56,9 @@ class PhotoFragment : BaseFragment<PhotoViewModel>() {
 
     @Inject
     lateinit var imagesAdapter: ImagesAdapter
+
+    @Inject
+    lateinit var gridSpacingItemDecoration: GridSpacingItemDecoration
 
     override fun provideLayoutId(): Int = R.layout.fragment_photo_temp
 
@@ -101,7 +105,8 @@ class PhotoFragment : BaseFragment<PhotoViewModel>() {
         rvImages.apply {
             layoutManager = gridLayoutManager
             adapter = imagesAdapter
-        }
+
+        }.addItemDecoration(gridSpacingItemDecoration)
 
         spFolders.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {

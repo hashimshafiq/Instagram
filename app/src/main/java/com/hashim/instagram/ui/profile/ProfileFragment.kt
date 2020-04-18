@@ -15,6 +15,7 @@ import com.hashim.instagram.ui.profile.editprofile.EditProfileActivity
 import com.hashim.instagram.ui.profile.settings.SettingsDialog
 import com.hashim.instagram.ui.profile.userposts.UserPostAdapter
 import com.hashim.instagram.utils.common.GlideHelper
+import com.hashim.instagram.utils.common.GridSpacingItemDecoration
 import kotlinx.android.synthetic.main.fragment_profile.*
 import javax.inject.Inject
 
@@ -39,6 +40,9 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
     @Inject
     lateinit var gridLayoutManager : GridLayoutManager
 
+    @Inject
+    lateinit var gridSpacingItemDecoration: GridSpacingItemDecoration
+
     override fun provideLayoutId(): Int = R.layout.fragment_profile
 
     override fun injectDependencies(fragmentComponent: FragmentComponent) = fragmentComponent.inject(this)
@@ -59,7 +63,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
         rvPosts.apply {
             layoutManager = gridLayoutManager
             adapter = userPostAdapter
-        }
+        }.addItemDecoration(gridSpacingItemDecoration)
     }
 
     override fun setupObservers() {

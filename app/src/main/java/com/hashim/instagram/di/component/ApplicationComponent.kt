@@ -12,6 +12,7 @@ import com.hashim.instagram.data.repository.UserRepository
 import com.hashim.instagram.di.ApplicationContext
 import com.hashim.instagram.di.TempDirectory
 import com.hashim.instagram.di.module.ApplicationModule
+import com.hashim.instagram.utils.common.GridSpacingItemDecoration
 import com.hashim.instagram.utils.network.NetworkHelper
 import com.hashim.instagram.utils.rx.SchedulerProvider
 import dagger.Component
@@ -69,5 +70,7 @@ interface ApplicationComponent {
     fun getTempDirectory(): File
 
     fun getViewPreloadSizeProvider() : ViewPreloadSizeProvider<String>
+
+    fun getGridItemDecoration() : GridSpacingItemDecoration
 
 }

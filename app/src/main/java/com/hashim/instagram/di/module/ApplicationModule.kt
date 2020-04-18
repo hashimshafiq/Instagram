@@ -14,7 +14,9 @@ import com.hashim.instagram.data.remote.NetworkService
 import com.hashim.instagram.data.remote.Networking
 import com.hashim.instagram.di.ApplicationContext
 import com.hashim.instagram.di.TempDirectory
+import com.hashim.instagram.utils.common.Constants
 import com.hashim.instagram.utils.common.FileUtils
+import com.hashim.instagram.utils.common.GridSpacingItemDecoration
 import com.hashim.instagram.utils.network.NetworkHelper
 import com.hashim.instagram.utils.rx.RxSchedulerProvider
 import com.hashim.instagram.utils.rx.SchedulerProvider
@@ -91,6 +93,9 @@ class ApplicationModule(private val application: InstagramApplication) {
     @Provides
     @Singleton
     fun provideViewPreloadSizeProvider(): ViewPreloadSizeProvider<String> = ViewPreloadSizeProvider<String>()
+
+    @Provides
+    fun providesGridItemDecoration(): GridSpacingItemDecoration = GridSpacingItemDecoration(Constants.SPAN_COUNT,Constants.SPAN_SPACING,Constants.IS_EDGE_CASE)
 
     
 }
