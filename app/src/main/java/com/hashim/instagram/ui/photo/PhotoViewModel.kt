@@ -1,5 +1,7 @@
 package com.hashim.instagram.ui.photo
 
+import android.os.Environment
+import android.text.TextUtils.substring
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.hashim.instagram.R
@@ -33,8 +35,9 @@ class PhotoViewModel(
 
     override fun onCreate() {}
 
-    private var directries: ArrayList<String>? = ArrayList()
+    private var directries: ArrayList<String> = ArrayList()
     private var imgageUrls : ArrayList<Image>? = ArrayList()
+    private var directoryNames : ArrayList<String> = ArrayList()
     private val user: User = userRepository.getCurrentUser()!! // should not be used without logged in user
     val loading: MutableLiveData<Boolean> = MutableLiveData()
     val post: MutableLiveData<Event<Post>> = MutableLiveData()
@@ -114,28 +117,12 @@ class PhotoViewModel(
     }
 
     fun getFilePaths() {
-
-        if (FileUtils.getDirectoryPaths(FileUtils.PICTURES) != null) {
-            directries = FileUtils.getDirectoryPaths(FileUtils.PICTURES)
+        directries = FileUtils.getDirectoryPaths(Environment.getExternalStorageDirectory().absoluteFile)
+        for (i in directries){
+            directoryNames.add(i.substring(i.lastIndexOf("/")+1))
         }
-        val directoryNames: ArrayList<String> = ArrayList()
-        for (i in 0 until directries!!.size) {
-            val index: Int = directries!!.get(i).lastIndexOf("/")
-            val name: String = directries!!.get(i).substring(index)
-            directoryNames.add(name)
-        }
-        directries = FileUtils.getDirectoryPaths(FileUtils.ROOT_DIR)
-        directries?.add(FileUtils.CAMERA)
 
-        directoriesList.value = directries
-
-        //System.out.println("lol "+Arrays.asList(directries));
-//        for (String dir : directries) {
-//            imgURLs.addAll(FileSearch.getFilePaths(dir));
-//
-//        }
-      //  imgURLs.addAll(FileSearch.getFilePaths(directries.get(1)))
-       // setupGridView()
+        directoriesList.value = directoryNames
     }
 
 

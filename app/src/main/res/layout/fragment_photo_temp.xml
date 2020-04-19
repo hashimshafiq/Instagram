@@ -20,8 +20,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingEnd="30dp"
-            android:paddingStart="30dp"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp"
             >
 
             <ImageView
@@ -44,7 +44,7 @@
             
             <Spinner
                 android:id="@+id/spFolders"
-                android:layout_width="100dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 style="@style/Widget.AppCompat.Spinner.DropDown.ActionBar"
                 android:layout_centerVertical="true"

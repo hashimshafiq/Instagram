@@ -10,6 +10,8 @@ import java.io.*
 
 object FileUtils {
 
+    private val fileList: ArrayList<String> = ArrayList()
+
     // /storage/emulated/0
     var ROOT_DIR: String = Environment.getExternalStorageDirectory().path
     var PICTURES = "$ROOT_DIR/Pictures"
@@ -58,16 +60,37 @@ object FileUtils {
         }
     }
 
-    fun getDirectoryPaths(directory: String?): ArrayList<String>? {
-        val pathArray: ArrayList<String> = ArrayList()
-        val file = File(directory)
-        val listfiles = file.listFiles()
-        for (i in listfiles.indices) {
-            if (listfiles[i].isDirectory) {
-                pathArray.add(listfiles[i].absolutePath)
+    fun getDirectoryPaths(dir: File): ArrayList<String> {
+//        val pathArray: ArrayList<String> = ArrayList()
+//        val file = File(directory)
+//        val listfiles = file.listFiles()
+//        for (i in listfiles.indices) {
+//            if (listfiles[i].isDirectory) {
+//                pathArray.add(listfiles[i].absolutePath)
+//            }
+//        }
+//        return pathArray
+
+        val listFile: Array<File> = dir.listFiles()
+        if (listFile.isNotEmpty()) {
+            for (file in listFile) {
+                if (file.isDirectory) {
+                    getDirectoryPaths(file)
+                } else {
+                    if (file.name.endsWith(".png")
+                        || file.name.endsWith(".jpg")
+                        || file.name.endsWith(".jpeg")
+                        || file.name.endsWith(".gif")
+                        || file.name.endsWith(".bmp")
+                        || file.name.endsWith(".webp")
+                    ) {
+                        val temp = file.path.substring(0, file.path.lastIndexOf('/'))
+                        if (!fileList.contains(temp) && !temp.contains(".")) fileList.add(temp)
+                    }
+                }
             }
         }
-        return pathArray
+        return fileList
     }
 
     fun getFilePaths(directory: String?): ArrayList<String>? {
