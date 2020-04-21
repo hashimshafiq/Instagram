@@ -1,8 +1,6 @@
 package com.hashim.instagram.ui.photo
 
 import android.os.Environment
-import android.text.TextUtils.substring
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.hashim.instagram.R
 import com.hashim.instagram.data.model.Image
@@ -126,9 +124,9 @@ class PhotoViewModel(
     }
 
 
-    fun getImagePaths(indice : Int){
+    fun getImagePaths(index : Int){
 
-        imgageUrls = FileUtils.getFilePaths(directries?.get(indice))?.map {
+        imgageUrls = FileUtils.getFilePaths(directries?.get(index))?.map {
             Image(it, mapOf())
         } as ArrayList<Image>?
 

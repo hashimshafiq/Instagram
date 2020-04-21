@@ -1,12 +1,15 @@
 package com.hashim.instagram.ui.profile.settings
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import com.hashim.instagram.R
 import com.hashim.instagram.di.component.DialogFragmentComponent
 import com.hashim.instagram.ui.base.BaseDialog
+import com.hashim.instagram.ui.main.MainSharedViewModel
 import kotlinx.android.synthetic.main.dialog_settings_layout.*
+import javax.inject.Inject
 
 class SettingsDialog : BaseDialog<SettingsDialogViewModel>() {
 
@@ -21,7 +24,6 @@ class SettingsDialog : BaseDialog<SettingsDialogViewModel>() {
             return fragment
         }
     }
-
 
     override fun provideLayoutId(): Int = R.layout.dialog_settings_layout
 
@@ -59,5 +61,9 @@ class SettingsDialog : BaseDialog<SettingsDialogViewModel>() {
             rbDark.isChecked = true
         })
 
+
+
     }
+
+
 }

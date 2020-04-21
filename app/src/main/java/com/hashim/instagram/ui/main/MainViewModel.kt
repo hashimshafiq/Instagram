@@ -1,6 +1,7 @@
 package com.hashim.instagram.ui.main
 
 import androidx.lifecycle.MutableLiveData
+import com.hashim.instagram.data.repository.UserRepository
 import com.hashim.instagram.ui.base.BaseViewModel
 import com.hashim.instagram.utils.common.Event
 import com.hashim.instagram.utils.network.NetworkHelper
@@ -10,7 +11,8 @@ import io.reactivex.disposables.CompositeDisposable
 class MainViewModel(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
-    networkHelper: NetworkHelper
+    networkHelper: NetworkHelper,
+    private val userRepository: UserRepository
 ) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
 
     val profileNavigation = MutableLiveData<Event<Boolean>>()
@@ -19,7 +21,16 @@ class MainViewModel(
 
 
     override fun onCreate() {
-        homeNavigation.postValue(Event(true))
+        if (!userRepository.isThemeChange()) {
+            homeNavigation.postValue(Event(true))
+
+        }else{
+
+            profileNavigation.postValue(Event(true))
+        }
+
+        userRepository.saveThemeChange(false)
+        //homeNavigation.postValue(Event(true))
     }
 
     fun onProfileSelected(){

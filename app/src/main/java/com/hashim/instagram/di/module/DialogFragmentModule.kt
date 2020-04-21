@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.hashim.instagram.data.repository.PostRepository
 import com.hashim.instagram.data.repository.UserRepository
 import com.hashim.instagram.ui.base.BaseDialog
+import com.hashim.instagram.ui.main.MainSharedViewModel
 import com.hashim.instagram.ui.profile.ProfileViewModel
 import com.hashim.instagram.ui.profile.settings.SettingsDialogViewModel
 import com.hashim.instagram.utils.ViewModelProviderFactory
@@ -26,5 +27,7 @@ class DialogFragmentModule(private val fragment: BaseDialog<*>) {
         fragment, ViewModelProviderFactory(SettingsDialogViewModel::class) {
             SettingsDialogViewModel(schedulerProvider, compositeDisposable, networkHelper,userRepository)
         }).get(SettingsDialogViewModel::class.java)
+
+
 
 }

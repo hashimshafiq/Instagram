@@ -88,10 +88,11 @@ class ActivityModule(private val activity: BaseActivity<*>) {
     fun provideMainViewModel(
         schedulerProvider: SchedulerProvider,
         compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper
+        networkHelper: NetworkHelper,
+        userRepository: UserRepository
     ): MainViewModel = ViewModelProvider(
         activity, ViewModelProviderFactory(MainViewModel::class) {
-            MainViewModel(schedulerProvider, compositeDisposable, networkHelper)
+            MainViewModel(schedulerProvider, compositeDisposable, networkHelper,userRepository)
         }).get(MainViewModel::class.java)
 
     @Provides

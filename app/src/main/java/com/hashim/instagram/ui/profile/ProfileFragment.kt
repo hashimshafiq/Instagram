@@ -119,15 +119,6 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
             userPostAdapter.appendData(it)
         })
 
-//        viewModel.isLightMode.observe(this, Observer {
-//            if (!it){
-//                tvNighMode.text = "Light Mode"
-//            }else{
-//                tvNighMode.text = getString(R.string.night_mode)
-//            }
-//
-//        })
-
         viewModel.launchSettingsDialog.observe(this, Observer {
             it.getIfNotHandled()?.run {
                 SettingsDialog.newInstance().show(requireActivity().supportFragmentManager,SettingsDialog.TAG)

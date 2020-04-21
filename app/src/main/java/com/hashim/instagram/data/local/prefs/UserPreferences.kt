@@ -13,6 +13,7 @@ class UserPreferences @Inject constructor(private val prefs: SharedPreferences) 
         const val KEY_USER_EMAIL = "PREF_KEY_USER_EMAIL"
         const val KEY_ACCESS_TOKEN = "PREF_KEY_ACCESS_TOKEN"
         const val KEY_THEME_MODE = "PREF_THEME_MODE"
+        const val KEY_THEME_CHANGE = "PREF_THEME_CHANGE"
     }
 
     fun getThemeMode() : String? =
@@ -20,6 +21,12 @@ class UserPreferences @Inject constructor(private val prefs: SharedPreferences) 
 
     fun setThemeMode(mode : String) =
         prefs.edit().putString(KEY_THEME_MODE,mode).apply()
+
+    fun isThemeChange() : Boolean =
+        prefs.getBoolean(KEY_THEME_CHANGE,false)
+
+    fun setThemeChange(isChange : Boolean) =
+        prefs.edit().putBoolean(KEY_THEME_CHANGE,isChange).apply()
 
 
     fun getUserId(): String? =

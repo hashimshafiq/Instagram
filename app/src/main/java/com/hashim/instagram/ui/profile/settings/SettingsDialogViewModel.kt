@@ -9,6 +9,7 @@ import com.hashim.instagram.utils.network.NetworkHelper
 import com.hashim.instagram.utils.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
 
+
 class SettingsDialogViewModel(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
@@ -52,14 +53,27 @@ class SettingsDialogViewModel(
 
     fun doApplySettings(checkedRadioButtonId: Int) {
         when(checkedRadioButtonId){
-            R.id.rbDark -> userRepository.saveThemeMode("Dark")
-            R.id.rbLight -> userRepository.saveThemeMode("Light")
-            R.id.rbSystemDefault -> userRepository.saveThemeMode("Default")
+            R.id.rbDark -> {
+                userRepository.saveThemeMode("Dark")
+                ThemeManager.applyTheme("Dark")
+            }
+            R.id.rbLight -> {
+                userRepository.saveThemeMode("Light")
+                ThemeManager.applyTheme("Light")
+
+            }
+            R.id.rbSystemDefault -> {
+                userRepository.saveThemeMode("Default")
+                ThemeManager.applyTheme("Default")
+            }
 
         }
-
+        userRepository.saveThemeChange(true)
         doDismissDialog()
     }
+
+
+
 
 
 }

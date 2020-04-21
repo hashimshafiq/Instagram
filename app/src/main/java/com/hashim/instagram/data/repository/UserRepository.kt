@@ -55,6 +55,14 @@ class UserRepository @Inject constructor(
         userPreferences.setThemeMode(mode)
     }
 
+    fun isThemeChange() : Boolean{
+        return userPreferences.isThemeChange()
+    }
+
+    fun saveThemeChange(isChange : Boolean){
+        userPreferences.setThemeChange(isChange)
+    }
+
 
 
     fun doUserLogin(email : String, password : String) : Single<User> =

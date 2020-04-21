@@ -1,5 +1,6 @@
 package com.hashim.instagram.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.IntegerRes
 import androidx.fragment.app.Fragment
@@ -92,6 +93,8 @@ class MainActivity : BaseActivity<MainViewModel>() {
             }
         })
 
+
+
     }
 
     private fun showHome(){
@@ -171,4 +174,5 @@ class MainActivity : BaseActivity<MainViewModel>() {
             fragmentStack.add(id)
         }
     }
+
 }
