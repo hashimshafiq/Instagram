@@ -27,32 +27,88 @@ This app is a tailored version of real Intagram Android app with features like C
 
 com.hashim.instagram    # Root Package
     .
-    ├── data                # For data handling.
-    │   ├── local           # Local 
-    |   │   ├── db          # Persistence Database. Room (SQLite) database
-    |   |   |    ├── dao    # Dao related classes
-    |   |   |    ├── entity # Local Database tables
-    |   |   |     
-    |   |   ├── prefs       # 
-                dao         # Data Access Object for Room   
-    │   ├── remote          # Remote Data Handlers     
-    |   │   ├── api         # Retrofit API for remote end point.
-    │   ├── repository      # Single source of data.
+    
+    ├── data                    # For data handling.
+    │   ├── local               # Local 
+    |   │   ├── db              # Persistence Database. Room database
+    |   |   |    ├── dao        # Dao related classes
+    |   |   |    └── entity     # Local Database tables
+    |   |   |
+    |   |   └──prefs            # Shared Prefrences
+    |   |   
+    │   ├── remote              # Remote Data Handlers and Retrofit API for remote end point     
+    |   │   ├── request         # Request Ojects required for Api
+    |   |   └── response        # Response Objects for Api
     |   |
-    |   ├── model
+    │   ├── repository          # Single source of data.
+    |   |
+    |   └── model               # Model classes required through out the app
     |
-    ├── model               # Model classes
+    ├── di                      # Dagger 2 Dependency Injection             
+    │   ├── component           # DI Components       
+    │   └── module              # DI Modules
     |
-    ├── di                  # Dependency Injection             
-    │   ├── builder         # Activity Builder
-    │   ├── component       # DI Components       
-    │   └── module          # DI Modules
+    ├── ui                      # Activity/View layer
+    │   ├── base                # Base Classes for Activity/Fragment/ViewHolder/Adapter/Dialog
+    │   ├── main                # Main Activity & ViewModel   
+    |   ├── home                # Home Fragment & ViewModel
+    |   │   └── post            # ViewHolder & RecyclerView for Posts
+    |   |       └── likeduser   # ViewHolder & RecyclerView for all users who liked specific post                     
+    │   ├── login               # Login Activity & ViewModel
+    │   ├── signup              # Signup Activity & ViewModel
+    │   ├── splash              # Splash Activy & ViewModel
+    |   ├── photo               # Photo Fragment & ViewModel
+    |   │   └── gallery         # ViewHolder & RecyclerView for Gallery
+    │   └── profile             # Profile Fragment & ViewModel     
+    |       ├── editprofile     # Edit Profile Activity & ViewModel
+    |       ├── userposts       # ViewHolder & RecyclerView for all images which user uploaded
+    |       └── settings        # Setting Dialog & ViewModel
     |
-    ├── ui                  # Activity/View layer
-    │   ├── base            # Base View
-    │   ├── main            # Main Screen Activity & ViewModel
-    |   │   ├── adapter     # Adapter for RecyclerView
-    |   │   └── viewmodel   # ViewHolder for RecyclerView   
-    │   └── details         # Detail Screen Activity and ViewModel
+    ├── utils                   # Utility Class for Utility Functions
+    │   ├── common              # helper functions
+    │   ├── display             # related to screen
+    │   ├── log                 # related to Logging
+    |   ├── network             # related to networking
+    |   └── rx                  # related to RxAndroid
     |
-    └── utils               # Utility Classes / Kotlin extensions
+    └── InstagramApplication.kt   # Application Class
+    
+## Architecture
+This app uses [***MVVM (Model View View-Model)***](https://developer.android.com/jetpack/docs/guide#recommended-app-arch) architecture.
+
+![](https://developer.android.com/topic/libraries/architecture/images/final-architecture.png)
+
+
+## Contribute
+If you want to contribute to this project, you're always welcome! :heart:
+See [Contributing Guidelines](CONTRIBUTING.md). 
+
+## Contact
+If you need any help, you can connect with me. :heart: :heart: :heart:
+
+Visit:- [hashimshafiq.github.io](https://hashimshafiq.github.io/)
+    
+## License
+```
+MIT License
+
+Copyright (c) 2020 Hashim Shafiq
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
