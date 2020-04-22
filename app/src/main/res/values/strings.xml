@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Instagram Project</string>
+    <string name="app_name">Instagram</string>
 
     <string name="network_connection_error">Internet connection lost, please retry again</string>
     <string name="network_default_error">Something wrong happened, please retry again</string>
@@ -7,7 +7,6 @@
     <string name="network_server_not_available">Our services are under maintenance, please retry after some time
     </string>
     <string name="server_connection_error">Not able to connect, please retry again</string>
-    <string name="network_login_again">Please log in again</string>
 
 
     <!--login-->
@@ -27,7 +26,6 @@
     <string name="name_field_empty">Name can\'t be empty</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="menu_add_photos">Photo</string>
     <string name="menu_profile">Profile</string>
@@ -48,8 +46,6 @@
     <string name="private_information_label">Private Information</string>
     <string name="email_hint">Email</string>
     <string name="try_again">Something went wrong Try Again</string>
-    <string name="camera">Camera</string>
-    <string name="gallery">Gallery</string>
     <string name="image_post_description">Image Post</string>
     <string name="night_mode">Mode</string>
     <string name="theme_settings">Theme Settings</string>
@@ -58,16 +54,6 @@
     <string name="dark_menu">Dark</string>
     <string name="apply_menu">Apply</string>
     <string name="cancel_menu">Cancel</string>
-    <string name="share">Share</string>
     <string name="submit">Submit</string>
-
-    <string name="returned_from_app_settings_to_activity">
-        Returned from app settings to MainActivity with the following permissions:
-        \n\nWrite: %s
-    </string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-
-    <string name="rationale_read">This app needs to access your reading permission</string>
 
 </resources>

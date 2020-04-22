@@ -1,6 +1,7 @@
 package com.hashim.instagram.utils.network
 
 import com.hashim.instagram.data.model.Post
+import com.hashim.instagram.utils.rx.SchedulerProvider
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
