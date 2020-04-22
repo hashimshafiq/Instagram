@@ -4,12 +4,16 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
+import com.bumptech.glide.util.ViewPreloadSizeProvider
 import com.hashim.instagram.InstagramApplication
 import com.hashim.instagram.data.local.db.DatabaseService
+import com.hashim.instagram.data.local.db.dao.PostDao
 import com.hashim.instagram.data.remote.FakeNetworkService
 import com.hashim.instagram.data.remote.NetworkService
 import com.hashim.instagram.data.remote.Networking
+import com.hashim.instagram.utils.common.Constants
 import com.hashim.instagram.utils.common.FileUtils
+import com.hashim.instagram.utils.common.GridSpacingItemDecoration
 import com.hashim.instagram.utils.network.NetworkHelper
 import com.hashim.instagram.utils.rx.RxSchedulerProvider
 import com.hashim.instagram.utils.rx.SchedulerProvider
@@ -73,4 +77,21 @@ class ApplicationTestModule(private val application: InstagramApplication) {
     @Singleton
     @Provides
     fun provideNetworkHelper(): NetworkHelper = NetworkHelper(application)
+
+
+    @Provides
+    @Singleton
+    fun providePostDao(
+        database: DatabaseService): PostDao = database.postDao()
+
+    @Provides
+    @Singleton
+    fun provideViewPreloadSizeProvider(): ViewPreloadSizeProvider<String> = ViewPreloadSizeProvider<String>()
+
+    @Provides
+    fun providesGridItemDecoration(): GridSpacingItemDecoration = GridSpacingItemDecoration(
+        Constants.SPAN_COUNT,
+        Constants.SPAN_SPACING,
+        Constants.IS_EDGE_CASE)
+
 }
