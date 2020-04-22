@@ -25,9 +25,7 @@ This app is a tailored version of real Intagram Android app with features like C
 
 ## Project Structure
 
-com.hashim.instagram    # Root Package
-    .
-    
+    com.hashim.instagram        # Root Package
     ├── data                    # For data handling.
     │   ├── local               # Local 
     |   │   ├── db              # Persistence Database. Room database
@@ -79,9 +77,8 @@ This app uses [***MVVM (Model View View-Model)***](https://developer.android.com
 ![](https://developer.android.com/topic/libraries/architecture/images/final-architecture.png)
 
 
-## Contribute
-If you want to contribute to this project, you're always welcome! :heart:
-See [Contributing Guidelines](CONTRIBUTING.md). 
+## Bugs? :computer:
+If you want to tell me about bug, you're always welcome! :heart:
 
 ## Contact
 If you need any help, you can connect with me. :heart: :heart: :heart:
