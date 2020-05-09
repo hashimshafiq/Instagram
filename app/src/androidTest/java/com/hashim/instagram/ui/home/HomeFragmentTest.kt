@@ -24,7 +24,7 @@ class HomeFragmentTest {
         TestComponentRule(InstrumentationRegistry.getInstrumentation().targetContext)
 
     @get:Rule
-    val chain = RuleChain.outerRule(component)
+    val chain : RuleChain = RuleChain.outerRule(component)
 
     @Before
     fun setUp() {
