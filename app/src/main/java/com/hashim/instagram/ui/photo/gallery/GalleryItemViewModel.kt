@@ -1,4 +1,4 @@
-package com.hashim.instagram.ui.photo.images
+package com.hashim.instagram.ui.photo.gallery
 
 import androidx.lifecycle.LiveData
 import com.hashim.instagram.data.model.Image
@@ -9,7 +9,7 @@ import com.hashim.instagram.utils.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
-class ImageItemViewModel @Inject constructor(
+class GalleryItemViewModel @Inject constructor(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
     networkHelper: NetworkHelper,

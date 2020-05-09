@@ -11,10 +11,9 @@ import com.hashim.instagram.di.TempDirectory
 import com.hashim.instagram.ui.base.BaseFragment
 import com.hashim.instagram.ui.home.HomeViewModel
 import com.hashim.instagram.ui.home.post.PostsAdapter
-import com.hashim.instagram.ui.home.post.likeduser.LikedUserAdapter
 import com.hashim.instagram.ui.main.MainSharedViewModel
 import com.hashim.instagram.ui.photo.PhotoViewModel
-import com.hashim.instagram.ui.photo.images.ImagesAdapter
+import com.hashim.instagram.ui.photo.gallery.GalleryAdapter
 import com.hashim.instagram.ui.profile.ProfileViewModel
 import com.hashim.instagram.ui.profile.userposts.UserPostAdapter
 import com.hashim.instagram.utils.ViewModelProviderFactory
@@ -38,7 +37,7 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
     fun providePostsAdapter() = PostsAdapter(fragment.lifecycle, ArrayList())
 
     @Provides
-    fun provideImagesAdapter() = ImagesAdapter(fragment.lifecycle, ArrayList())
+    fun provideImagesAdapter() = GalleryAdapter(fragment.lifecycle, ArrayList())
 
     @Provides
     fun provideArrayAdapter() = ArrayAdapter(fragment.requireContext(),android.R.layout.simple_spinner_item, ArrayList<String>())

@@ -60,7 +60,7 @@ class SignupViewModel(
                         .subscribeOn(schedulerProvider.io())
                         .subscribe({
                             userRepository.saveCurrentUser(it)
-                            siginningUp.postValue(true)
+                            siginningUp.postValue(false)
                             launchMain.postValue(Event(emptyMap()))
 
                         },{

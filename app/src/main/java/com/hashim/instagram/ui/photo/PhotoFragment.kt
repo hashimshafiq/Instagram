@@ -16,7 +16,7 @@ import com.hashim.instagram.R
 import com.hashim.instagram.di.component.FragmentComponent
 import com.hashim.instagram.ui.base.BaseFragment
 import com.hashim.instagram.ui.main.MainSharedViewModel
-import com.hashim.instagram.ui.photo.images.ImagesAdapter
+import com.hashim.instagram.ui.photo.gallery.GalleryAdapter
 import com.hashim.instagram.utils.common.Event
 import com.hashim.instagram.utils.common.GridSpacingItemDecoration
 import com.mindorks.paracamera.Camera
@@ -54,7 +54,7 @@ class PhotoFragment : BaseFragment<PhotoViewModel>() {
     lateinit var arrayAdapter: ArrayAdapter<String>
 
     @Inject
-    lateinit var imagesAdapter: ImagesAdapter
+    lateinit var galleryAdapter: GalleryAdapter
 
     @Inject
     lateinit var gridSpacingItemDecoration: GridSpacingItemDecoration
@@ -103,7 +103,7 @@ class PhotoFragment : BaseFragment<PhotoViewModel>() {
 
         rvImages.apply {
             layoutManager = gridLayoutManager
-            adapter = imagesAdapter
+            adapter = galleryAdapter
 
         }.addItemDecoration(gridSpacingItemDecoration)
 
@@ -123,7 +123,7 @@ class PhotoFragment : BaseFragment<PhotoViewModel>() {
 
         }
 
-        ImagesAdapter.RxBus.itemClickStream.subscribe {
+        GalleryAdapter.RxBus.itemClickStream.subscribe {
             viewModel.fetchDetailedImage(it)
         }
 
@@ -167,7 +167,7 @@ class PhotoFragment : BaseFragment<PhotoViewModel>() {
         })
 
         viewModel.imagesList.observe(this, Observer {
-            imagesAdapter.updateData(it)
+            galleryAdapter.updateData(it)
         })
 
         viewModel.imageDetail.observe(this, Observer {

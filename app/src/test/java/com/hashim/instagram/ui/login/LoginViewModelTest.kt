@@ -68,7 +68,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun givenServerResponse200_whenLogin_shouldLaunchDummyActivity(){
+    fun givenServerResponse200_whenLogin_shouldLaunchMainActivity(){
 
         val email = "test@gmail.com"
         val password = "password"
