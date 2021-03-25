@@ -9,19 +9,24 @@ import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.hashim.instagram.R
+import com.hashim.instagram.databinding.ActivityEditProfileBinding
 import com.hashim.instagram.di.component.ActivityComponent
 import com.hashim.instagram.ui.base.BaseActivity
 import com.hashim.instagram.utils.common.GlideHelper
-import kotlinx.android.synthetic.main.activity_edit_profile.*
 import java.io.FileNotFoundException
 
 class EditProfileActivity : BaseActivity<EditProfileViewModel>() {
+
+    lateinit var binding: ActivityEditProfileBinding
 
     companion object {
         const val RESULT_GALLERY_IMAGE_CODE = 1001
     }
 
-    override fun provideLayoutId(): Int = R.layout.activity_edit_profile
+    override fun provideLayoutId(): View {
+        binding = ActivityEditProfileBinding.inflate(layoutInflater)
+        return binding.root
+    }
 
     override fun injectDependencies(activityComponent: ActivityComponent) {
        activityComponent.inject(this)
@@ -29,7 +34,7 @@ class EditProfileActivity : BaseActivity<EditProfileViewModel>() {
 
     override fun setupView(savedInstanceState: Bundle?) {
 
-        ivProfilePhoto.setOnClickListener {
+        binding.ivProfilePhoto.setOnClickListener {
             Intent(Intent.ACTION_PICK).apply {
                 type = "image/*"
             }.run {
@@ -38,7 +43,7 @@ class EditProfileActivity : BaseActivity<EditProfileViewModel>() {
         }
 
 
-        et_email.addTextChangedListener(object : TextWatcher {
+        binding.etEmail.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
 
             }
@@ -53,7 +58,7 @@ class EditProfileActivity : BaseActivity<EditProfileViewModel>() {
 
         })
 
-        et_bio.addTextChangedListener(object : TextWatcher {
+        binding.etBio.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
 
             }
@@ -68,7 +73,7 @@ class EditProfileActivity : BaseActivity<EditProfileViewModel>() {
 
         })
 
-        et_name.addTextChangedListener(object : TextWatcher {
+        binding.etName.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
 
             }
@@ -83,11 +88,11 @@ class EditProfileActivity : BaseActivity<EditProfileViewModel>() {
 
         })
 
-        ivTick.setOnClickListener{
+        binding.ivTick.setOnClickListener{
             viewModel.doUpdate()
         }
 
-        ivClose.setOnClickListener {
+        binding.ivClose.setOnClickListener {
             onBackPressed()
         }
     }
@@ -95,48 +100,48 @@ class EditProfileActivity : BaseActivity<EditProfileViewModel>() {
     override fun setupObservers() {
         super.setupObservers()
 
-        viewModel.nameField.observe(this, Observer {
-            if(et_name.text.toString() != it){
-                et_name.setText(it.toString())
+        viewModel.nameField.observe(this, {
+            if(binding.etName.text.toString() != it){
+                binding.etName.setText(it.toString())
             }
         })
 
-        viewModel.bioField.observe(this, Observer {
-            if(et_bio.text.toString() != it){
-                et_bio.setText(it.toString())
+        viewModel.bioField.observe(this, {
+            if(binding.etBio.text.toString() != it){
+                binding.etBio.setText(it.toString())
             }
         })
 
-        viewModel.loading.observe(this, Observer {
-            pb_loading.visibility = if(it) View.VISIBLE else View.GONE
+        viewModel.loading.observe(this, {
+            binding.pbLoading.visibility = if(it) View.VISIBLE else View.GONE
         })
 
-        viewModel.emailField.observe(this, Observer {
-            if(et_email.text.toString() != it){
-                et_email.setText(it.toString())
+        viewModel.emailField.observe(this, {
+            if(binding.etEmail.text.toString() != it){
+                binding.etEmail.setText(it.toString())
             }
         })
 
-        viewModel.profile.observe(this, Observer {
+        viewModel.profile.observe(this, {
             it?.run {
                 val glideRequest = Glide
-                    .with(ivProfilePhoto.context)
+                    .with(binding.ivProfilePhoto.context)
                     .load(GlideHelper.getProtectedUrl(url, headers))
                     .apply(RequestOptions.circleCropTransform())
                     .apply(RequestOptions.placeholderOf(R.drawable.ic_profile_selected))
 
-                glideRequest.into(ivProfilePhoto)
+                glideRequest.into(binding.ivProfilePhoto)
             }
         })
 
-        viewModel.selectedProfile.observe(this, Observer {
+        viewModel.selectedProfile.observe(this, {
             val glideRequest = Glide
-                .with(ivProfilePhoto.context)
+                .with(binding.ivProfilePhoto.context)
                 .load(it)
                 .apply(RequestOptions.circleCropTransform())
                 .apply(RequestOptions.placeholderOf(R.drawable.ic_profile_selected))
 
-            glideRequest.into(ivProfilePhoto)
+            glideRequest.into(binding.ivProfilePhoto)
         })
     }
 

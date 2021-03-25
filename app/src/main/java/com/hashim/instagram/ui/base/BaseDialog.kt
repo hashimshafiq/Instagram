@@ -100,8 +100,8 @@ abstract class BaseDialog<VM : BaseViewModel> : DialogFragment(){
     }
 
 
-
-    protected abstract fun provideLayoutId(): View
+    @LayoutRes
+    protected abstract fun provideLayoutId(): Int
 
     protected abstract fun injectDependencies(dialogComponent: DialogFragmentComponent)
 
