@@ -1,6 +1,7 @@
 package com.hashim.instagram.ui.base
 
 import android.os.Bundle
+import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
@@ -66,8 +67,7 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
 
 
 
-    @LayoutRes
-    protected abstract fun provideLayoutId(): Int
+    protected abstract fun provideLayoutId(): View
 
     protected abstract fun injectDependencies(activityComponent: ActivityComponent)
 

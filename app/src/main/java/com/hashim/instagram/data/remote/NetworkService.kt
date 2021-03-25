@@ -13,9 +13,6 @@ import javax.inject.Singleton
 @Singleton
 interface NetworkService {
 
-
-
-
     @POST(Endpoints.LOGIN)
     fun doLoginCall(
         @Body request: LoginRequest,

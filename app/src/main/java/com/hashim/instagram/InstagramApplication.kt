@@ -2,7 +2,6 @@ package com.hashim.instagram
 
 import android.app.Application
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
 import com.hashim.instagram.di.component.ApplicationComponent
 import com.hashim.instagram.di.component.DaggerApplicationComponent
 import com.hashim.instagram.di.module.ApplicationModule

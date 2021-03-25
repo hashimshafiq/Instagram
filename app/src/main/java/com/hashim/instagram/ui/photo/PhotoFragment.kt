@@ -66,7 +66,7 @@ class PhotoFragment : BaseFragment<PhotoViewModel>() {
     @SuppressLint("CheckResult")
     override fun setupView(view: View) {
 
-        if (hasWritePermission()){
+        if (hasReadPermission()){
             viewModel.getFilePaths()
         }else{
             EasyPermissions.requestPermissions(
@@ -143,7 +143,7 @@ class PhotoFragment : BaseFragment<PhotoViewModel>() {
         }
     }
 
-    private fun hasWritePermission(): Boolean {
+    private fun hasReadPermission(): Boolean {
         return EasyPermissions.hasPermissions(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
     }
 

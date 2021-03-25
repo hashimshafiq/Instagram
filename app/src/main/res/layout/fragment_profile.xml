@@ -121,7 +121,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guideline"
         tools:itemCount="12"
-        app:spanCount="4"
+        tools:spanCount="4"
         tools:listitem="@layout/item_view_grid_post"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         android:layout_height="0dp" />

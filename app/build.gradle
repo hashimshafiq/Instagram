@@ -2,9 +2,11 @@ apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
 
+apply plugin: 'kotlin-kapt'
+
 apply plugin: 'kotlin-android-extensions'
 
-apply plugin: 'kotlin-kapt'
+
 
 android {
     // user the variables like compile_sdk_version to keep the dependencies same throughout the application
@@ -46,10 +48,15 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
+
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+
 
     // JARs
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -61,7 +68,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraint_version"
 
     // Material Design
-    implementation "com.google.android.material:material:1.1.0"
+    implementation "com.google.android.material:material:1.3.0"
 
     // RecyclerView
     implementation "androidx.recyclerview:recyclerview:$support_library_version"
@@ -73,10 +80,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
 
     // Lifecycle Annotations
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
     // Multidex
     implementation "androidx.multidex:multidex:2.0.1"

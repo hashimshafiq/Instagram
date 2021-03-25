@@ -48,15 +48,15 @@ object FileUtils {
     }
 
     fun getImageSize(file: File): Pair<Int, Int>? {
-        try {
+        return try {
             // Decode image size
             val o = BitmapFactory.Options()
             o.inJustDecodeBounds = true
             BitmapFactory.decodeStream(FileInputStream(file), null, o)
-            return Pair(o.outWidth, o.outHeight)
+            Pair(o.outWidth, o.outHeight)
         } catch (e: FileNotFoundException) {
             e.printStackTrace()
-            return null
+            null
         }
     }
 

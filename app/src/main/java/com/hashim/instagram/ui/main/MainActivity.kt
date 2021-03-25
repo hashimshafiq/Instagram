@@ -1,24 +1,23 @@
 package com.hashim.instagram.ui.main
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.annotation.IntegerRes
+import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import com.hashim.instagram.R
+import com.hashim.instagram.databinding.ActivityMainBinding
 import com.hashim.instagram.di.component.ActivityComponent
 import com.hashim.instagram.ui.base.BaseActivity
 import com.hashim.instagram.ui.home.HomeFragment
 import com.hashim.instagram.ui.photo.PhotoFragment
 import com.hashim.instagram.ui.profile.ProfileFragment
-import com.hashim.instagram.utils.display.Toaster
-import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import javax.inject.Inject
 
 
 class MainActivity : BaseActivity<MainViewModel>() {
+
+    lateinit var binding: ActivityMainBinding
 
     companion object {
         const val TAG = "MainActivity"
@@ -29,7 +28,10 @@ class MainActivity : BaseActivity<MainViewModel>() {
     private var activeFragment: Fragment? = null
     private lateinit var fragmentStack : ArrayDeque<Int>
 
-    override fun provideLayoutId(): Int = R.layout.activity_main
+    override fun provideLayoutId(): View {
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        return binding.root
+    }
 
     override fun injectDependencies(activityComponent: ActivityComponent) = activityComponent.inject(this)
 
@@ -37,7 +39,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
         fragmentStack = ArrayDeque<Int>()
         //supportFragmentManager.addOnBackStackChangedListener(this)
 
-        bottomNavigation.run {
+        binding.bottomNavigation.run {
             itemIconTintList = null
             setOnNavigationItemSelectedListener {
                 when (it.itemId){
@@ -83,13 +85,13 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
         mainSharedViewModel.profileRedirection.observe(this, Observer {
             it.getIfNotHandled()?.run {
-                bottomNavigation.selectedItemId = R.id.itemProfile
+                binding.bottomNavigation.selectedItemId = R.id.itemProfile
             }
         })
 
         mainSharedViewModel.homeRedirection.observe(this, Observer {
             it.getIfNotHandled()?.run {
-                bottomNavigation.selectedItemId = R.id.itemHome
+                binding.bottomNavigation.selectedItemId = R.id.itemHome
             }
         })
 
@@ -157,7 +159,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
     override fun onBackPressed() {
        if(fragmentStack.size>1){
            fragmentStack.removeLast()
-           bottomNavigation.selectedItemId = fragmentStack.peekLast()
+           binding.bottomNavigation.selectedItemId = fragmentStack.peekLast()
 
        }else{
             super.onBackPressed()

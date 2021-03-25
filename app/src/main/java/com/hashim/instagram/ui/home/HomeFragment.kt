@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hashim.instagram.R
 import com.hashim.instagram.data.model.Post
+import com.hashim.instagram.databinding.FragmentHomeBinding
 import com.hashim.instagram.di.component.FragmentComponent
 import com.hashim.instagram.ui.base.BaseFragment
 import com.hashim.instagram.ui.home.post.PostsAdapter
-import com.hashim.instagram.ui.home.post.likeduser.LikedUserAdapter
 import com.hashim.instagram.ui.main.MainSharedViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
@@ -41,7 +41,10 @@ class HomeFragment : BaseFragment<HomeViewModel>() , onClickListener {
     @Inject
     lateinit var mainSharedViewModel: MainSharedViewModel
 
+    lateinit var binding: FragmentHomeBinding
+
     override fun provideLayoutId(): Int = R.layout.fragment_home
+
 
     override fun injectDependencies(fragmentComponent: FragmentComponent) = fragmentComponent.inject(this)
 

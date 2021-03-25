@@ -41,7 +41,8 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(provideLayoutId(), container, false)
+        layoutInflater.inflate(provideLayoutId(), container, false)
+
 
     protected open fun setupObservers() {
         viewModel.messageString.observe(this, Observer {
