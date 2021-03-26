@@ -4,17 +4,13 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-kapt'
 
-apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-parcelize'
 
 
 
 android {
     // user the variables like compile_sdk_version to keep the dependencies same throughout the application
     compileSdkVersion rootProject.ext.compile_sdk_version
-
-    androidExtensions {
-        experimental = true
-    }
 
     defaultConfig {
         applicationId "com.hashim.instagram"
