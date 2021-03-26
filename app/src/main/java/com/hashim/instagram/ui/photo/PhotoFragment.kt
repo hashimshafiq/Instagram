@@ -9,10 +9,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.hashim.instagram.R
+import com.hashim.instagram.databinding.FragmentPhotoBinding
 import com.hashim.instagram.di.component.FragmentComponent
 import com.hashim.instagram.ui.base.BaseFragment
 import com.hashim.instagram.ui.main.MainSharedViewModel
@@ -20,7 +20,6 @@ import com.hashim.instagram.ui.photo.gallery.GalleryAdapter
 import com.hashim.instagram.utils.common.Event
 import com.hashim.instagram.utils.common.GridSpacingItemDecoration
 import com.mindorks.paracamera.Camera
-import kotlinx.android.synthetic.main.fragment_photo.*
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.FileNotFoundException
 import javax.inject.Inject
@@ -59,12 +58,20 @@ class PhotoFragment : BaseFragment<PhotoViewModel>() {
     @Inject
     lateinit var gridSpacingItemDecoration: GridSpacingItemDecoration
 
+    private var _binding : FragmentPhotoBinding? = null
+
+    private val binding get() = _binding!!
+
+
+
     override fun provideLayoutId(): Int = R.layout.fragment_photo
 
     override fun injectDependencies(fragmentComponent: FragmentComponent) = fragmentComponent.inject(this)
 
     @SuppressLint("CheckResult")
     override fun setupView(view: View) {
+
+        _binding = FragmentPhotoBinding.bind(view)
 
         if (hasReadPermission()){
             viewModel.getFilePaths()
@@ -76,7 +83,7 @@ class PhotoFragment : BaseFragment<PhotoViewModel>() {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
 
-        ivCamera.setOnClickListener {
+        binding.ivCamera.setOnClickListener {
             try {
                 camera.takePicture()
             }catch (e : Exception){
@@ -84,7 +91,7 @@ class PhotoFragment : BaseFragment<PhotoViewModel>() {
             }
         }
 
-        tvSubmit.setOnClickListener {
+        binding.tvSubmit.setOnClickListener {
             try {
                 activity?.contentResolver?.openInputStream(Uri.parse("file://$SELECTED_IMG_URL"))?.run {
                         viewModel.onGalleryImageSelected(this)
@@ -97,17 +104,17 @@ class PhotoFragment : BaseFragment<PhotoViewModel>() {
 
         }
 
-        spFolders.apply {
+        binding.spFolders.apply {
             adapter = arrayAdapter
         }
 
-        rvImages.apply {
+        binding.rvImages.apply {
             layoutManager = gridLayoutManager
             adapter = galleryAdapter
 
         }.addItemDecoration(gridSpacingItemDecoration)
 
-        spFolders.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        binding.spFolders.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
             }
@@ -150,11 +157,11 @@ class PhotoFragment : BaseFragment<PhotoViewModel>() {
     override fun setupObservers() {
         super.setupObservers()
 
-        viewModel.loading.observe(this, Observer {
-            pb_loading.visibility = if (it) View.VISIBLE else View.GONE
+        viewModel.loading.observe(this, {
+            binding.pbLoading.visibility = if (it) View.VISIBLE else View.GONE
         })
 
-        viewModel.post.observe(this, Observer {
+        viewModel.post.observe(this, {
             it.getIfNotHandled()?.run {
                 mainSharedViewModel.newPost.postValue(Event(this))
                 mainSharedViewModel.onHomeRedirect()
@@ -162,15 +169,15 @@ class PhotoFragment : BaseFragment<PhotoViewModel>() {
 
         })
 
-        viewModel.directoriesList.observe(this, Observer {
+        viewModel.directoriesList.observe(this, {
             arrayAdapter.addAll(it)
         })
 
-        viewModel.imagesList.observe(this, Observer {
+        viewModel.imagesList.observe(this, {
             galleryAdapter.updateData(it)
         })
 
-        viewModel.imageDetail.observe(this, Observer {
+        viewModel.imageDetail.observe(this, {
             it?.run {
 
 
@@ -178,7 +185,7 @@ class PhotoFragment : BaseFragment<PhotoViewModel>() {
                     .with(requireContext())
                     .load(url)
 
-                glideRequest.into(ivMain)
+                glideRequest.into(binding.ivMain)
                 SELECTED_IMG_URL = url
             }
         })
@@ -193,6 +200,10 @@ class PhotoFragment : BaseFragment<PhotoViewModel>() {
         EasyPermissions.onRequestPermissionsResult(requestCode,permissions,grantResults,this)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
 
 

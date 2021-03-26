@@ -1,12 +1,10 @@
 package com.hashim.instagram.ui.base
 
-import android.app.ActionBar
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.DialogFragment

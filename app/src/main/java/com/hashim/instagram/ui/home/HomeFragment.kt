@@ -4,7 +4,6 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hashim.instagram.R
@@ -14,7 +13,6 @@ import com.hashim.instagram.di.component.FragmentComponent
 import com.hashim.instagram.ui.base.BaseFragment
 import com.hashim.instagram.ui.home.post.PostsAdapter
 import com.hashim.instagram.ui.main.MainSharedViewModel
-import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
 
 
@@ -41,7 +39,9 @@ class HomeFragment : BaseFragment<HomeViewModel>() , onClickListener {
     @Inject
     lateinit var mainSharedViewModel: MainSharedViewModel
 
-    lateinit var binding: FragmentHomeBinding
+    private var _binding: FragmentHomeBinding? = null
+
+    private val binding get() = _binding!!
 
     override fun provideLayoutId(): Int = R.layout.fragment_home
 
@@ -50,9 +50,11 @@ class HomeFragment : BaseFragment<HomeViewModel>() , onClickListener {
 
     override fun setupView(view: View) {
 
+        _binding = FragmentHomeBinding.bind(view)
+
         postsAdapter.setupOnClickListener(this)
 
-        rvPosts.apply {
+        binding.rvPosts.apply {
             layoutManager = linearLayoutManager
             adapter = postsAdapter
             addOnScrollListener(object : RecyclerView.OnScrollListener(){
@@ -73,24 +75,24 @@ class HomeFragment : BaseFragment<HomeViewModel>() , onClickListener {
     override fun setupObservers() {
         super.setupObservers()
 
-        viewModel.loading.observe(this, Observer {
-            progressBar.visibility = if (it) View.VISIBLE else View.GONE
+        viewModel.loading.observe(this, {
+            binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
         })
 
-        viewModel.posts.observe(this, Observer {
+        viewModel.posts.observe(this, {
             it.data?.run { postsAdapter.appendData(it.data) }
         })
 
-        mainSharedViewModel.newPost.observe(this, Observer {
+        mainSharedViewModel.newPost.observe(this, {
             it.getIfNotHandled()?.run {
                 viewModel.onNewPost(this)
             }
         })
 
-        viewModel.refreshPosts.observe(this, Observer {
+        viewModel.refreshPosts.observe(this, {
             it.data?.run {
                 postsAdapter.updateData(this)
-                rvPosts.scrollToPosition(0)
+                binding.rvPosts.scrollToPosition(0)
             }
         })
     }
@@ -141,6 +143,8 @@ class HomeFragment : BaseFragment<HomeViewModel>() , onClickListener {
         dialog.show()
     }
 
-
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

@@ -7,13 +7,11 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import com.hashim.instagram.InstagramApplication
 import com.hashim.instagram.di.component.DaggerFragmentComponent
 import com.hashim.instagram.di.component.FragmentComponent
 import com.hashim.instagram.di.module.FragmentModule
 import com.hashim.instagram.utils.display.Toaster
-
 import javax.inject.Inject
 
 /**
@@ -45,11 +43,11 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
 
 
     protected open fun setupObservers() {
-        viewModel.messageString.observe(this, Observer {
+        viewModel.messageString.observe(this, {
             it.data?.run { showMessage(this) }
         })
 
-        viewModel.messageStringId.observe(this, Observer {
+        viewModel.messageStringId.observe(this, {
             it.data?.run { showMessage(this) }
         })
     }
