@@ -52,7 +52,7 @@ class LikedUserActivity : BaseActivity<LikedUserViewModel>() {
     override fun setupObservers() {
         super.setupObservers()
 
-        viewModel.likedUsers.observe(this, Observer {
+        viewModel.likedUsers.observe(this, {
             likedUserAdapter.appendData(it.data!!)
             binding.tvLikesNumber.text = getString(R.string.user_post_likes_label,it.data.size)
         })
