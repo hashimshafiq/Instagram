@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_nav_graph"
+    app:startDestination="@id/itemHome">
+
+
+    <fragment
+        android:id="@+id/itemHome"
+        android:name="com.hashim.instagram.ui.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home"
+        >
+
+    </fragment>
+    <fragment
+        android:id="@+id/itemAddPhotos"
+        android:name="com.hashim.instagram.ui.photo.PhotoFragment"
+        tools:layout="@layout/fragment_photo"
+        android:label="PhotoFragment" >
+
+    </fragment>
+    <fragment
+        android:id="@+id/itemProfile"
+        android:name="com.hashim.instagram.ui.profile.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile"
+        />
+</navigation>

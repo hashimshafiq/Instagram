@@ -27,6 +27,7 @@
         android:id="@+id/rvPosts"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        tools:listitem="@layout/item_view_post"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

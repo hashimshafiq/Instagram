@@ -33,15 +33,5 @@ class MainViewModel(
         //homeNavigation.postValue(Event(true))
     }
 
-    fun onProfileSelected(){
-        profileNavigation.postValue(Event(true))
-    }
 
-    fun onAddPhotoSelected(){
-        addPhotoNavigation.postValue(Event(true))
-    }
-
-    fun onHomeSelected(){
-        homeNavigation.postValue(Event(true))
-    }
 }

@@ -3,14 +3,12 @@ package com.hashim.instagram.ui.main
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.hashim.instagram.R
 import com.hashim.instagram.databinding.ActivityMainBinding
 import com.hashim.instagram.di.component.ActivityComponent
 import com.hashim.instagram.ui.base.BaseActivity
-import com.hashim.instagram.ui.home.HomeFragment
-import com.hashim.instagram.ui.photo.PhotoFragment
-import com.hashim.instagram.ui.profile.ProfileFragment
 import java.util.*
 import javax.inject.Inject
 
@@ -33,63 +31,31 @@ class MainActivity : BaseActivity<MainViewModel>() {
         return binding.root
     }
 
-    override fun injectDependencies(activityComponent: ActivityComponent) = activityComponent.inject(this)
+    override fun injectDependencies(activityComponent: ActivityComponent) = activityComponent.inject(
+        this
+    )
 
     override fun setupView(savedInstanceState: Bundle?) {
         fragmentStack = ArrayDeque<Int>()
-        //supportFragmentManager.addOnBackStackChangedListener(this)
 
-        binding.bottomNavigation.run {
-            itemIconTintList = null
-            setOnNavigationItemSelectedListener {
-                when (it.itemId){
-                    R.id.itemHome -> {
-                        viewModel.onHomeSelected()
-                        true
-                    }
-                    R.id.itemAddPhotos -> {
-                        viewModel.onAddPhotoSelected()
-                        true
-                    }
-                    R.id.itemProfile -> {
-                        viewModel.onProfileSelected()
-                        true
-                    }
-                    else -> false
-                }
-            }
-        }
+        val navController = findNavController(R.id.containerFragment)
+
+        binding.bottomNavigation.setupWithNavController(navController)
 
     }
+
 
     override fun setupObservers() {
         super.setupObservers()
 
-        viewModel.homeNavigation.observe(this, Observer {
-            it.getIfNotHandled()?.run {
-                showHome()
-            }
-        })
 
-        viewModel.addPhotoNavigation.observe(this, Observer {
-            it.getIfNotHandled()?.run {
-                showAddPhoto()
-            }
-        })
-
-        viewModel.profileNavigation.observe(this, Observer {
-            it.getIfNotHandled()?.run {
-                showProfile()
-            }
-        })
-
-        mainSharedViewModel.profileRedirection.observe(this, Observer {
+        mainSharedViewModel.profileRedirection.observe(this, {
             it.getIfNotHandled()?.run {
                 binding.bottomNavigation.selectedItemId = R.id.itemProfile
             }
         })
 
-        mainSharedViewModel.homeRedirection.observe(this, Observer {
+        mainSharedViewModel.homeRedirection.observe(this, {
             it.getIfNotHandled()?.run {
                 binding.bottomNavigation.selectedItemId = R.id.itemHome
             }
@@ -97,84 +63,6 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
 
 
-    }
-
-    private fun showHome(){
-        if (activeFragment is HomeFragment) return
-
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        var fragment = supportFragmentManager.findFragmentByTag(HomeFragment.TAG) as HomeFragment?
-        if(fragment == null){
-            fragment = HomeFragment.newInstance()
-            fragmentTransaction.add(R.id.containerFragment,fragment,HomeFragment.TAG)
-        }else{
-            fragmentTransaction.show(fragment)
-        }
-        addFragment(R.id.itemHome)
-        if(activeFragment != null) fragmentTransaction.hide(activeFragment as Fragment)
-
-        fragmentTransaction.commit()
-        activeFragment = fragment
-
-    }
-
-    private fun showAddPhoto(){
-        if (activeFragment is PhotoFragment) return
-
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        var fragment = supportFragmentManager.findFragmentByTag(PhotoFragment.TAG) as PhotoFragment?
-        if(fragment == null){
-            fragment = PhotoFragment.newInstance()
-            fragmentTransaction.add(R.id.containerFragment,fragment,PhotoFragment.TAG)
-        }else{
-            fragmentTransaction.show(fragment)
-        }
-        addFragment(R.id.itemAddPhotos)
-        if(activeFragment != null) fragmentTransaction.hide(activeFragment as Fragment)
-        fragmentTransaction.commit()
-        activeFragment = fragment
-
-    }
-
-    private fun showProfile(){
-        if (activeFragment is ProfileFragment) return
-
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        var fragment = supportFragmentManager.findFragmentByTag(ProfileFragment.TAG) as ProfileFragment?
-        if(fragment == null){
-            fragment = ProfileFragment.newInstance()
-            fragmentTransaction.add(R.id.containerFragment,fragment,ProfileFragment.TAG)
-        }else{
-            fragmentTransaction.show(fragment)
-        }
-        addFragment(R.id.itemProfile)
-        if(activeFragment != null) fragmentTransaction.hide(activeFragment as Fragment)
-        fragmentTransaction.commit()
-        activeFragment = fragment
-
-    }
-
-
-
-    override fun onBackPressed() {
-       if(fragmentStack.size>1){
-           fragmentStack.removeLast()
-           binding.bottomNavigation.selectedItemId = fragmentStack.peekLast()
-
-       }else{
-            super.onBackPressed()
-       }
-
-    }
-
-    private fun addFragment(id: Int){
-        if(fragmentStack.contains(id)){
-            fragmentStack.remove(id)
-            fragmentStack.add(id)
-
-        }else{
-            fragmentStack.add(id)
-        }
     }
 
 }
