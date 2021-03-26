@@ -19,6 +19,7 @@ This app is a tailored version of real Intagram Android app with features like C
 * LiveData
 * Glide
 * Android Architecture Components
+* ~~Kotlin Synthetics~~ viewBindings
 
 
 **Testing** is already in progress. Some tests are already written others are on their way.
