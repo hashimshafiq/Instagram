@@ -1,15 +1,11 @@
 package com.hashim.instagram.ui.profile.settings
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import com.hashim.instagram.R
+import com.hashim.instagram.databinding.DialogSettingsLayoutBinding
 import com.hashim.instagram.di.component.DialogFragmentComponent
 import com.hashim.instagram.ui.base.BaseDialog
-import com.hashim.instagram.ui.main.MainSharedViewModel
-import kotlinx.android.synthetic.main.dialog_settings_layout.*
-import javax.inject.Inject
 
 class SettingsDialog : BaseDialog<SettingsDialogViewModel>() {
 
@@ -25,6 +21,9 @@ class SettingsDialog : BaseDialog<SettingsDialogViewModel>() {
         }
     }
 
+    private var _binding: DialogSettingsLayoutBinding? = null
+    private val binding get() = _binding!!
+
     override fun provideLayoutId(): Int = R.layout.dialog_settings_layout
 
     override fun injectDependencies(dialogComponent: DialogFragmentComponent) =
@@ -33,37 +32,40 @@ class SettingsDialog : BaseDialog<SettingsDialogViewModel>() {
 
     override fun setupView(view: View) {
 
-        btCancel.setOnClickListener {
+        _binding = DialogSettingsLayoutBinding.bind(view)
+
+        binding.btCancel.setOnClickListener {
             viewModel.doDismissDialog()
         }
 
-        btApply.setOnClickListener {
-            viewModel.doApplySettings(rgM.checkedRadioButtonId)
+        binding.btApply.setOnClickListener {
+            viewModel.doApplySettings(binding.rgM.checkedRadioButtonId)
         }
     }
 
 
     override fun setupObservers() {
         super.setupObservers()
-        viewModel.dismissDialog.observe(this, Observer {
+        viewModel.dismissDialog.observe(this, {
             dismiss()
         })
 
-        viewModel.rDefault.observe(this, Observer {
-            rbSystemDefault.isChecked = true
+        viewModel.rDefault.observe(this, {
+            binding.rbSystemDefault.isChecked = true
         })
 
-        viewModel.rLight.observe(this, Observer {
-            rbLight.isChecked = true
+        viewModel.rLight.observe(this, {
+            binding.rbLight.isChecked = true
         })
 
-        viewModel.rDark.observe(this, Observer {
-            rbDark.isChecked = true
+        viewModel.rDark.observe(this, {
+            binding.rbDark.isChecked = true
         })
-
-
 
     }
 
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
