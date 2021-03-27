@@ -6,6 +6,7 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import com.hashim.instagram.InstagramApplication
 import com.hashim.instagram.di.component.ActivityComponent
 import com.hashim.instagram.di.component.DaggerActivityComponent
@@ -55,15 +56,15 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
 
     fun showMessage(@StringRes resId: Int) = showMessage(getString(resId))
 
-    open fun goBack() = onBackPressed()
+    //open fun goBack() = onBackPressed()
 
-    override fun onBackPressed() {
-
-        if (supportFragmentManager.backStackEntryCount > 0) {
-            supportFragmentManager.popBackStackImmediate()
-        }
-        else super.onBackPressed()
-    }
+//    override fun onBackPressed() {
+//
+//        if (findNavController().backStack.size > 0) {
+//            supportFragmentManager.popBackStackImmediate()
+//        }
+//        else super.onBackPressed()
+//    }
 
 
 

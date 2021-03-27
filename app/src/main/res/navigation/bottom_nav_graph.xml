@@ -15,7 +15,10 @@
 
         <action
             android:id="@+id/action_itemHome_to_likedUserFragment"
-            app:destination="@id/likedUserFragment" />
+            app:destination="@id/likedUserFragment"
+            app:enterAnim="@anim/enter_bottom"
+            app:popExitAnim="@anim/exit_bottom"
+            />
     </fragment>
     <fragment
         android:id="@+id/itemAddPhotos"

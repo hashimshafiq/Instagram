@@ -62,9 +62,9 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
 
     fun showMessage(@StringRes resId: Int) = showMessage(getString(resId))
 
-    fun goBack() {
-        if (activity is BaseActivity<*>) (activity as BaseActivity<*>).goBack()
-    }
+//    fun goBack() {
+//        if (activity is BaseActivity<*>) (activity as BaseActivity<*>).goBack()
+//    }
 
 
 

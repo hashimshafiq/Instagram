@@ -2,6 +2,7 @@ package com.hashim.instagram.ui.main
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -23,6 +24,8 @@ class MainActivity : BaseActivity<MainViewModel>() {
     @Inject
     lateinit var mainSharedViewModel: MainSharedViewModel
 
+    lateinit var navController : NavController
+
     override fun provideLayoutId(): View {
         binding = ActivityMainBinding.inflate(layoutInflater)
         return binding.root
@@ -33,7 +36,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
     override fun setupView(savedInstanceState: Bundle?) {
 
 
-        val navController = findNavController(R.id.containerFragment)
+        navController = findNavController(R.id.containerFragment)
 
         binding.bottomNavigation.setupWithNavController(navController)
 
@@ -61,9 +64,9 @@ class MainActivity : BaseActivity<MainViewModel>() {
         }
     }
 
-    override fun onSupportNavigateUp() =
-        findNavController(R.id.containerFragment).navigateUp()
-
+    override fun onNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onNavigateUp()
+    }
 
     override fun setupObservers() {
         super.setupObservers()
@@ -85,4 +88,10 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
     }
 
+//    override fun onBackPressed() {
+//        if(navController.currentDestination?.id != R.id.itemHome){
+//            navController.popBackStack()
+//        }
+//        else super.onBackPressed()
+//    }
 }

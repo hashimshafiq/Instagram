@@ -30,10 +30,10 @@ class HomeFragment : BaseFragment<HomeViewModel>() , onClickListener {
         }
     }
 
-    @Inject
+
     lateinit var linearLayoutManager: LinearLayoutManager
 
-    @Inject
+
     lateinit var postsAdapter: PostsAdapter
 
     @Inject
@@ -51,6 +51,11 @@ class HomeFragment : BaseFragment<HomeViewModel>() , onClickListener {
     override fun setupView(view: View) {
 
         _binding = FragmentHomeBinding.bind(view)
+
+        linearLayoutManager = LinearLayoutManager(requireContext())
+
+        postsAdapter = PostsAdapter(requireActivity().lifecycle, ArrayList())
+
 
         postsAdapter.setupOnClickListener(this)
 
