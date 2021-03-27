@@ -33,8 +33,7 @@ class ActivityModule(private val activity: BaseActivity<*>) {
     @Provides
     fun provideLinearLayoutManager(): LinearLayoutManager = LinearLayoutManager(activity)
 
-    @Provides
-    fun providesLikedUserAdapter() = LikedUserAdapter(activity.lifecycle, ArrayList())
+
 
     @Provides
     fun provideSplashViewModel(
@@ -48,16 +47,7 @@ class ActivityModule(private val activity: BaseActivity<*>) {
             //this lambda creates and return SplashViewModel
         }).get(SplashViewModel::class.java)
 
-    @Provides
-    fun providesLikedUserViewModel(
-        schedulerProvider: SchedulerProvider,
-        compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper
-    ): LikedUserViewModel = ViewModelProvider(
-        activity, ViewModelProviderFactory(LikedUserViewModel::class) {
-            LikedUserViewModel(schedulerProvider, compositeDisposable, networkHelper)
-            //this lambda creates and return SplashViewModel
-        }).get(LikedUserViewModel::class.java)
+
 
 
     @Provides

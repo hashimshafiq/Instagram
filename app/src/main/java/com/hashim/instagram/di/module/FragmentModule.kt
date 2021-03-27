@@ -11,6 +11,8 @@ import com.hashim.instagram.di.TempDirectory
 import com.hashim.instagram.ui.base.BaseFragment
 import com.hashim.instagram.ui.home.HomeViewModel
 import com.hashim.instagram.ui.home.post.PostsAdapter
+import com.hashim.instagram.ui.home.post.likeduser.LikedUserAdapter
+import com.hashim.instagram.ui.home.post.likeduser.LikedUserViewModel
 import com.hashim.instagram.ui.main.MainSharedViewModel
 import com.hashim.instagram.ui.photo.PhotoViewModel
 import com.hashim.instagram.ui.photo.gallery.GalleryAdapter
@@ -39,6 +41,9 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
 
     @Provides
     fun provideImagesAdapter() = GalleryAdapter(fragment.lifecycle, ArrayList())
+
+    @Provides
+    fun providesLikedUserAdapter() = LikedUserAdapter(fragment.lifecycle, ArrayList())
 
     @Provides
     fun provideArrayAdapter() = ArrayAdapter(fragment.requireContext(),android.R.layout.simple_spinner_item, ArrayList<String>())
@@ -124,4 +129,16 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
         fragment, ViewModelProviderFactory(EditProfileViewModel::class) {
             EditProfileViewModel(schedulerProvider, compositeDisposable, networkHelper,userRepository,photoRepository,directory)
         }).get(EditProfileViewModel::class.java)
+
+
+    @Provides
+    fun providesLikedUserViewModel(
+        schedulerProvider: SchedulerProvider,
+        compositeDisposable: CompositeDisposable,
+        networkHelper: NetworkHelper
+    ): LikedUserViewModel = ViewModelProvider(
+        fragment, ViewModelProviderFactory(LikedUserViewModel::class) {
+            LikedUserViewModel(schedulerProvider, compositeDisposable, networkHelper)
+            //this lambda creates and return SplashViewModel
+        }).get(LikedUserViewModel::class.java)
 }

@@ -6,6 +6,8 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'kotlin-parcelize'
 
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
 
 
 android {

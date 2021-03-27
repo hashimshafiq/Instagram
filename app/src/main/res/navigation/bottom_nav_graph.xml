@@ -13,6 +13,9 @@
         tools:layout="@layout/fragment_home"
         >
 
+        <action
+            android:id="@+id/action_itemHome_to_likedUserFragment"
+            app:destination="@id/likedUserFragment" />
     </fragment>
     <fragment
         android:id="@+id/itemAddPhotos"
@@ -53,4 +56,17 @@
             android:id="@+id/action_settingsDialog_to_itemProfile"
             app:destination="@id/itemProfile" />
     </dialog>
+    <fragment
+        android:id="@+id/likedUserFragment"
+        android:name="com.hashim.instagram.ui.home.post.likeduser.LikedUserFragment"
+        android:label="fragment_liked_user"
+        tools:layout="@layout/fragment_liked_user"
+        >
+        <action
+            android:id="@+id/action_likedUserFragment_to_itemHome"
+            app:destination="@id/itemHome" />
+        <argument
+            android:name="data"
+            app:argType="com.hashim.instagram.data.model.Post$User[]" />
+    </fragment>
 </navigation>

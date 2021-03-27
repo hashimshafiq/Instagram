@@ -21,7 +21,7 @@ class LikedUserViewModel(
 
     }
 
-    fun loadData(users : ArrayList<Post.User>) {
+    fun loadData(users : List<Post.User>) {
         likedUsers.postValue(Resource.success(users))
     }
 }

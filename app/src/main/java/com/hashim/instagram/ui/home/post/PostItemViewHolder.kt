@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
+import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.hashim.instagram.R
@@ -15,8 +16,9 @@ import com.hashim.instagram.data.model.Post
 import com.hashim.instagram.databinding.ItemViewPostBinding
 import com.hashim.instagram.di.component.ViewHolderComponent
 import com.hashim.instagram.ui.base.BaseItemViewHolder
+import com.hashim.instagram.ui.home.HomeFragmentDirections
 import com.hashim.instagram.ui.home.onClickListener
-import com.hashim.instagram.ui.home.post.likeduser.LikedUserActivity
+import com.hashim.instagram.ui.home.post.likeduser.LikedUserFragment
 import com.hashim.instagram.utils.common.GlideHelper
 
 class PostItemViewHolder(parent: ViewGroup,private val onClickListener: onClickListener) : BaseItemViewHolder<Post,PostItemViewModel>(R.layout.item_view_post,parent) {
@@ -36,7 +38,9 @@ class PostItemViewHolder(parent: ViewGroup,private val onClickListener: onClickL
             ivProfile.setOnClickListener { viewModel.onProfilePhotoClicked(onClickListener) }
             tvName.setOnClickListener { viewModel.onProfilePhotoClicked(onClickListener) }
             ivPost.setOnLongClickListener { viewModel.userPostClick(onClickListener) }
-            tvLikesCount.setOnClickListener { viewModel.onLikeCountClick() }
+            tvLikesCount.setOnClickListener {
+                viewModel.onLikeCountClick()
+            }
             tvShare.setOnClickListener { viewModel.onShareClick(ivPost.drawable.toBitmap(ivPost.width,ivPost.height,Bitmap.Config.ARGB_8888)) }
         }
 
@@ -104,12 +108,12 @@ class PostItemViewHolder(parent: ViewGroup,private val onClickListener: onClickL
             }
         })
 
+
         viewModel.launchLikesDetail.observe(this, {
             it.getIfNotHandled()?.run {
                 this["data"]?.run {
-                    val intent = Intent(itemView.context,LikedUserActivity::class.java)
-                    intent.putParcelableArrayListExtra("data",ArrayList(this))
-                    itemView.context.startActivity(intent)
+                    val direction = HomeFragmentDirections.actionItemHomeToLikedUserFragment(this.toTypedArray())
+                    itemView.findNavController().navigate(direction)
                 }
             }
         })

@@ -7,4 +7,5 @@ interface onClickListener {
 
     fun onClickPhoto()
     fun onLongClickPost(post: Post)
+
 }
