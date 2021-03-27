@@ -95,18 +95,7 @@ class ActivityModule(private val activity: BaseActivity<*>) {
             MainViewModel(schedulerProvider, compositeDisposable, networkHelper,userRepository)
         }).get(MainViewModel::class.java)
 
-    @Provides
-    fun provideEditProfileViewModel(
-        schedulerProvider: SchedulerProvider,
-        compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper,
-        userRepository: UserRepository,
-        photoRepository: PhotoRepository,
-        @TempDirectory directory: File
-    ): EditProfileViewModel = ViewModelProvider(
-        activity, ViewModelProviderFactory(EditProfileViewModel::class) {
-            EditProfileViewModel(schedulerProvider, compositeDisposable, networkHelper,userRepository,photoRepository,directory)
-        }).get(EditProfileViewModel::class.java)
+
 
     @Provides
     fun provideMainSharedViewModel(

@@ -15,7 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.home.post.likeduser.LikedUserActivity"  />
-        <activity android:name=".ui.profile.editprofile.EditProfileActivity"  />
         <activity android:name=".ui.login.LoginActivity"  />
         <activity android:name=".ui.signup.SignupActivity"  />
         <activity

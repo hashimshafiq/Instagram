@@ -15,6 +15,7 @@ import com.hashim.instagram.ui.main.MainSharedViewModel
 import com.hashim.instagram.ui.photo.PhotoViewModel
 import com.hashim.instagram.ui.photo.gallery.GalleryAdapter
 import com.hashim.instagram.ui.profile.ProfileViewModel
+import com.hashim.instagram.ui.profile.editprofile.EditProfileViewModel
 import com.hashim.instagram.ui.profile.userposts.UserPostAdapter
 import com.hashim.instagram.utils.ViewModelProviderFactory
 import com.hashim.instagram.utils.common.Constants
@@ -110,4 +111,17 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
         fragment.activity!!, ViewModelProviderFactory(MainSharedViewModel::class) {
             MainSharedViewModel(schedulerProvider, compositeDisposable, networkHelper)
         }).get(MainSharedViewModel::class.java)
+
+    @Provides
+    fun provideEditProfileViewModel(
+        schedulerProvider: SchedulerProvider,
+        compositeDisposable: CompositeDisposable,
+        networkHelper: NetworkHelper,
+        userRepository: UserRepository,
+        photoRepository: PhotoRepository,
+        @TempDirectory directory: File
+    ): EditProfileViewModel = ViewModelProvider(
+        fragment, ViewModelProviderFactory(EditProfileViewModel::class) {
+            EditProfileViewModel(schedulerProvider, compositeDisposable, networkHelper,userRepository,photoRepository,directory)
+        }).get(EditProfileViewModel::class.java)
 }

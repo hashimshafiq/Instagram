@@ -2,14 +2,13 @@ package com.hashim.instagram.ui.main
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.hashim.instagram.R
 import com.hashim.instagram.databinding.ActivityMainBinding
 import com.hashim.instagram.di.component.ActivityComponent
 import com.hashim.instagram.ui.base.BaseActivity
-import java.util.*
 import javax.inject.Inject
 
 
@@ -23,8 +22,6 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
     @Inject
     lateinit var mainSharedViewModel: MainSharedViewModel
-    private var activeFragment: Fragment? = null
-    private lateinit var fragmentStack : ArrayDeque<Int>
 
     override fun provideLayoutId(): View {
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -36,12 +33,33 @@ class MainActivity : BaseActivity<MainViewModel>() {
     )
 
     override fun setupView(savedInstanceState: Bundle?) {
-        fragmentStack = ArrayDeque<Int>()
+
 
         val navController = findNavController(R.id.containerFragment)
 
         binding.bottomNavigation.setupWithNavController(navController)
 
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            onDestinationChanged(destination)
+        }
+
+    }
+
+    private fun onDestinationChanged(destination: NavDestination) {
+
+        when(destination.id){
+                R.id.itemHome,
+                R.id.itemAddPhotos,
+                R.id.itemProfile -> {
+                    binding.bottomNavigation.visibility = View.VISIBLE
+                    binding.viewShadow.visibility = View.VISIBLE
+                }
+
+            else -> {
+                binding.bottomNavigation.visibility = View.GONE
+                binding.viewShadow.visibility = View.GONE
+            }
+        }
     }
 
 

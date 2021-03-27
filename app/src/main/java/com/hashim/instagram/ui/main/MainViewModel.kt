@@ -17,8 +17,6 @@ class MainViewModel(
 
     val profileNavigation = MutableLiveData<Event<Boolean>>()
     val homeNavigation = MutableLiveData<Event<Boolean>>()
-    val addPhotoNavigation = MutableLiveData<Event<Boolean>>()
-
 
     override fun onCreate() {
         if (!userRepository.isThemeChange()) {

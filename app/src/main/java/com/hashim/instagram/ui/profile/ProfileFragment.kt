@@ -11,7 +11,7 @@ import com.hashim.instagram.databinding.FragmentProfileBinding
 import com.hashim.instagram.di.component.FragmentComponent
 import com.hashim.instagram.ui.base.BaseFragment
 import com.hashim.instagram.ui.login.LoginActivity
-import com.hashim.instagram.ui.profile.editprofile.EditProfileActivity
+import com.hashim.instagram.ui.profile.editprofile.EditProfileFragment
 import com.hashim.instagram.ui.profile.settings.SettingsDialog
 import com.hashim.instagram.ui.profile.userposts.UserPostAdapter
 import com.hashim.instagram.utils.common.GlideHelper
@@ -113,7 +113,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
 
         viewModel.launchEditProfile.observe(this, {
             it.getIfNotHandled()?.run {
-                startActivity(Intent(context, EditProfileActivity::class.java))
+                startActivity(Intent(context, EditProfileFragment::class.java))
             }
         })
 

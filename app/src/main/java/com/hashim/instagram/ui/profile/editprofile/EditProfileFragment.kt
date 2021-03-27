@@ -1,37 +1,36 @@
 package com.hashim.instagram.ui.profile.editprofile
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.hashim.instagram.R
-import com.hashim.instagram.databinding.ActivityEditProfileBinding
-import com.hashim.instagram.di.component.ActivityComponent
-import com.hashim.instagram.ui.base.BaseActivity
+import com.hashim.instagram.databinding.FragmentEditProfileBinding
+import com.hashim.instagram.di.component.FragmentComponent
+import com.hashim.instagram.ui.base.BaseFragment
 import com.hashim.instagram.utils.common.GlideHelper
 import java.io.FileNotFoundException
 
-class EditProfileActivity : BaseActivity<EditProfileViewModel>() {
+class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
 
-    lateinit var binding: ActivityEditProfileBinding
+    private var _binding: FragmentEditProfileBinding? = null
+
+    private val binding get() = _binding!!
 
     companion object {
         const val RESULT_GALLERY_IMAGE_CODE = 1001
     }
 
-    override fun provideLayoutId(): View {
-        binding = ActivityEditProfileBinding.inflate(layoutInflater)
-        return binding.root
+    override fun provideLayoutId(): Int = R.layout.fragment_edit_profile
+
+    override fun injectDependencies(fragmentComponent: FragmentComponent) {
+       fragmentComponent.inject(this)
     }
 
-    override fun injectDependencies(activityComponent: ActivityComponent) {
-       activityComponent.inject(this)
-    }
-
-    override fun setupView(savedInstanceState: Bundle?) {
+    override fun setupView(view: View) {
 
         binding.ivProfilePhoto.setOnClickListener {
             Intent(Intent.ACTION_PICK).apply {
@@ -92,7 +91,7 @@ class EditProfileActivity : BaseActivity<EditProfileViewModel>() {
         }
 
         binding.ivClose.setOnClickListener {
-            onBackPressed()
+
         }
     }
 
@@ -151,7 +150,7 @@ class EditProfileActivity : BaseActivity<EditProfileViewModel>() {
                 RESULT_GALLERY_IMAGE_CODE -> {
                     try {
                         intent?.data?.let {
-                            contentResolver?.openInputStream(it)?.run {
+                            activity?.contentResolver?.openInputStream(it)?.run {
                                 viewModel.onGalleryImageSelected(this)
                             }
                         } ?: showMessage(R.string.try_again)
@@ -162,5 +161,10 @@ class EditProfileActivity : BaseActivity<EditProfileViewModel>() {
                 }
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
