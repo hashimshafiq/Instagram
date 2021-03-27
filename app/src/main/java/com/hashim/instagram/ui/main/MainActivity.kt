@@ -44,6 +44,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
             onDestinationChanged(destination)
         }
 
+
     }
 
     private fun onDestinationChanged(destination: NavDestination) {

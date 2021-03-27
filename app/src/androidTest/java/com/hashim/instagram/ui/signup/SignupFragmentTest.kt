@@ -1,4 +1,4 @@
-package com.hashim.instagram.ui.login
+package com.hashim.instagram.ui.signup
 
 import android.content.Intent
 import androidx.test.espresso.Espresso.onView
@@ -14,29 +14,38 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
 
-class LoginActivityTest {
+class SignupFragmentTest {
 
     private val component = TestComponentRule(InstrumentationRegistry.getInstrumentation().targetContext)
 
-    private val main = IntentsTestRule(LoginActivity::class.java, false, false)
+    private val main = IntentsTestRule(SignupFragment::class.java,false,false)
+
 
     @get:Rule
-    val chain: RuleChain = RuleChain.outerRule(component).around(main)
+    val chainRule : RuleChain = RuleChain.outerRule(component).around(main)
 
     @Before
-    fun setup() {
-
-    }
+    fun setup(){}
 
     @Test
-    fun testCheckViewsDisplay() {
-        main.launchActivity(Intent(component.getContext(), LoginActivity::class.java))
+    fun testCheckViewsDisplay(){
+        main.launchActivity(Intent(component.getContext(),SignupFragment::class.java))
         onView(withId(R.id.layout_email))
             .check(matches(isDisplayed()))
+
+        onView(withId(R.id.layout_name))
+            .check(matches(isDisplayed()))
+
         onView(withId(R.id.layout_password))
             .check(matches(isDisplayed()))
+
         onView(withId(R.id.bt_login))
             .check(matches(isDisplayed()))
+
     }
+
+
+    @Before
+    fun tearDown(){}
 
 }

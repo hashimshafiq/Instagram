@@ -30,7 +30,7 @@ class LoginViewModel(
     val emailValidation : LiveData<Resource<Int>> = filterValidation(Validation.Field.EMAIL)
     val passwordValidation : LiveData<Resource<Int>> = filterValidation(Validation.Field.PASSWORD)
     val launchMain: MutableLiveData<Event<Map<String, String>>> = MutableLiveData()
-    val launchSignup: MutableLiveData<Event<Map<String, String>>> = MutableLiveData()
+
 
 
     private fun filterValidation(field : Validation.Field) =
@@ -65,17 +65,10 @@ class LoginViewModel(
                             loggingIn.postValue(false)
                             handleNetworkError(it)
                         })
-
                 )
             }
 
         }
     }
-
-    fun doSignup(){
-        launchSignup.postValue(Event(emptyMap()))
-    }
-
-
 
 }

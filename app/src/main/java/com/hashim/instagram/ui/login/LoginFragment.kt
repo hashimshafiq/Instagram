@@ -1,35 +1,36 @@
 package com.hashim.instagram.ui.login
 
-import android.content.Intent
-import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import com.hashim.instagram.databinding.ActivityLoginBinding
-import com.hashim.instagram.di.component.ActivityComponent
-import com.hashim.instagram.ui.base.BaseActivity
-import com.hashim.instagram.ui.main.MainActivity
-import com.hashim.instagram.ui.signup.SignupActivity
+import androidx.navigation.fragment.findNavController
+import com.hashim.instagram.R
+import com.hashim.instagram.databinding.FragmentLoginBinding
+import com.hashim.instagram.di.component.FragmentComponent
+import com.hashim.instagram.ui.base.BaseFragment
 import com.hashim.instagram.utils.common.Status
 
-class LoginActivity : BaseActivity<LoginViewModel>() {
+class LoginFragment : BaseFragment<LoginViewModel>() {
 
-    lateinit var binding: ActivityLoginBinding
+    private var _binding: FragmentLoginBinding? = null
+
+    private val binding get() = _binding!!
 
     companion object{
         const val TAG = "LoginActivity"
     }
 
-    override fun provideLayoutId(): View {
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-        return binding.root
+    override fun provideLayoutId(): Int  = R.layout.fragment_login
+
+
+    override fun injectDependencies(fragmentComponent: FragmentComponent) {
+        fragmentComponent.inject(this)
     }
 
-    override fun injectDependencies(activityComponent: ActivityComponent) {
-        activityComponent.inject(this)
-    }
+    override fun setupView(view: View) {
 
-    override fun setupView(savedInstanceState: Bundle?) {
+        _binding = FragmentLoginBinding.bind(view)
+
         binding.etEmail.addTextChangedListener(object : TextWatcher{
             override fun afterTextChanged(s: Editable?) {
 
@@ -65,7 +66,7 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
         }
 
         binding.tvSignup.setOnClickListener{
-            viewModel.doSignup()
+            findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
         }
     }
 
@@ -74,15 +75,10 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
 
         viewModel.launchMain.observe(this, {
             it.getIfNotHandled()?.run {
-                startActivity(Intent(applicationContext, MainActivity::class.java))
+                findNavController().navigate(R.id.action_loginFragment_to_itemHome)
             }
         })
 
-        viewModel.launchSignup.observe(this, {
-            it.getIfNotHandled()?.run {
-                startActivity(Intent(applicationContext, SignupActivity::class.java))
-            }
-        })
 
         viewModel.emailField.observe(this, {
             if(binding.etEmail.text.toString() != it){
@@ -114,5 +110,10 @@ class LoginActivity : BaseActivity<LoginViewModel>() {
             binding.pbLoading.visibility = if(it) View.VISIBLE else View.GONE
         })
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -11,9 +11,7 @@ import com.hashim.instagram.R
 import com.hashim.instagram.databinding.FragmentProfileBinding
 import com.hashim.instagram.di.component.FragmentComponent
 import com.hashim.instagram.ui.base.BaseFragment
-import com.hashim.instagram.ui.login.LoginActivity
-import com.hashim.instagram.ui.profile.editprofile.EditProfileFragment
-import com.hashim.instagram.ui.profile.settings.SettingsDialog
+import com.hashim.instagram.ui.login.LoginFragment
 import com.hashim.instagram.ui.profile.userposts.UserPostAdapter
 import com.hashim.instagram.utils.common.GlideHelper
 import com.hashim.instagram.utils.common.GridSpacingItemDecoration
@@ -102,11 +100,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
 
         viewModel.launchLogin.observe(this, {
             it.getIfNotHandled()?.run {
-                val intent = Intent(context,LoginActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or
-                        Intent.FLAG_ACTIVITY_CLEAR_TASK or
-                        Intent.FLAG_ACTIVITY_NEW_TASK
-                startActivity(intent)
+                findNavController().navigate(R.id.action_itemProfile_to_loginFragment)
 
 
             }

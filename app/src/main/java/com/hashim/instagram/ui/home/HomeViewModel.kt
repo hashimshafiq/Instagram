@@ -50,8 +50,8 @@ class HomeViewModel(
                 }
                 .subscribe({
                     allpostList.addAll(it)
-                    firstId = allpostList.maxBy { post -> post.createdAt.time }?.id
-                    lastId = allpostList.minBy { post -> post.createdAt.time }?.id
+                    firstId = allpostList.maxByOrNull { post -> post.createdAt.time }?.id
+                    lastId = allpostList.minByOrNull { post -> post.createdAt.time }?.id
                     loading.postValue(false)
                     posts.postValue(Resource.success(it))
                 },{

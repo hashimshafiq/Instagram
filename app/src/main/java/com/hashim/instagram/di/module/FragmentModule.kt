@@ -13,12 +13,15 @@ import com.hashim.instagram.ui.home.HomeViewModel
 import com.hashim.instagram.ui.home.post.PostsAdapter
 import com.hashim.instagram.ui.home.post.likeduser.LikedUserAdapter
 import com.hashim.instagram.ui.home.post.likeduser.LikedUserViewModel
+import com.hashim.instagram.ui.login.LoginViewModel
 import com.hashim.instagram.ui.main.MainSharedViewModel
 import com.hashim.instagram.ui.photo.PhotoViewModel
 import com.hashim.instagram.ui.photo.gallery.GalleryAdapter
 import com.hashim.instagram.ui.profile.ProfileViewModel
 import com.hashim.instagram.ui.profile.editprofile.EditProfileViewModel
 import com.hashim.instagram.ui.profile.userposts.UserPostAdapter
+import com.hashim.instagram.ui.signup.SignupViewModel
+import com.hashim.instagram.ui.splash.SplashViewModel
 import com.hashim.instagram.utils.ViewModelProviderFactory
 import com.hashim.instagram.utils.common.Constants
 import com.hashim.instagram.utils.network.NetworkHelper
@@ -141,4 +144,40 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
             LikedUserViewModel(schedulerProvider, compositeDisposable, networkHelper)
             //this lambda creates and return SplashViewModel
         }).get(LikedUserViewModel::class.java)
+
+    @Provides
+    fun provideLoginViewModel(
+        schedulerProvider: SchedulerProvider,
+        compositeDisposable: CompositeDisposable,
+        networkHelper: NetworkHelper,
+        userRepository: UserRepository
+    ): LoginViewModel = ViewModelProvider(
+        fragment, ViewModelProviderFactory(LoginViewModel::class) {
+            LoginViewModel(schedulerProvider, compositeDisposable, networkHelper, userRepository)
+        }).get(LoginViewModel::class.java)
+
+
+    @Provides
+    fun provideSignupViewModel(
+        schedulerProvider: SchedulerProvider,
+        compositeDisposable: CompositeDisposable,
+        networkHelper: NetworkHelper,
+        userRepository: UserRepository
+    ): SignupViewModel = ViewModelProvider(
+        fragment, ViewModelProviderFactory(SignupViewModel::class) {
+            SignupViewModel(schedulerProvider, compositeDisposable, networkHelper,userRepository)
+        }).get(SignupViewModel::class.java)
+
+
+    @Provides
+    fun provideSplashViewModel(
+        schedulerProvider: SchedulerProvider,
+        compositeDisposable: CompositeDisposable,
+        networkHelper: NetworkHelper,
+        userRepository: UserRepository
+    ): SplashViewModel = ViewModelProvider(
+        fragment, ViewModelProviderFactory(SplashViewModel::class) {
+            SplashViewModel(schedulerProvider, compositeDisposable, networkHelper, userRepository)
+            //this lambda creates and return SplashViewModel
+        }).get(SplashViewModel::class.java)
 }

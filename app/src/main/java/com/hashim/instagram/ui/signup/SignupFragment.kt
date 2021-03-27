@@ -1,31 +1,30 @@
 package com.hashim.instagram.ui.signup
 
-import android.content.Intent
-import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import androidx.lifecycle.Observer
-import com.hashim.instagram.databinding.ActivitySignupBinding
-import com.hashim.instagram.di.component.ActivityComponent
-import com.hashim.instagram.ui.base.BaseActivity
-import com.hashim.instagram.ui.main.MainActivity
+import androidx.navigation.fragment.findNavController
+import com.hashim.instagram.R
+import com.hashim.instagram.databinding.FragmentSignupBinding
+import com.hashim.instagram.di.component.FragmentComponent
+import com.hashim.instagram.ui.base.BaseFragment
 import com.hashim.instagram.utils.common.Status
 
-class SignupActivity : BaseActivity<SignupViewModel>(){
+class SignupFragment : BaseFragment<SignupViewModel>(){
 
-    lateinit var binding: ActivitySignupBinding
+    private var _binding: FragmentSignupBinding? = null
 
-    override fun provideLayoutId(): View {
-        binding = ActivitySignupBinding.inflate(layoutInflater)
-        return binding.root
+    private val binding get() = _binding!!
+
+    override fun provideLayoutId(): Int = R.layout.fragment_signup
+
+    override fun injectDependencies(fragmentComponent: FragmentComponent) {
+        fragmentComponent.inject(this)
     }
 
-    override fun injectDependencies(activityComponent: ActivityComponent) {
-        activityComponent.inject(this)
-    }
+    override fun setupView(view: View) {
 
-    override fun setupView(savedInstanceState: Bundle?) {
+        _binding = FragmentSignupBinding.bind(view)
 
         binding.etPassword.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -118,13 +117,18 @@ class SignupActivity : BaseActivity<SignupViewModel>(){
 
         viewModel.launchMain.observe(this, {
             it.getIfNotHandled()?.run {
-                startActivity(Intent(applicationContext,MainActivity::class.java))
+                findNavController().navigate(R.id.action_signupFragment_to_itemHome)
             }
         })
 
-        viewModel.siginningUp.observe(this, Observer {
+        viewModel.siginningUp.observe(this, {
             binding.pbLoading.visibility = if(it) View.VISIBLE else View.GONE
         })
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

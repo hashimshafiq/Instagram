@@ -2,11 +2,8 @@ package com.hashim.instagram.di.component
 
 import com.hashim.instagram.di.ActivityScope
 import com.hashim.instagram.di.module.ActivityModule
-import com.hashim.instagram.ui.home.post.likeduser.LikedUserFragment
-import com.hashim.instagram.ui.login.LoginActivity
 import com.hashim.instagram.ui.main.MainActivity
-import com.hashim.instagram.ui.signup.SignupActivity
-import com.hashim.instagram.ui.splash.SplashActivity
+import com.hashim.instagram.ui.splash.SplashFragment
 import dagger.Component
 
 @ActivityScope
@@ -16,11 +13,6 @@ import dagger.Component
 )
 interface ActivityComponent {
 
-    fun inject(activity: SplashActivity)
-
-    fun inject(activity: LoginActivity)
-
-    fun inject(activity: SignupActivity)
 
     fun inject(activity: MainActivity)
 }
