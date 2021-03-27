@@ -46,6 +46,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
     private fun onDestinationChanged(destination: NavDestination) {
 
         when(destination.id){
+                R.id.settingsDialog,
                 R.id.itemHome,
                 R.id.itemAddPhotos,
                 R.id.itemProfile -> {
@@ -59,6 +60,9 @@ class MainActivity : BaseActivity<MainViewModel>() {
             }
         }
     }
+
+    override fun onSupportNavigateUp() =
+        findNavController(R.id.containerFragment).navigateUp()
 
 
     override fun setupObservers() {

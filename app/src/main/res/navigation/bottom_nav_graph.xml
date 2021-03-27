@@ -30,6 +30,9 @@
         <action
             android:id="@+id/action_itemProfile_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_itemProfile_to_settingsDialog"
+            app:destination="@id/settingsDialog" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -40,4 +43,14 @@
             android:id="@+id/action_editProfileFragment_to_itemProfile"
             app:destination="@id/itemProfile" />
     </fragment>
+    <dialog
+        android:id="@+id/settingsDialog"
+        android:name="com.hashim.instagram.ui.profile.settings.SettingsDialog"
+        android:label="SettingsDialog"
+        tools:layout="@layout/dialog_settings_layout"
+        >
+        <action
+            android:id="@+id/action_settingsDialog_to_itemProfile"
+            app:destination="@id/itemProfile" />
+    </dialog>
 </navigation>

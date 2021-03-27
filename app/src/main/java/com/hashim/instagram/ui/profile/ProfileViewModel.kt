@@ -33,10 +33,9 @@ class ProfileViewModel(
     val tagLine : MutableLiveData<String> = MutableLiveData()
     val loading : MutableLiveData<Boolean> = MutableLiveData()
     val launchLogin: MutableLiveData<Event<Map<String, String>>> = MutableLiveData()
-    val launchEditProfile: MutableLiveData<Event<Map<String, String>>> = MutableLiveData()
     val userPosts : MutableLiveData<List<Post>> = MutableLiveData()
     val numberOfPosts : MutableLiveData<Int> = MutableLiveData()
-    val launchSettingsDialog : MutableLiveData<Event<Map<String,String>>> = MutableLiveData()
+
 
 
     private val user : User = userRepository.getCurrentUser()!!
@@ -102,14 +101,5 @@ class ProfileViewModel(
         )
     }
 
-    fun doLaunchEditProfile(){
 
-        launchEditProfile.postValue(Event(mapOf()))
-    }
-
-
-
-    fun doLaunchSettingDialog(){
-        launchSettingsDialog.postValue(Event(emptyMap()))
-    }
 }

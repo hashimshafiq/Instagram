@@ -2,6 +2,7 @@ package com.hashim.instagram.ui.profile.settings
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import com.hashim.instagram.R
 import com.hashim.instagram.databinding.DialogSettingsLayoutBinding
 import com.hashim.instagram.di.component.DialogFragmentComponent
@@ -35,7 +36,7 @@ class SettingsDialog : BaseDialog<SettingsDialogViewModel>() {
         _binding = DialogSettingsLayoutBinding.bind(view)
 
         binding.btCancel.setOnClickListener {
-            viewModel.doDismissDialog()
+            findNavController().navigate(R.id.action_settingsDialog_to_itemProfile)
         }
 
         binding.btApply.setOnClickListener {

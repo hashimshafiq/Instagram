@@ -64,7 +64,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
         }
 
         binding.tvNighMode.setOnClickListener {
-            viewModel.doLaunchSettingDialog()
+            findNavController().navigate(R.id.action_itemProfile_to_settingsDialog)
         }
 
         binding.rvPosts.apply {
@@ -112,11 +112,6 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
             }
         })
 
-        viewModel.launchEditProfile.observe(this, {
-            it.getIfNotHandled()?.run {
-                startActivity(Intent(context, EditProfileFragment::class.java))
-            }
-        })
 
         viewModel.numberOfPosts.observe(this, {
             binding.tvPostNumber.text = getString(R.string.post_number_label,it)
@@ -126,11 +121,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
             userPostAdapter.appendData(it)
         })
 
-        viewModel.launchSettingsDialog.observe(this, {
-            it.getIfNotHandled()?.run {
-                SettingsDialog.newInstance().show(requireActivity().supportFragmentManager,SettingsDialog.TAG)
-            }
-        })
+
     }
 
     override fun onDestroyView() {
