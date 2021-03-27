@@ -28,9 +28,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
         return binding.root
     }
 
-    override fun injectDependencies(activityComponent: ActivityComponent) = activityComponent.inject(
-        this
-    )
+    override fun injectDependencies(activityComponent: ActivityComponent) = activityComponent.inject(this)
 
     override fun setupView(savedInstanceState: Bundle?) {
 

@@ -3,6 +3,7 @@ package com.hashim.instagram.ui.profile
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -59,7 +60,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
         }
 
         binding.btEditProfile.setOnClickListener{
-            viewModel.doLaunchEditProfile()
+            findNavController().navigate(R.id.action_itemProfile_to_editProfileFragment)
         }
 
         binding.tvNighMode.setOnClickListener {

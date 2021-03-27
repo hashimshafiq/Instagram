@@ -26,5 +26,18 @@
         android:name="com.hashim.instagram.ui.profile.ProfileFragment"
         android:label="ProfileFragment"
         tools:layout="@layout/fragment_profile"
-        />
+        >
+        <action
+            android:id="@+id/action_itemProfile_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.hashim.instagram.ui.profile.editprofile.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" >
+        <action
+            android:id="@+id/action_editProfileFragment_to_itemProfile"
+            app:destination="@id/itemProfile" />
+    </fragment>
 </navigation>

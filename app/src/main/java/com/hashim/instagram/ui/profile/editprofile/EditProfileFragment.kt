@@ -5,6 +5,7 @@ import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.hashim.instagram.R
@@ -31,6 +32,8 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
     }
 
     override fun setupView(view: View) {
+
+        _binding = FragmentEditProfileBinding.bind(view)
 
         binding.ivProfilePhoto.setOnClickListener {
             Intent(Intent.ACTION_PICK).apply {
@@ -91,7 +94,7 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
         }
 
         binding.ivClose.setOnClickListener {
-
+            findNavController().navigate(R.id.action_editProfileFragment_to_itemProfile)
         }
     }
 
@@ -167,4 +170,6 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
         super.onDestroyView()
         _binding = null
     }
+
+
 }
