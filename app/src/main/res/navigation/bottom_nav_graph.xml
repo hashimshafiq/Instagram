@@ -65,9 +65,7 @@
         android:label="SettingsDialog"
         tools:layout="@layout/dialog_settings_layout"
         >
-        <action
-            android:id="@+id/action_settingsDialog_to_itemProfile"
-            app:destination="@id/itemProfile" />
+
     </dialog>
     <fragment
         android:id="@+id/likedUserFragment"

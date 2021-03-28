@@ -36,7 +36,7 @@ class SettingsDialog : BaseDialog<SettingsDialogViewModel>() {
         _binding = DialogSettingsLayoutBinding.bind(view)
 
         binding.btCancel.setOnClickListener {
-            findNavController().navigate(R.id.action_settingsDialog_to_itemProfile)
+            findNavController().popBackStack()
         }
 
         binding.btApply.setOnClickListener {
@@ -48,7 +48,7 @@ class SettingsDialog : BaseDialog<SettingsDialogViewModel>() {
     override fun setupObservers() {
         super.setupObservers()
         viewModel.dismissDialog.observe(this, {
-            dismiss()
+            findNavController().popBackStack()
         })
 
         viewModel.rDefault.observe(this, {
