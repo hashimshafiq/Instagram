@@ -1,6 +1,5 @@
 package com.hashim.instagram.ui.profile
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
@@ -11,7 +10,6 @@ import com.hashim.instagram.R
 import com.hashim.instagram.databinding.FragmentProfileBinding
 import com.hashim.instagram.di.component.FragmentComponent
 import com.hashim.instagram.ui.base.BaseFragment
-import com.hashim.instagram.ui.login.LoginFragment
 import com.hashim.instagram.ui.profile.userposts.UserPostAdapter
 import com.hashim.instagram.utils.common.GlideHelper
 import com.hashim.instagram.utils.common.GridSpacingItemDecoration
@@ -35,7 +33,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
     @Inject
     lateinit var userPostAdapter: UserPostAdapter
 
-    @Inject
+
     lateinit var gridLayoutManager : GridLayoutManager
 
     @Inject
@@ -52,6 +50,8 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
     override fun setupView(view: View) {
 
         _binding = FragmentProfileBinding.bind(view)
+
+        gridLayoutManager = GridLayoutManager(requireContext(),3)
 
         binding.tvLogout.setOnClickListener {
             viewModel.doLogout()
