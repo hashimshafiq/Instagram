@@ -21,7 +21,6 @@ import com.hashim.instagram.ui.profile.ProfileViewModel
 import com.hashim.instagram.ui.profile.editprofile.EditProfileViewModel
 import com.hashim.instagram.ui.profile.userposts.UserPostAdapter
 import com.hashim.instagram.ui.signup.SignupViewModel
-import com.hashim.instagram.ui.splash.SplashViewModel
 import com.hashim.instagram.utils.ViewModelProviderFactory
 import com.hashim.instagram.utils.common.Constants
 import com.hashim.instagram.utils.network.NetworkHelper
@@ -169,15 +168,5 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
         }).get(SignupViewModel::class.java)
 
 
-    @Provides
-    fun provideSplashViewModel(
-        schedulerProvider: SchedulerProvider,
-        compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper,
-        userRepository: UserRepository
-    ): SplashViewModel = ViewModelProvider(
-        fragment, ViewModelProviderFactory(SplashViewModel::class) {
-            SplashViewModel(schedulerProvider, compositeDisposable, networkHelper, userRepository)
-            //this lambda creates and return SplashViewModel
-        }).get(SplashViewModel::class.java)
+
 }

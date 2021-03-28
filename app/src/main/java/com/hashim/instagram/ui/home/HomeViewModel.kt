@@ -6,6 +6,7 @@ import com.hashim.instagram.data.model.User
 import com.hashim.instagram.data.repository.PostRepository
 import com.hashim.instagram.data.repository.UserRepository
 import com.hashim.instagram.ui.base.BaseViewModel
+import com.hashim.instagram.utils.common.Event
 import com.hashim.instagram.utils.common.Resource
 import com.hashim.instagram.utils.network.NetworkHelper
 import com.hashim.instagram.utils.rx.SchedulerProvider
@@ -26,39 +27,49 @@ class HomeViewModel(
     val loading : MutableLiveData<Boolean> = MutableLiveData()
     val posts : MutableLiveData<Resource<List<Post>>> = MutableLiveData()
     val refreshPosts: MutableLiveData<Resource<List<Post>>> = MutableLiveData()
+    val isLoggedIn: MutableLiveData<Event<Boolean>> = MutableLiveData()
 
     var firstId: String? = null
     var lastId: String? = null
 
-    private val user : User = userRepository.getCurrentUser()!!
+    private val user : User? = userRepository.getCurrentUser()
 
     init {
-        loading.postValue(true)
-        compositeDisposable.add(
-            paginator
-                .onBackpressureDrop()
-                .doOnNext{
-                    loading.postValue(true)
-                }
-                .concatMapSingle {pageIds ->
-                    return@concatMapSingle postRepository
-                        .fetchHomePostList(pageIds.first,pageIds.second,user)
-                        .subscribeOn(schedulerProvider.io())
-                        .doOnError{
-                            handleNetworkError(it)
-                        }
-                }
-                .subscribe({
-                    allpostList.addAll(it)
-                    firstId = allpostList.maxByOrNull { post -> post.createdAt.time }?.id
-                    lastId = allpostList.minByOrNull { post -> post.createdAt.time }?.id
-                    loading.postValue(false)
-                    posts.postValue(Resource.success(it))
-                },{
-                    loading.postValue(false)
-                    handleNetworkError(it)
-                })
-        )
+
+        val isLogin = user != null
+
+
+
+        if (isLogin){
+            loading.postValue(true)
+            compositeDisposable.add(
+                paginator
+                    .onBackpressureDrop()
+                    .doOnNext{
+                        loading.postValue(true)
+                    }
+                    .concatMapSingle {pageIds ->
+                        return@concatMapSingle postRepository
+                            .fetchHomePostList(pageIds.first,pageIds.second,user!!)
+                            .subscribeOn(schedulerProvider.io())
+                            .doOnError{
+                                handleNetworkError(it)
+                            }
+                    }
+                    .subscribe({
+                        allpostList.addAll(it)
+                        firstId = allpostList.maxByOrNull { post -> post.createdAt.time }?.id
+                        lastId = allpostList.minByOrNull { post -> post.createdAt.time }?.id
+                        loading.postValue(false)
+                        posts.postValue(Resource.success(it))
+                    },{
+                        loading.postValue(false)
+                        handleNetworkError(it)
+                    })
+            )
+        }else{
+            isLoggedIn.postValue(Event(isLogin))
+        }
 
     }
 
@@ -90,7 +101,7 @@ class HomeViewModel(
         if(networkHelper.isNetworkConnected()){
             loading.postValue(true)
             compositeDisposable.addAll(
-                postRepository.deleteUserPost(post.id, user)
+                postRepository.deleteUserPost(post.id, user!!)
                     .subscribeOn(schedulerProvider.io())
                     .subscribe({
                         loading.postValue(false)

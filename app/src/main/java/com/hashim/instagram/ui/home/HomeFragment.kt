@@ -4,6 +4,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hashim.instagram.R
@@ -98,6 +99,14 @@ class HomeFragment : BaseFragment<HomeViewModel>() , onClickListener {
             it.data?.run {
                 postsAdapter.updateData(this)
                 binding.rvPosts.scrollToPosition(0)
+            }
+        })
+
+        viewModel.isLoggedIn.observe(this,{
+            it.getIfNotHandled()?.run {
+                if (!this){
+                    findNavController().navigate(R.id.action_itemHome_to_loginFragment)
+                }
             }
         })
     }

@@ -19,6 +19,11 @@
             app:enterAnim="@anim/enter_bottom"
             app:popExitAnim="@anim/exit_bottom"
             />
+        <action
+            android:id="@+id/action_itemHome_to_loginFragment"
+            app:destination="@id/loginFragment" />
+
+
     </fragment>
     <fragment
         android:id="@+id/itemAddPhotos"
@@ -100,21 +105,6 @@
         >
         <action
             android:id="@+id/action_signupFragment_to_itemHome"
-            app:destination="@id/itemHome"
-            app:popUpTo="@id/itemHome"
-            app:popUpToInclusive="false" />
-    </fragment>
-    <fragment
-        android:id="@+id/splashFragment"
-        android:name="com.hashim.instagram.ui.splash.SplashFragment"
-        android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash"
-        >
-        <action
-            android:id="@+id/action_splashFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
-        <action
-            android:id="@+id/action_splashFragment_to_itemHome"
             app:destination="@id/itemHome"
             app:popUpTo="@id/itemHome"
             app:popUpToInclusive="false" />

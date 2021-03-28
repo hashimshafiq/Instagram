@@ -9,7 +9,6 @@ import com.hashim.instagram.ui.photo.PhotoFragment
 import com.hashim.instagram.ui.profile.ProfileFragment
 import com.hashim.instagram.ui.profile.editprofile.EditProfileFragment
 import com.hashim.instagram.ui.signup.SignupFragment
-import com.hashim.instagram.ui.splash.SplashFragment
 import dagger.Component
 
 @FragmentScope
@@ -27,7 +26,6 @@ interface FragmentComponent {
     fun inject(fragment: LikedUserFragment)
     fun inject(fragment: LoginFragment)
     fun inject(fragment: SignupFragment)
-    fun inject(fragment: SplashFragment)
 
 
 }

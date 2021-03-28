@@ -6,7 +6,6 @@ import com.hashim.instagram.data.repository.UserRepository
 import com.hashim.instagram.ui.base.BaseActivity
 import com.hashim.instagram.ui.main.MainSharedViewModel
 import com.hashim.instagram.ui.main.MainViewModel
-import com.hashim.instagram.ui.splash.SplashViewModel
 import com.hashim.instagram.utils.ViewModelProviderFactory
 import com.hashim.instagram.utils.network.NetworkHelper
 import com.hashim.instagram.utils.rx.SchedulerProvider
