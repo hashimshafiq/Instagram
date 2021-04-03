@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+
     <color name="colorPrimary">#BB86FC</color>
     <color name="colorPrimaryVariant">#3700B3</color>
     <color name="colorSecondary">#03DAC6</color>
@@ -8,7 +10,7 @@
     <color name="colorError">#CF6679</color>
     <color name="colorSurface">#121212</color>
     <color name="colorOnPrimary">#000000</color>
-    <color name="colorOnSecondary">#000000</color>
+    <color name="colorOnSecondary">#ffffff</color>
     <color name="colorOnBackground">#FFFFFF</color>
     <color name="colorOnError">#FFFFFF</color>
     <color name="colorOnSurface">#000000</color>
