@@ -36,6 +36,7 @@ class HomeViewModel(
 
     init {
 
+
         val isLogin = user != null
 
 

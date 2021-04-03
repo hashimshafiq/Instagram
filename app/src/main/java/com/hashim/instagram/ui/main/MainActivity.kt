@@ -69,6 +69,8 @@ class MainActivity : BaseActivity<MainViewModel>() {
         return navController.navigateUp() || super.onNavigateUp()
     }
 
+
+
     override fun setupObservers() {
         super.setupObservers()
 
