@@ -50,25 +50,25 @@ class PostItemViewHolder(parent: ViewGroup,private val onClickListener: onClickL
     override fun setupObservers() {
         super.setupObservers()
 
-        viewModel.name.observe(this, {
+        viewModel.name.observe(this) {
             binding.tvName.text = it
-        })
+        }
 
-        viewModel.postTime.observe(this, {
+        viewModel.postTime.observe(this) {
             binding.tvTime.text = it
-        })
+        }
 
-        viewModel.likesCount.observe(this, {
+        viewModel.likesCount.observe(this) {
             binding.tvLikesCount.text = itemView.context.getString(R.string.post_like_label, it)
-        })
+        }
 
-        viewModel.isLiked.observe(this, {
+        viewModel.isLiked.observe(this) {
             if (it) binding.ivLike.setImageResource(R.drawable.ic_heart_selected)
             else binding.ivLike.setImageResource(R.drawable.ic_heart_unselected)
-        })
+        }
 
 
-        viewModel.profileImage.observe(this, {
+        viewModel.profileImage.observe(this) {
             it?.run {
                 val glideRequest = Glide
                     .with(binding.ivProfile.context)
@@ -81,15 +81,16 @@ class PostItemViewHolder(parent: ViewGroup,private val onClickListener: onClickL
                     params.width = placeholderWidth
                     params.height = placeholderHeight
                     binding.ivProfile.layoutParams = params
-                    glideRequest
-                        .apply(RequestOptions.overrideOf(placeholderWidth, placeholderHeight))
-                        .apply(RequestOptions.placeholderOf(R.drawable.ic_profile_unselected))
+                    glideRequest.apply {
+                        apply(RequestOptions.overrideOf(placeholderWidth, placeholderHeight))
+                        apply(RequestOptions.placeholderOf(R.drawable.ic_profile_unselected))
+                    }
                 }
                 glideRequest.into(binding.ivProfile)
             }
-        })
+        }
 
-        viewModel.imageDetail.observe(this, {
+        viewModel.imageDetail.observe(this) {
             it?.run {
                 val glideRequest = Glide
                     .with(binding.ivPost.context)
@@ -100,25 +101,27 @@ class PostItemViewHolder(parent: ViewGroup,private val onClickListener: onClickL
                     params.width = placeholderWidth
                     params.height = placeholderHeight
                     binding.ivPost.layoutParams = params
-                    glideRequest
-                        .apply(RequestOptions.overrideOf(placeholderWidth, placeholderHeight))
-                        .apply(RequestOptions.placeholderOf(R.drawable.ic_photo))
+                    glideRequest.apply {
+                        apply(RequestOptions.overrideOf(placeholderWidth, placeholderHeight))
+                        apply(RequestOptions.placeholderOf(R.drawable.ic_photo))
+                    }
                 }
                 glideRequest.into(binding.ivPost)
             }
-        })
+        }
 
 
-        viewModel.launchLikesDetail.observe(this, {
+        viewModel.launchLikesDetail.observe(this) {
             it.getIfNotHandled()?.run {
                 this["data"]?.run {
-                    val direction = HomeFragmentDirections.actionItemHomeToLikedUserFragment(this.toTypedArray())
+                    val direction =
+                        HomeFragmentDirections.actionItemHomeToLikedUserFragment(this.toTypedArray())
                     itemView.findNavController().navigate(direction)
                 }
             }
-        })
+        }
 
-        viewModel.sharePost.observe(this, {
+        viewModel.sharePost.observe(this) {
             it.getIfNotHandled()?.run {
                 val path: String = MediaStore.Images.Media.insertImage(
                     itemView.context.contentResolver,
@@ -131,9 +134,13 @@ class PostItemViewHolder(parent: ViewGroup,private val onClickListener: onClickL
                 shareIntent.action = Intent.ACTION_SEND
                 shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
                 shareIntent.type = "image/*"
-                ContextCompat.startActivity(itemView.context,Intent.createChooser(shareIntent, "Share Image"),null)
+                ContextCompat.startActivity(
+                    itemView.context,
+                    Intent.createChooser(shareIntent, "Share Image"),
+                    null
+                )
             }
-        })
+        }
     }
 
 

@@ -19,7 +19,7 @@ class HomeViewModel(
     networkHelper: NetworkHelper,
     private val userRepository: UserRepository,
     private val postRepository: PostRepository,
-    private val allpostList : ArrayList<Post>,
+    private val allPostList : ArrayList<Post>,
     private val paginator : PublishProcessor<Pair<String?,String?>>
 
 ) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
@@ -58,9 +58,9 @@ class HomeViewModel(
                             }
                     }
                     .subscribe({
-                        allpostList.addAll(it)
-                        firstId = allpostList.maxByOrNull { post -> post.createdAt.time }?.id
-                        lastId = allpostList.minByOrNull { post -> post.createdAt.time }?.id
+                        allPostList.addAll(it)
+                        firstId = allPostList.maxByOrNull { post -> post.createdAt.time }?.id
+                        lastId = allPostList.minByOrNull { post -> post.createdAt.time }?.id
                         loading.postValue(false)
                         posts.postValue(Resource.success(it))
                     },{
@@ -89,13 +89,13 @@ class HomeViewModel(
     }
 
     fun onNewPost(post: Post) {
-        allpostList.add(0, post)
-        refreshPosts.postValue(Resource.success(mutableListOf<Post>().apply { addAll(allpostList) }))
+        allPostList.add(0, post)
+        refreshPosts.postValue(Resource.success(mutableListOf<Post>().apply { addAll(allPostList) }))
     }
 
     private fun onDeletePost(post: Post){
-        allpostList.remove(post)
-        refreshPosts.postValue(Resource.success(mutableListOf<Post>().apply { addAll(allpostList) }))
+        allPostList.remove(post)
+        refreshPosts.postValue(Resource.success(mutableListOf<Post>().apply { addAll(allPostList) }))
     }
 
     fun deleteUserPost(post: Post) {

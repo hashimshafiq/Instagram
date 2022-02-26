@@ -43,13 +43,13 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
 
 
     protected open fun setupObservers() {
-        viewModel.messageString.observe(this, {
+        viewModel.messageString.observe(this) {
             it.data?.run { showMessage(this) }
-        })
+        }
 
-        viewModel.messageStringId.observe(this, {
+        viewModel.messageStringId.observe(this) {
             it.data?.run { showMessage(this) }
-        })
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,9 +58,9 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
     }
 
 
-    fun showMessage(message: String) = context?.let { Toaster.show(it, message) }
+    open fun showMessage(message: String) = context?.let { Toaster.show(it, message) }
 
-    fun showMessage(@StringRes resId: Int) = showMessage(getString(resId))
+    open fun showMessage(@StringRes resId: Int) = showMessage(getString(resId))
 
 //    fun goBack() {
 //        if (activity is BaseActivity<*>) (activity as BaseActivity<*>).goBack()

@@ -81,34 +81,34 @@ class HomeFragment : BaseFragment<HomeViewModel>() , onClickListener {
     override fun setupObservers() {
         super.setupObservers()
 
-        viewModel.loading.observe(this, {
+        viewModel.loading.observe(this) {
             binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
-        })
+        }
 
-        viewModel.posts.observe(this, {
+        viewModel.posts.observe(this) {
             it.data?.run { postsAdapter.appendData(it.data) }
-        })
+        }
 
-        mainSharedViewModel.newPost.observe(this, {
+        mainSharedViewModel.newPost.observe(this) {
             it.getIfNotHandled()?.run {
                 viewModel.onNewPost(this)
             }
-        })
+        }
 
-        viewModel.refreshPosts.observe(this, {
+        viewModel.refreshPosts.observe(this) {
             it.data?.run {
                 postsAdapter.updateData(this)
                 binding.rvPosts.scrollToPosition(0)
             }
-        })
+        }
 
-        viewModel.isLoggedIn.observe(this,{
+        viewModel.isLoggedIn.observe(this) {
             it.getIfNotHandled()?.run {
-                if (!this){
+                if (!this) {
                     findNavController().navigate(R.id.action_itemHome_to_loginFragment)
                 }
             }
-        })
+        }
     }
 
     override fun onClickPhoto() {

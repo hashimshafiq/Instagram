@@ -73,43 +73,42 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
     override fun setupObservers() {
         super.setupObservers()
 
-        viewModel.launchMain.observe(this, {
+        viewModel.launchMain.observe(this) {
             it.getIfNotHandled()?.run {
                 findNavController().navigate(R.id.action_loginFragment_to_itemHome)
             }
-        })
+        }
 
 
-        viewModel.emailField.observe(this, {
-            if(binding.etEmail.text.toString() != it){
+        viewModel.emailField.observe(this) {
+            if (binding.etEmail.text.toString() != it) {
                 binding.etEmail.setText(it.toString())
             }
-        })
+        }
 
-        viewModel.emailValidation.observe(this, {
-            when(it.status){
-                Status.ERROR -> binding.layoutEmail.error = it.data?.run{getString(this)}
+        viewModel.emailValidation.observe(this) {
+            when (it.status) {
+                Status.ERROR -> binding.layoutEmail.error = it.data?.run { getString(this) }
                 else -> binding.layoutEmail.isErrorEnabled = false
             }
-        })
+        }
 
-        viewModel.passwordField.observe(this, {
-            if(binding.etPassword.text.toString() != it){
+        viewModel.passwordField.observe(this) {
+            if (binding.etPassword.text.toString() != it) {
                 binding.etPassword.setText(it.toString())
             }
-        })
+        }
 
-        viewModel.passwordValidation.observe(this, {
-            when(it.status){
-                Status.ERROR -> binding.layoutPassword.error = it.data?.run{getString(this)}
+        viewModel.passwordValidation.observe(this) {
+            when (it.status) {
+                Status.ERROR -> binding.layoutPassword.error = it.data?.run { getString(this) }
                 else -> binding.layoutPassword.isErrorEnabled = false
             }
-        })
+        }
 
-        viewModel.loggingIn.observe(this, {
-            binding.pbLoading.visibility = if(it) View.VISIBLE else View.GONE
-        })
-
+        viewModel.loggingIn.observe(this) {
+            binding.pbLoading.visibility = if (it) View.VISIBLE else View.GONE
+        }
     }
 
     override fun onDestroyView() {

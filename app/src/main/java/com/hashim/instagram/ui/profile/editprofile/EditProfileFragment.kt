@@ -101,29 +101,32 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
     override fun setupObservers() {
         super.setupObservers()
 
-        viewModel.nameField.observe(this, {
-            if(binding.etName.text.toString() != it){
+        viewModel.nameField.observe(this) {
+            if (binding.etName.text.toString() != it) {
                 binding.etName.setText(it.toString())
             }
-        })
+        }
 
-        viewModel.bioField.observe(this, {
-            if(binding.etBio.text.toString() != it){
-                binding.etBio.setText(it.toString())
+        viewModel.bioField.observe(this) {
+            it?.let {
+                if (binding.etBio.text.toString() != it) {
+                    binding.etBio.setText(it)
+                }
             }
-        })
 
-        viewModel.loading.observe(this, {
-            binding.pbLoading.visibility = if(it) View.VISIBLE else View.GONE
-        })
+        }
 
-        viewModel.emailField.observe(this, {
-            if(binding.etEmail.text.toString() != it){
+        viewModel.loading.observe(this) {
+            binding.pbLoading.visibility = if (it) View.VISIBLE else View.GONE
+        }
+
+        viewModel.emailField.observe(this) {
+            if (binding.etEmail.text.toString() != it) {
                 binding.etEmail.setText(it.toString())
             }
-        })
+        }
 
-        viewModel.profile.observe(this, {
+        viewModel.profile.observe(this) {
             it?.run {
                 val glideRequest = Glide
                     .with(binding.ivProfilePhoto.context)
@@ -133,9 +136,9 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
 
                 glideRequest.into(binding.ivProfilePhoto)
             }
-        })
+        }
 
-        viewModel.selectedProfile.observe(this, {
+        viewModel.selectedProfile.observe(this) {
             val glideRequest = Glide
                 .with(binding.ivProfilePhoto.context)
                 .load(it)
@@ -143,7 +146,7 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
                 .apply(RequestOptions.placeholderOf(R.drawable.ic_profile_selected))
 
             glideRequest.into(binding.ivProfilePhoto)
-        })
+        }
     }
 
     override fun onActivityResult(reqCode: Int, resultCode: Int, intent: Intent?) {

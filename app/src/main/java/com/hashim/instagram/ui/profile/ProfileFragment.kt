@@ -74,19 +74,19 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
     override fun setupObservers() {
         super.setupObservers()
 
-        viewModel.name.observe(this, {
+        viewModel.name.observe(this) {
             binding.tvName.text = it
-        })
+        }
 
-        viewModel.loading.observe(this, {
+        viewModel.loading.observe(this) {
             binding.pbLoading.visibility = if (it) View.VISIBLE else View.GONE
-        })
+        }
 
-        viewModel.tagLine.observe(this, {
+        viewModel.tagLine.observe(this) {
             binding.tvDescription.text = it
-        })
+        }
 
-        viewModel.profile.observe(this, {
+        viewModel.profile.observe(this) {
             it?.run {
                 val glideRequest = Glide
                     .with(binding.ivProfile.context)
@@ -96,24 +96,24 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
 
                 glideRequest.into(binding.ivProfile)
             }
-        })
+        }
 
-        viewModel.launchLogin.observe(this, {
+        viewModel.launchLogin.observe(this) {
             it.getIfNotHandled()?.run {
                 findNavController().navigate(R.id.action_itemProfile_to_loginFragment)
 
 
             }
-        })
+        }
 
 
-        viewModel.numberOfPosts.observe(this, {
-            binding.tvPostNumber.text = getString(R.string.post_number_label,it)
-        })
+        viewModel.numberOfPosts.observe(this) {
+            binding.tvPostNumber.text = getString(R.string.post_number_label, it)
+        }
 
-        viewModel.userPosts.observe(this, {
+        viewModel.userPosts.observe(this) {
             userPostAdapter.appendData(it)
-        })
+        }
 
 
     }

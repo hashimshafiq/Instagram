@@ -32,13 +32,13 @@ class LikedUserItemViewHolder(parent: ViewGroup) : BaseItemViewHolder<Post.User,
     override fun setupObservers() {
         super.setupObservers()
 
-        viewModel.name.observe(this, {
+        viewModel.name.observe(this) {
             binding.tvName.text = it
-        })
+        }
 
 
 
-        viewModel.profileImage.observe(this, {
+        viewModel.profileImage.observe(this) {
             it?.run {
                 val glideRequest = Glide
                     .with(binding.ivProfile.context)
@@ -51,13 +51,15 @@ class LikedUserItemViewHolder(parent: ViewGroup) : BaseItemViewHolder<Post.User,
                     params.width = placeholderWidth
                     params.height = placeholderHeight
                     binding.root.layoutParams = params
-                    glideRequest
-                        .apply(RequestOptions.overrideOf(placeholderWidth, placeholderHeight))
-                        .apply(RequestOptions.placeholderOf(R.drawable.ic_profile_unselected))
+                    glideRequest.apply {
+                        apply(RequestOptions.overrideOf(placeholderWidth, placeholderHeight))
+                        apply(RequestOptions.placeholderOf(R.drawable.ic_profile_unselected))
+                    }
+
                 }
                 glideRequest.into(binding.ivProfile)
             }
-        })
+        }
 
     }
 

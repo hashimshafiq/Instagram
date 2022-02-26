@@ -66,13 +66,13 @@ abstract class BaseDialog<VM : BaseViewModel> : DialogFragment(){
 
 
     protected open fun setupObservers() {
-        viewModel.messageString.observe(baseActivity!!, Observer {
+        viewModel.messageString.observe(baseActivity!!) {
             it.data?.run { showMessage(this) }
-        })
+        }
 
-        viewModel.messageStringId.observe(baseActivity!!, Observer {
+        viewModel.messageStringId.observe(baseActivity!!) {
             it.data?.run { showMessage(this) }
-        })
+        }
     }
 
     override fun onDetach() {
@@ -85,9 +85,9 @@ abstract class BaseDialog<VM : BaseViewModel> : DialogFragment(){
         setupView(view)
     }
 
-    fun showMessage(message: String) = Toaster.show(baseActivity!!.applicationContext, message)
+    open fun showMessage(message: String) = Toaster.show(baseActivity!!.applicationContext, message)
 
-    fun showMessage(@StringRes resId: Int) = showMessage(getString(resId))
+    open fun showMessage(@StringRes resId: Int) = showMessage(getString(resId))
 
 //    fun goBack() {
 //        if (activity is BaseActivity<*>) (activity as BaseActivity<*>).goBack()

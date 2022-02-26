@@ -75,18 +75,17 @@ class MainActivity : BaseActivity<MainViewModel>() {
         super.setupObservers()
 
 
-        mainSharedViewModel.profileRedirection.observe(this, {
+        mainSharedViewModel.profileRedirection.observe(this) {
             it.getIfNotHandled()?.run {
                 binding.bottomNavigation.selectedItemId = R.id.itemProfile
             }
-        })
+        }
 
-        mainSharedViewModel.homeRedirection.observe(this, {
+        mainSharedViewModel.homeRedirection.observe(this) {
             it.getIfNotHandled()?.run {
                 binding.bottomNavigation.selectedItemId = R.id.itemHome
             }
-        })
-
+        }
 
 
     }

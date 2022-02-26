@@ -47,21 +47,21 @@ class SettingsDialog : BaseDialog<SettingsDialogViewModel>() {
 
     override fun setupObservers() {
         super.setupObservers()
-        viewModel.dismissDialog.observe(this, {
+        viewModel.dismissDialog.observe(this) {
             findNavController().popBackStack()
-        })
+        }
 
-        viewModel.rDefault.observe(this, {
+        viewModel.rDefault.observe(this) {
             binding.rbSystemDefault.isChecked = true
-        })
+        }
 
-        viewModel.rLight.observe(this, {
+        viewModel.rLight.observe(this) {
             binding.rbLight.isChecked = true
-        })
+        }
 
-        viewModel.rDark.observe(this, {
+        viewModel.rDark.observe(this) {
             binding.rbDark.isChecked = true
-        })
+        }
 
     }
 

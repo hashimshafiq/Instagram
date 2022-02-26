@@ -165,27 +165,27 @@ class PhotoFragment : BaseFragment<PhotoViewModel>() {
     override fun setupObservers() {
         super.setupObservers()
 
-        viewModel.loading.observe(this, {
+        viewModel.loading.observe(this) {
             binding.pbLoading.visibility = if (it) View.VISIBLE else View.GONE
-        })
+        }
 
-        viewModel.post.observe(this, {
+        viewModel.post.observe(this) {
             it.getIfNotHandled()?.run {
                 mainSharedViewModel.newPost.postValue(Event(this))
                 mainSharedViewModel.onHomeRedirect()
             }
 
-        })
+        }
 
-        viewModel.directoriesList.observe(this, {
+        viewModel.directoriesList.observe(this) {
             arrayAdapter.addAll(it)
-        })
+        }
 
-        viewModel.imagesList.observe(this, {
+        viewModel.imagesList.observe(this) {
             galleryAdapter.updateData(it)
-        })
+        }
 
-        viewModel.imageDetail.observe(this, {
+        viewModel.imageDetail.observe(this) {
             it?.run {
 
 
@@ -196,7 +196,7 @@ class PhotoFragment : BaseFragment<PhotoViewModel>() {
                 glideRequest.into(binding.ivMain)
                 SELECTED_IMG_URL = url
             }
-        })
+        }
     }
 
     override fun onRequestPermissionsResult(

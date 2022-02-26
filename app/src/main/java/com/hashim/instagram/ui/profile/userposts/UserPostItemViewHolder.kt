@@ -25,7 +25,7 @@ class UserPostItemViewHolder(parent : ViewGroup):BaseItemViewHolder<Post,UserPos
     override fun setupObservers() {
         super.setupObservers()
 
-        viewModel.imageDetail.observe(this, {
+        viewModel.imageDetail.observe(this) {
             it?.run {
                 val glideRequest = Glide
                     .with(binding.ivPost.context)
@@ -33,7 +33,7 @@ class UserPostItemViewHolder(parent : ViewGroup):BaseItemViewHolder<Post,UserPos
 
                 glideRequest.into(binding.ivPost)
             }
-        })
+        }
 
 
     }

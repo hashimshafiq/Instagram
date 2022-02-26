@@ -30,7 +30,7 @@ class GalleryItemViewHolder(parent : ViewGroup):BaseItemViewHolder<Image,Gallery
     override fun setupObservers() {
         super.setupObservers()
 
-        viewModel.imageDetail.observe(this, {
+        viewModel.imageDetail.observe(this) {
             it?.run {
                 val glideRequest = Glide
                     .with(binding.ivPost.context)
@@ -39,7 +39,7 @@ class GalleryItemViewHolder(parent : ViewGroup):BaseItemViewHolder<Image,Gallery
                 glideRequest.into(binding.ivPost)
 
             }
-        })
+        }
     }
 
 
