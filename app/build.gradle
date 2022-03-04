@@ -55,9 +55,6 @@ android {
 
 dependencies {
 
-    def nav_version = "2.3.4"
-
-
     // JARs
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 

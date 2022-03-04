@@ -35,6 +35,6 @@ class InstagramApplication : Application() {
     }
 
     private fun initTheme() {
-        ThemeManager.applyTheme(preferences.getString("PREF_THEME_MODE","")!!)
+        preferences.getString("PREF_THEME_MODE","Default")?.let { ThemeManager.applyTheme(it) }
     }
 }

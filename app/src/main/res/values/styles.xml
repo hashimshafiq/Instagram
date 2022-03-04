@@ -1,52 +1,10 @@
 <resources>
 
-    <!--
-    TO COME IN FUTURE MATERIAL LIBRARY
-    Attribute name  	        Description
-    .............               ........................................
-    colorPrimary    	        Displayed most frequently across your app.
-    colorPrimaryVariant	        A tonal variation of primary color.
-    colorSecondary  	        Accents select parts of your UI. If not provided, use primary.
-    colorSecondaryVariant	    A tonal variation of secondary color.
-    colorBackground	            The underlying color of an app’s content. Typically the background color of scrollable content.
-    colorError          	    The color used to indicate error status.
-    colorSurface        	    The color of surfaces such as cards, sheets, menus.
-    colorOnPrimary	            A color that passes accessibility guidelines for text/iconography when drawn on top of primary.
-    colorOnSecondary    	    A color that passes accessibility guidelines for text/iconography when drawn on top of secondary.
-    colorOnBackground   	    A color that passes accessibility guidelines for text/iconography when drawn on top of background.
-    colorOnError	            A color that passes accessibility guidelines for text/iconography when drawn on top of error.
-    colorOnSurface      	    A color that passes accessibility guidelines for text/iconography when drawn on top of surface.
-
-    textAppearanceHeadline1	    Light 96sp
-    textAppearanceHeadline2	    Light 60sp
-    textAppearanceHeadline3	    Regular 48sp
-    textAppearanceHeadline4	    Regular 34sp
-    textAppearanceHeadline5	    Regular 24sp
-    textAppearanceHeadline6	    Regular 20sp
-    textAppearanceSubtitle1	    Regular 16sp
-    textAppearanceSubtitle2	    Medium 14sp
-    textAppearanceBody1	        Regular 16sp
-    textAppearanceBody2	        Regular 14sp
-    textAppearanceCaption	    Regular 12sp
-    textAppearanceButton	    Medium all caps 14sp
-    textAppearanceOverline	    Medium all caps 12sp
-    -->
-
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
-        <item name="colorSecondary">@color/colorSecondary</item>
-        <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
-        <item name="android:colorBackground">@color/colorBackground</item>
-        <item name="colorError">@color/colorError</item>
-        <item name="colorSurface">@color/colorSurface</item>
-        <item name="colorOnPrimary">@color/colorOnPrimary</item>
-        <item name="colorOnSecondary">@color/colorOnSecondary</item>
-        <item name="colorOnBackground">@color/colorOnBackground</item>
-        <item name="colorOnError">@color/colorOnError</item>
-        <item name="colorOnSurface">@color/colorOnSurface</item>
-
-
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="textAllCaps">false</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="fontFamily">@font/roboto_regular</item>
     </style>

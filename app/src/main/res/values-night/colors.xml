@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">@android:color/black</color>
+    <color name="colorAccent">#FFFFFF</color>
+
+    <color name="light_accent">#FFFFFF</color>
+    <color name="light_gray">#efeff4</color>
+    <color name="light_white">#f4f4f4</color>
+    <color name="transparent_black">#b9000000</color>
 
 
-    <color name="colorPrimary">#BB86FC</color>
-    <color name="colorPrimaryVariant">#3700B3</color>
-    <color name="colorSecondary">#03DAC6</color>
-    <color name="colorSecondaryVariant">#03DAC6</color>
-    <color name="colorBackground">#121212</color>
-    <color name="colorError">#CF6679</color>
-    <color name="colorSurface">#121212</color>
-    <color name="colorOnPrimary">#000000</color>
-    <color name="colorOnSecondary">#ffffff</color>
-    <color name="colorOnBackground">#FFFFFF</color>
-    <color name="colorOnError">#FFFFFF</color>
-    <color name="colorOnSurface">#000000</color>
-
-
-
+    <color name="toolBarColor">#2c2c2c</color>
+    <color name="itemColor">#2c2c2c</color>
+    <color name="profileBackground">#000000</color>
+    <color name="inputTextBackgroundColor">#2c2c2c</color>
+    <color name="buttonTextColor">#000000</color>
+    <color name="swipeRefreshLayoutSpinColor">#111723</color>
+    <color name="textColor">#FFFFFF</color>
+    <color name="textButtonTextColor">#FFFFFF</color>
 </resources>
