@@ -1,6 +1,5 @@
 package com.hashim.instagram.data.remote
 
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import com.hashim.instagram.BuildConfig
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -36,7 +35,6 @@ object Networking {
                     .build()
             )
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
             .create(NetworkService::class.java)
     }

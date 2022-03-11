@@ -5,16 +5,14 @@ import com.hashim.instagram.data.model.Image
 import com.hashim.instagram.data.repository.UserRepository
 import com.hashim.instagram.ui.base.BaseItemViewModel
 import com.hashim.instagram.utils.network.NetworkHelper
-import com.hashim.instagram.utils.rx.SchedulerProvider
-import io.reactivex.disposables.CompositeDisposable
+import com.hashim.instagram.utils.rx.CoroutineDispatchers
 import javax.inject.Inject
 
 class GalleryItemViewModel @Inject constructor(
-    schedulerProvider: SchedulerProvider,
-    compositeDisposable: CompositeDisposable,
+    coroutineDispatchers: CoroutineDispatchers,
     networkHelper: NetworkHelper,
     userRepository: UserRepository
-) : BaseItemViewModel<Image>(schedulerProvider,compositeDisposable,networkHelper){
+) : BaseItemViewModel<Image>(coroutineDispatchers,networkHelper){
 
     val imageDetail : LiveData<Image> = data
 

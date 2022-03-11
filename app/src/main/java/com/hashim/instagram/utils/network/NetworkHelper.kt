@@ -4,8 +4,8 @@ import android.content.Context
 import android.net.ConnectivityManager
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonSyntaxException
-import com.jakewharton.retrofit2.adapter.rxjava2.HttpException
 import com.hashim.instagram.utils.log.Logger
+import retrofit2.HttpException
 import java.io.IOException
 import java.net.ConnectException
 import javax.inject.Singleton
@@ -31,7 +31,7 @@ class NetworkHelper constructor(private val context: Context) {
             val error = GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
                 .create()
-                .fromJson(throwable.response().errorBody()?.string(), NetworkError::class.java)
+                .fromJson(throwable.response()?.errorBody()?.string(), NetworkError::class.java)
             return NetworkError(throwable.code(), error.statusCode, error.message)
         } catch (e: IOException) {
             Logger.e(TAG, e.toString())

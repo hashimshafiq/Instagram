@@ -3,21 +3,23 @@ package com.hashim.instagram.ui.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import androidx.lifecycle.viewModelScope
 import com.hashim.instagram.data.repository.UserRepository
 import com.hashim.instagram.ui.base.BaseViewModel
 import com.hashim.instagram.utils.common.*
 import com.hashim.instagram.utils.network.NetworkHelper
-import com.hashim.instagram.utils.rx.SchedulerProvider
-import io.reactivex.disposables.CompositeDisposable
+import com.hashim.instagram.utils.rx.CoroutineDispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 
 class LoginViewModel(
-    schedulerProvider: SchedulerProvider,
-    compositeDisposable: CompositeDisposable,
+    coroutineDispatchers: CoroutineDispatchers,
     networkHelper: NetworkHelper,
     private val userRepository: UserRepository
 
 ) : BaseViewModel(
-    schedulerProvider, compositeDisposable, networkHelper
+    coroutineDispatchers, networkHelper
 ){
 
 
@@ -53,19 +55,23 @@ class LoginViewModel(
         if(validations.isNotEmpty() && email !=null && password != null){
             val successValidation = validations.filter { it.resource.status == Status.SUCCESS }
             if(successValidation.size == validations.size && checkInternetConnectionWithMessage()){
-                loggingIn.postValue(true)
-                compositeDisposable.addAll(
-                    userRepository.doUserLogin(email,password)
-                        .subscribeOn(schedulerProvider.io())
-                        .subscribe({
-                            userRepository.saveCurrentUser(user = it)
-                            loggingIn.postValue(false)
-                            launchMain.postValue(Event(emptyMap()))
-                        },{
-                            loggingIn.postValue(false)
-                            handleNetworkError(it)
-                        })
-                )
+
+                viewModelScope.launch(coroutineDispatchers.io()) {
+
+                    try {
+                        userRepository.doUserLogin(email, password)
+                            .onStart { loggingIn.postValue(true) }
+                            .collect {
+                                userRepository.saveCurrentUser(user = it)
+                                loggingIn.postValue(false)
+                                launchMain.postValue(Event(emptyMap()))
+                            }
+                    }catch (ex: Exception){
+                        loggingIn.postValue(false)
+                        handleNetworkError(ex)
+                    }
+                }
+
             }
 
         }

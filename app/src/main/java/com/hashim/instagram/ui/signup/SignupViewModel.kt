@@ -3,19 +3,22 @@ package com.hashim.instagram.ui.signup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import androidx.lifecycle.viewModelScope
 import com.hashim.instagram.data.repository.UserRepository
 import com.hashim.instagram.ui.base.BaseViewModel
 import com.hashim.instagram.utils.common.*
 import com.hashim.instagram.utils.network.NetworkHelper
-import com.hashim.instagram.utils.rx.SchedulerProvider
-import io.reactivex.disposables.CompositeDisposable
+import com.hashim.instagram.utils.rx.CoroutineDispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class SignupViewModel(
-    schedulerProvider: SchedulerProvider,
-    compositeDisposable: CompositeDisposable,
+    coroutineDispatchers: CoroutineDispatchers,
     networkHelper: NetworkHelper,
     val userRepository: UserRepository
-    ) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
+    ) : BaseViewModel(coroutineDispatchers, networkHelper) {
 
     private val validationList : MutableLiveData<List<Validation>> = MutableLiveData()
     val emailField : MutableLiveData<String> = MutableLiveData()
@@ -54,25 +57,24 @@ class SignupViewModel(
         if(validations.isNotEmpty() && name != null && email != null && password != null){
             val successValidation = validations.filter { it.resource.status==Status.SUCCESS }
             if(successValidation.size==validations.size && checkInternetConnectionWithMessage()){
-                siginningUp.postValue(true)
-                compositeDisposable.addAll(
-                    userRepository.doUserSignup(name, email, password)
-                        .subscribeOn(schedulerProvider.io())
-                        .subscribe({
-                            userRepository.saveCurrentUser(it)
-                            siginningUp.postValue(false)
-                            launchMain.postValue(Event(emptyMap()))
 
-                        },{
-                            siginningUp.postValue(false)
-                            handleNetworkError(it)
-                        }
-                    )
-                )
+                viewModelScope.launch(coroutineDispatchers.io()) {
 
+                    try {
+                        userRepository.doUserSignup(name, email, password)
+                            .onStart { siginningUp.postValue(true) }
+                            .collect {
+                                userRepository.saveCurrentUser(it)
+                                siginningUp.postValue(false)
+                                launchMain.postValue(Event(emptyMap()))
+                            }
+                    }catch (ex: Exception){
+                        siginningUp.postValue(false)
+                        handleNetworkError(ex)
+                    }
+                }
             }
         }
     }
-
 
 }

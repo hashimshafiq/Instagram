@@ -2,6 +2,7 @@ package com.hashim.instagram.ui.photo
 
 import android.os.Environment
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.hashim.instagram.R
 import com.hashim.instagram.data.model.Image
 import com.hashim.instagram.data.model.Post
@@ -15,21 +16,22 @@ import com.hashim.instagram.utils.common.Event
 import com.hashim.instagram.utils.common.FileUtils
 import com.hashim.instagram.utils.common.Resource
 import com.hashim.instagram.utils.network.NetworkHelper
-import com.hashim.instagram.utils.rx.SchedulerProvider
-import io.reactivex.Single
-import io.reactivex.disposables.CompositeDisposable
+import com.hashim.instagram.utils.rx.CoroutineDispatchers
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.InputStream
 
 class PhotoViewModel(
-    schedulerProvider: SchedulerProvider,
-    compositeDisposable: CompositeDisposable,
+    coroutineDispatchers: CoroutineDispatchers,
     networkHelper: NetworkHelper,
     private val userRepository: UserRepository,
     private val photoRepository: PhotoRepository,
     private val postRepository: PostRepository,
     @TempDirectory private val directory : File
-) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
+) : BaseViewModel(coroutineDispatchers, networkHelper) {
 
     override fun onCreate() {}
 
@@ -44,74 +46,54 @@ class PhotoViewModel(
     val imageDetail : MutableLiveData<Image> = MutableLiveData()
 
     fun onGalleryImageSelected(inputStream: InputStream) {
-        loading.postValue(true)
-        compositeDisposable.add(
-            Single.fromCallable {
-                    FileUtils.saveInputStreamToFile(
-                        inputStream, directory, "gallery_img_temp", 500
-                    )
-                }
-                .subscribeOn(schedulerProvider.io())
-                .subscribe(
-                    {
-                        if (it != null) {
-                            FileUtils.getImageSize(it)?.run {
-                                uploadPhotoAndCreatePost(it, this)
-                            }
-                        } else {
-                            loading.postValue(false)
-                            messageStringId.postValue(Resource.error(R.string.try_again))
 
-                        }
-                    },
-                    {
-                        loading.postValue(false)
-                        messageStringId.postValue(Resource.error(R.string.try_again))
-                    }
-                )
-        )
+        viewModelScope.launch(coroutineDispatchers.default()) {
+            loading.postValue(true)
+            val file =
+                FileUtils.saveInputStreamToFile(inputStream, directory, "gallery_img_temp", 500)
+
+            if (file != null) {
+
+                    uploadPhotoAndCreatePost(
+                        file,
+                        FileUtils.getImageSize(file)!!
+                    )
+
+
+            } else {
+                loading.postValue(false)
+                messageStringId.postValue(Resource.error(R.string.try_again))
+
+            }
+        }
     }
 
     fun onCameraImageTaken(cameraImageProcessor: () -> String) {
-        loading.postValue(true)
-        compositeDisposable.add(
-            Single.fromCallable { cameraImageProcessor() }
-                .subscribeOn(schedulerProvider.io())
-                .subscribe(
-                    {
-                        File(it).apply {
-                            FileUtils.getImageSize(this)?.let { size ->
-                                uploadPhotoAndCreatePost(this, size)
-                            } ?: loading.postValue(false)
-                        }
-                    },
-                    {
-                        loading.postValue(false)
-                        messageStringId.postValue(Resource.error(R.string.try_again))
-                    }
-                )
-        )
+
+        viewModelScope.launch(coroutineDispatchers.default()) {
+            loading.postValue(true)
+            val str = cameraImageProcessor()
+            val file = File(str)
+            val fileSize = FileUtils.getImageSize(file)
+
+            uploadPhotoAndCreatePost(file, fileSize!!)
+
+        }
     }
 
-    private fun uploadPhotoAndCreatePost(imageFile: File, imageSize: Pair<Int, Int>) {
-        compositeDisposable.add(
-            photoRepository.uploadPhoto(imageFile, user)
-                .flatMap {
-                    postRepository.createPost(it, imageSize.first, imageSize.second, user)
-                }
-                .subscribeOn(schedulerProvider.io())
-                .subscribe(
-                    {
-                        loading.postValue(false)
-                        post.postValue(Event(it))
-                    },
-                    {
-                        handleNetworkError(it)
-                        loading.postValue(false)
-                    }
-                )
+    @OptIn(FlowPreview::class)
+    private fun uploadPhotoAndCreatePost(imageFile: File, imageSize: Pair<Int, Int>?) {
 
-        )
+        viewModelScope.launch(coroutineDispatchers.io()) {
+            photoRepository.uploadPhoto(imageFile,user)
+                .flatMapMerge {
+                    postRepository.createPost(it, imageSize!!.first, imageSize.second, user)
+                }.collect {
+                    loading.postValue(false)
+                    post.postValue(Event(it))
+                }
+
+        }
     }
 
     fun getFilePaths() {

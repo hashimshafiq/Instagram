@@ -2,15 +2,13 @@ package com.hashim.instagram.ui.base
 
 import androidx.lifecycle.MutableLiveData
 import com.hashim.instagram.utils.network.NetworkHelper
-import com.hashim.instagram.utils.rx.SchedulerProvider
-import io.reactivex.disposables.CompositeDisposable
+import com.hashim.instagram.utils.rx.CoroutineDispatchers
 
 
 abstract class BaseItemViewModel<T : Any>(
-    schedulerProvider: SchedulerProvider,
-    compositeDisposable: CompositeDisposable,
+    coroutineDispatchers: CoroutineDispatchers,
     networkHelper: NetworkHelper
-) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
+) : BaseViewModel(coroutineDispatchers, networkHelper) {
 
     val data: MutableLiveData<T> = MutableLiveData()
 

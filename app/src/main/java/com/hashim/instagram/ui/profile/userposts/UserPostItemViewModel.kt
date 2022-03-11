@@ -9,16 +9,14 @@ import com.hashim.instagram.data.remote.Networking
 import com.hashim.instagram.data.repository.UserRepository
 import com.hashim.instagram.ui.base.BaseItemViewModel
 import com.hashim.instagram.utils.network.NetworkHelper
-import com.hashim.instagram.utils.rx.SchedulerProvider
-import io.reactivex.disposables.CompositeDisposable
+import com.hashim.instagram.utils.rx.CoroutineDispatchers
 import javax.inject.Inject
 
 class UserPostItemViewModel @Inject constructor(
-    schedulerProvider: SchedulerProvider,
-    compositeDisposable: CompositeDisposable,
+    coroutineDispatchers: CoroutineDispatchers,
     networkHelper: NetworkHelper,
     userRepository: UserRepository
-) : BaseItemViewModel<Post>(schedulerProvider,compositeDisposable,networkHelper){
+) : BaseItemViewModel<Post>(coroutineDispatchers,networkHelper){
 
 
     private val user : User = userRepository.getCurrentUser()!!

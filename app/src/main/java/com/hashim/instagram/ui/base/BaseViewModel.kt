@@ -1,28 +1,25 @@
 package com.hashim.instagram.ui.base
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hashim.instagram.R
 import com.hashim.instagram.utils.common.Resource
 import com.hashim.instagram.utils.network.NetworkHelper
-import com.hashim.instagram.utils.rx.SchedulerProvider
-import io.reactivex.disposables.CompositeDisposable
+import com.hashim.instagram.utils.rx.CoroutineDispatchers
 import javax.net.ssl.HttpsURLConnection
 
 
 abstract class BaseViewModel(
-    protected val schedulerProvider: SchedulerProvider,
-    protected val compositeDisposable: CompositeDisposable,
+    protected val coroutineDispatchers: CoroutineDispatchers,
     protected val networkHelper: NetworkHelper
 ) : ViewModel() {
 
-    override fun onCleared() {
-        compositeDisposable.dispose()
-        super.onCleared()
-    }
+     val messageStringId: MutableLiveData<Resource<Int>> = MutableLiveData()
 
-    val messageStringId: MutableLiveData<Resource<Int>> = MutableLiveData()
-    val messageString: MutableLiveData<Resource<String>> = MutableLiveData()
+
+     val messageString: MutableLiveData<Resource<String>> = MutableLiveData()
+
 
     protected fun checkInternetConnectionWithMessage(): Boolean =
         if (networkHelper.isNetworkConnected()) {
@@ -58,4 +55,6 @@ abstract class BaseViewModel(
     }
 
     abstract fun onCreate()
+
+
 }

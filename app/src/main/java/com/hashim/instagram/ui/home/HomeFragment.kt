@@ -4,6 +4,9 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +17,9 @@ import com.hashim.instagram.di.component.FragmentComponent
 import com.hashim.instagram.ui.base.BaseFragment
 import com.hashim.instagram.ui.home.post.PostsAdapter
 import com.hashim.instagram.ui.main.MainSharedViewModel
+import com.hashim.instagram.utils.common.Status
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -85,9 +91,25 @@ class HomeFragment : BaseFragment<HomeViewModel>() , onClickListener {
             binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
         }
 
+
         viewModel.posts.observe(this) {
-            it.data?.run { postsAdapter.appendData(it.data) }
+                    when (it.status) {
+                        Status.SUCCESS -> {
+                            if (it.data?.isNotEmpty() == true) {
+                                postsAdapter.appendData(it.data.toMutableList())
+                                showLoading(false)
+                            }
+                        }
+                        Status.ERROR -> {
+                            showMessage(getString(R.string.server_connection_error))
+                            showLoading(false)
+                        }
+                        else -> {
+
+                        }
+                    }
         }
+
 
         mainSharedViewModel.newPost.observe(this) {
             it.getIfNotHandled()?.run {
@@ -102,13 +124,19 @@ class HomeFragment : BaseFragment<HomeViewModel>() , onClickListener {
             }
         }
 
-        viewModel.isLoggedIn.observe(this) {
-            it.getIfNotHandled()?.run {
-                if (!this) {
-                    findNavController().navigate(R.id.action_itemHome_to_loginFragment)
+
+                viewModel.isLoggedIn.observe(this) {
+                    it.getIfNotHandled()?.run {
+                        if (!this){
+                            findNavController().navigate(R.id.action_itemHome_to_loginFragment)
+                        }
+
+                    }
                 }
-            }
-        }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     override fun onClickPhoto() {

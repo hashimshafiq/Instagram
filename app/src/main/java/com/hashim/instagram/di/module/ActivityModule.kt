@@ -8,10 +8,9 @@ import com.hashim.instagram.ui.main.MainSharedViewModel
 import com.hashim.instagram.ui.main.MainViewModel
 import com.hashim.instagram.utils.ViewModelProviderFactory
 import com.hashim.instagram.utils.network.NetworkHelper
-import com.hashim.instagram.utils.rx.SchedulerProvider
+import com.hashim.instagram.utils.rx.CoroutineDispatchers
 import dagger.Module
 import dagger.Provides
-import io.reactivex.disposables.CompositeDisposable
 
 /**
  * Kotlin Generics Reference: https://kotlinlang.org/docs/reference/generics.html
@@ -24,33 +23,24 @@ class ActivityModule(private val activity: BaseActivity<*>) {
     @Provides
     fun provideLinearLayoutManager(): LinearLayoutManager = LinearLayoutManager(activity)
 
-
-
-
-
-
-
-
     @Provides
     fun provideMainViewModel(
-        schedulerProvider: SchedulerProvider,
-        compositeDisposable: CompositeDisposable,
+        coroutineDispatchers: CoroutineDispatchers,
         networkHelper: NetworkHelper,
         userRepository: UserRepository
     ): MainViewModel = ViewModelProvider(
         activity, ViewModelProviderFactory(MainViewModel::class) {
-            MainViewModel(schedulerProvider, compositeDisposable, networkHelper,userRepository)
+            MainViewModel(coroutineDispatchers, networkHelper,userRepository)
         }).get(MainViewModel::class.java)
 
 
 
     @Provides
     fun provideMainSharedViewModel(
-        schedulerProvider: SchedulerProvider,
-        compositeDisposable: CompositeDisposable,
+        coroutineDispatchers: CoroutineDispatchers,
         networkHelper: NetworkHelper
     ): MainSharedViewModel = ViewModelProvider(
         activity, ViewModelProviderFactory(MainSharedViewModel::class) {
-            MainSharedViewModel(schedulerProvider, compositeDisposable, networkHelper)
+            MainSharedViewModel(coroutineDispatchers, networkHelper)
         }).get(MainSharedViewModel::class.java)
 }

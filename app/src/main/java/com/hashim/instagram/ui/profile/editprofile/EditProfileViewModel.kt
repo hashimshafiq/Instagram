@@ -3,6 +3,7 @@ package com.hashim.instagram.ui.profile.editprofile
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.hashim.instagram.R
 import com.hashim.instagram.data.model.Image
 import com.hashim.instagram.data.model.User
@@ -12,20 +13,20 @@ import com.hashim.instagram.data.repository.UserRepository
 import com.hashim.instagram.ui.base.BaseViewModel
 import com.hashim.instagram.utils.common.*
 import com.hashim.instagram.utils.network.NetworkHelper
-import com.hashim.instagram.utils.rx.SchedulerProvider
-import io.reactivex.Single
-import io.reactivex.disposables.CompositeDisposable
+import com.hashim.instagram.utils.rx.CoroutineDispatchers
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.InputStream
 
 class EditProfileViewModel(
-    schedulerProvider: SchedulerProvider,
-    compositeDisposable: CompositeDisposable,
+    coroutineDispatchers: CoroutineDispatchers,
     networkHelper: NetworkHelper,
     private val userRepository: UserRepository,
     private val photoRepository: PhotoRepository,
     private val directory: File
-) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper){
+) : BaseViewModel(coroutineDispatchers, networkHelper){
 
 
     val nameField : MutableLiveData<String> = MutableLiveData()
@@ -56,66 +57,71 @@ class EditProfileViewModel(
         fetchProfileData()
     }
 
+    @OptIn(FlowPreview::class)
     fun doUpdate(){
         val name = nameField.value
         val bio = bioField.value
 
-        if(isProfileImageChange){
-            if(checkInternetConnectionWithMessage()){
-                loading.postValue(true)
-                compositeDisposable.add(
-                    photoRepository.uploadPhoto(file!!,user).flatMap {
+        viewModelScope.launch(coroutineDispatchers.io()) {
+
+            if(isProfileImageChange){
+                if(checkInternetConnectionWithMessage()){
+
+                    try {
+                        photoRepository.uploadPhoto(file!!,user).flatMapMerge {
                             fileName = it
                             userRepository.doUserProfileUpdate(user,name,bio,fileName)
-                        }.subscribeOn(schedulerProvider.io())
-                        .subscribe(
-                            {
-                                loading.postValue(false)
-                                userRepository.removeCurrentUser()
-                                userRepository.saveCurrentUser(User(user.id,
-                                    it.name!!,user.email,user.accessToken,fileName))
-                            },
-                            {
-                                loading.postValue(false)
-                                handleNetworkError(it)
-                            }
-                        )
-                )
-            }
+                        }.onStart {
+                            loading.postValue(true)
+                        }.collect {
+                            loading.postValue(false)
+                            userRepository.removeCurrentUser()
+                            userRepository.saveCurrentUser(User(user.id,
+                                it.name!!,user.email,user.accessToken,fileName))
+                        }
+                    }catch (ex: Exception){
+                        loading.postValue(false)
+                        handleNetworkError(ex)
+                    }
 
-        }else{
-            if(checkInternetConnectionWithMessage()){
-                loading.postValue(true)
-                compositeDisposable.add(
-                    userRepository.doUserProfileUpdate(user,name,bio,fileName)
-                        .subscribeOn(schedulerProvider.io())
-                        .subscribe(
-                            {
+                }
+
+            }else {
+                if (checkInternetConnectionWithMessage()) {
+
+                    try {
+                        userRepository.doUserProfileUpdate(user, name, bio, fileName)
+                            .onStart { loading.postValue(true) }
+                            .collect {
                                 loading.postValue(false)
                                 userRepository.removeCurrentUser()
-                                userRepository.saveCurrentUser(User(user.id,it.name!!,user.email,user.accessToken,fileName))
-                            },
-                            {
-                                loading.postValue(false)
-                                handleNetworkError(it)
+                                userRepository.saveCurrentUser(
+                                    User(
+                                        user.id,
+                                        it.name!!,
+                                        user.email,
+                                        user.accessToken,
+                                        fileName
+                                    )
+                                )
                             }
-                        )
-                )
+                    } catch (ex: java.lang.Exception) {
+                        loading.postValue(false)
+                        handleNetworkError(ex)
+                    }
+                }
             }
         }
-
-
-
-
     }
 
     private fun fetchProfileData(){
-        loading.postValue(true)
-        compositeDisposable.add(
-            userRepository.doUserProfileFetch(user)
-                .subscribeOn(schedulerProvider.io())
-                .subscribe(
-                    {
+
+        viewModelScope.launch(coroutineDispatchers.io()) {
+
+            try {
+                userRepository.doUserProfileFetch(user)
+                    .onStart { loading.postValue(true)  }
+                    .collect{
                         loading.postValue(false)
                         nameField.postValue(it.data?.name)
                         profile.postValue(it.data?.profilePicUrl?.run {
@@ -124,47 +130,36 @@ class EditProfileViewModel(
                         })
                         emailField.postValue(user.email)
                         bioField.postValue(it.data?.tagLine)
-                    },
-                    {
-                        loading.postValue(false)
-                        handleNetworkError(it)
                     }
-                )
-        )
-
+            }catch (ex: Exception){
+                loading.postValue(false)
+                handleNetworkError(ex)
+            }
+        }
     }
 
     fun onGalleryImageSelected(inputStream: InputStream) {
-        loading.postValue(true)
-        compositeDisposable.add(
-            Single.fromCallable {
-                    FileUtils.saveInputStreamToFile(
-                        inputStream, directory, "gallery_img_temp", 500
-                    )
+
+        viewModelScope.launch(coroutineDispatchers.default()) {
+
+            try {
+                loading.postValue(true)
+                val f = FileUtils.saveInputStreamToFile(
+                    inputStream, directory, "gallery_img_temp", 500)
+
+                if (f != null) {
+                    loading.postValue(false)
+                    selectedProfile.postValue(BitmapFactory.decodeFile(f.absolutePath))
+                    isProfileImageChange = true
+                    file = f
+                } else {
+                    loading.postValue(false)
+                    messageStringId.postValue(Resource.error(R.string.try_again))
                 }
-                .subscribeOn(schedulerProvider.io())
-                .subscribe(
-                    {
-                        if (it != null) {
-                            loading.postValue(false)
-                            selectedProfile.postValue(BitmapFactory.decodeFile(it.absolutePath))
-                            isProfileImageChange = true
-                            file = it
-                        } else {
-                            loading.postValue(false)
-                            messageStringId.postValue(Resource.error(R.string.try_again))
-
-                        }
-                    },
-                    {
-                        loading.postValue(false)
-                        messageStringId.postValue(Resource.error(R.string.try_again))
-                    }
-                )
-        )
+            }catch (ex: Exception){
+                loading.postValue(false)
+                messageStringId.postValue(Resource.error(R.string.try_again))
+            }
+        }
     }
-
-
-
-
 }

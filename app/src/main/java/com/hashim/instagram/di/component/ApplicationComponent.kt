@@ -14,9 +14,8 @@ import com.hashim.instagram.di.TempDirectory
 import com.hashim.instagram.di.module.ApplicationModule
 import com.hashim.instagram.utils.common.GridSpacingItemDecoration
 import com.hashim.instagram.utils.network.NetworkHelper
-import com.hashim.instagram.utils.rx.SchedulerProvider
+import com.hashim.instagram.utils.rx.CoroutineDispatchers
 import dagger.Component
-import io.reactivex.disposables.CompositeDisposable
 import java.io.File
 import javax.inject.Singleton
 
@@ -60,9 +59,7 @@ interface ApplicationComponent {
      */
     fun getUserRepository(): UserRepository
 
-    fun getSchedulerProvider(): SchedulerProvider
-
-    fun getCompositeDisposable(): CompositeDisposable
+    fun getSchedulerProvider(): CoroutineDispatchers
 
     fun getPostDao(): PostDao
 

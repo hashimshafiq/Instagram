@@ -1,6 +1,8 @@
 package com.hashim.instagram.ui.signup
 
 import android.content.Intent
+import android.os.Bundle
+import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.rule.IntentsTestRule
@@ -18,18 +20,15 @@ class SignupFragmentTest {
 
     private val component = TestComponentRule(InstrumentationRegistry.getInstrumentation().targetContext)
 
-    private val main = IntentsTestRule(SignupFragment::class.java,false,false)
-
-
     @get:Rule
-    val chainRule : RuleChain = RuleChain.outerRule(component).around(main)
+    val chain : RuleChain = RuleChain.outerRule(component)
 
     @Before
     fun setup(){}
 
     @Test
     fun testCheckViewsDisplay(){
-        main.launchActivity(Intent(component.getContext(),SignupFragment::class.java))
+        launchFragmentInContainer<SignupFragment>(Bundle(), R.style.AppTheme)
         onView(withId(R.id.layout_email))
             .check(matches(isDisplayed()))
 

@@ -5,7 +5,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import com.hashim.instagram.data.model.Image
 import com.hashim.instagram.ui.base.BaseAdapter
-import io.reactivex.subjects.PublishSubject
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.onCompletion
 
 class GalleryAdapter(
     parentLifecycle: Lifecycle,
@@ -13,7 +14,7 @@ class GalleryAdapter(
 ) : BaseAdapter<Image,GalleryItemViewHolder>(parentLifecycle,images){
 
     object RxBus {
-        val itemClickStream: PublishSubject<String> = PublishSubject.create()
+        val itemClickStream: MutableSharedFlow<String> = MutableSharedFlow(extraBufferCapacity = 1)
     }
 
 
@@ -21,6 +22,6 @@ class GalleryAdapter(
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)
-        RxBus.itemClickStream.onComplete()
+        RxBus.itemClickStream.onCompletion {  }
     }
 }

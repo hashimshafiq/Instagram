@@ -1,10 +1,10 @@
 package com.hashim.instagram.ui.home.post
 
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import androidx.lifecycle.viewModelScope
 import com.hashim.instagram.R
 import com.hashim.instagram.data.model.Image
 import com.hashim.instagram.data.model.Post
@@ -19,18 +19,19 @@ import com.hashim.instagram.utils.common.Resource
 import com.hashim.instagram.utils.common.TimeUtils
 import com.hashim.instagram.utils.display.ScreenUtils
 import com.hashim.instagram.utils.network.NetworkHelper
-import com.hashim.instagram.utils.rx.SchedulerProvider
-import io.reactivex.disposables.CompositeDisposable
+import com.hashim.instagram.utils.rx.CoroutineDispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 class PostItemViewModel @Inject constructor(
-    schedulerProvider: SchedulerProvider,
-    compositeDisposable: CompositeDisposable,
+    coroutineDispatchers: CoroutineDispatchers,
     networkHelper: NetworkHelper,
     userRepository: UserRepository,
     private val postRepository: PostRepository
-) : BaseItemViewModel<Post>(schedulerProvider, compositeDisposable, networkHelper) {
+) : BaseItemViewModel<Post>(coroutineDispatchers, networkHelper) {
 
     private val user : User = userRepository.getCurrentUser()!!
     private val screenWidth = ScreenUtils.getScreenWidth()
@@ -71,22 +72,31 @@ class PostItemViewModel @Inject constructor(
 
     override fun onCreate() {}
 
-    fun onLikeClick() = data.value?.let {
-        if(networkHelper.isNetworkConnected()){
-            val api = if(isLiked.value == true) postRepository.makeUnlikePost(it,user) else postRepository.makeLikePost(it,user)
-            compositeDisposable.add(api
-                .subscribeOn(schedulerProvider.io())
-                .subscribe({
-                    responsePost -> if (responsePost.id == it.id) updateData(it)
-                },{error->
-                    handleNetworkError(error)
-                }
-                )
-            )
+    fun onLikeClick() {
 
-        }else{
-            messageStringId.postValue(Resource.error(R.string.network_connection_error))
+        viewModelScope.launch(coroutineDispatchers.io()) {
+            data.value?.let { post ->
+                if (networkHelper.isNetworkConnected()) {
+                    val api = if (isLiked.value == true) postRepository.makeUnlikePost(post, user)
+                    else postRepository.makeLikePost(post, user)
+                    val deferredApi = async { api }
+                    try {
+                        val response = deferredApi.await()
+                        response.collect { responsePost ->
+                            if (post.id == responsePost.id) updateData(responsePost)
+                        }
+                    }catch (ex : Exception){
+                        handleNetworkError(ex)
+                    }
+
+                } else {
+                    messageStringId.postValue(Resource.error(R.string.network_connection_error))
+                }
+            }
+
+
         }
+
     }
 
     fun onProfilePhotoClicked(onClickListener: onClickListener){

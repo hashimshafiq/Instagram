@@ -27,6 +27,11 @@ import com.hashim.instagram.ui.photo.gallery.GalleryAdapter
 import com.hashim.instagram.utils.common.Event
 import com.hashim.instagram.utils.common.GridSpacingItemDecoration
 import com.mindorks.paracamera.Camera
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.FileNotFoundException
 import java.text.SimpleDateFormat
@@ -69,8 +74,6 @@ class PhotoFragment : BaseFragment<PhotoViewModel>() {
     private var _binding : FragmentPhotoBinding? = null
 
     private val binding get() = _binding!!
-
-
 
     override fun provideLayoutId(): Int = R.layout.fragment_photo
 
@@ -138,9 +141,9 @@ class PhotoFragment : BaseFragment<PhotoViewModel>() {
 
         }
 
-        GalleryAdapter.RxBus.itemClickStream.subscribe {
+        GalleryAdapter.RxBus.itemClickStream.onEach {
             viewModel.fetchDetailedImage(it)
-        }
+        }.launchIn(GlobalScope)
 
     }
 

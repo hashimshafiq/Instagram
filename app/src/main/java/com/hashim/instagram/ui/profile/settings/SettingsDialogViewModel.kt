@@ -6,16 +6,14 @@ import com.hashim.instagram.data.repository.UserRepository
 import com.hashim.instagram.ui.base.BaseViewModel
 import com.hashim.instagram.utils.ThemeManager
 import com.hashim.instagram.utils.network.NetworkHelper
-import com.hashim.instagram.utils.rx.SchedulerProvider
-import io.reactivex.disposables.CompositeDisposable
+import com.hashim.instagram.utils.rx.CoroutineDispatchers
 
 
 class SettingsDialogViewModel(
-    schedulerProvider: SchedulerProvider,
-    compositeDisposable: CompositeDisposable,
+    coroutineDispatchers: CoroutineDispatchers,
     networkHelper: NetworkHelper,
     private val userRepository: UserRepository
-) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
+) : BaseViewModel(coroutineDispatchers, networkHelper) {
 
     val dismissDialog : MutableLiveData<Boolean> = MutableLiveData()
     val rLight : MutableLiveData<Boolean> = MutableLiveData()

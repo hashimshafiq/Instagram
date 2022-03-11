@@ -5,14 +5,12 @@ import com.hashim.instagram.data.model.Post
 import com.hashim.instagram.ui.base.BaseViewModel
 import com.hashim.instagram.utils.common.Event
 import com.hashim.instagram.utils.network.NetworkHelper
-import com.hashim.instagram.utils.rx.SchedulerProvider
-import io.reactivex.disposables.CompositeDisposable
+import com.hashim.instagram.utils.rx.CoroutineDispatchers
 
 class MainSharedViewModel(
-    schedulerProvider: SchedulerProvider,
-    compositeDisposable: CompositeDisposable,
+    coroutineDispatchers: CoroutineDispatchers,
     networkHelper: NetworkHelper
-) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
+) : BaseViewModel(coroutineDispatchers, networkHelper) {
 
     override fun onCreate() {}
 

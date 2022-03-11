@@ -9,7 +9,10 @@ import com.hashim.instagram.data.remote.request.ProfileUpdateRequest
 import com.hashim.instagram.data.remote.request.SignupRequest
 import com.hashim.instagram.data.remote.response.GeneralResponse
 import com.hashim.instagram.data.remote.response.ProfileResponse
-import io.reactivex.Single
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -65,44 +68,63 @@ class UserRepository @Inject constructor(
 
 
 
-    fun doUserLogin(email : String, password : String) : Single<User> =
-        networkService.doLoginCall(LoginRequest(email,password))
-            .map {
+    fun doUserLogin(email : String, password : String) : Flow<User> {
+
+        return flow {
+            val response = networkService.doLoginCall(LoginRequest(email,password))
+            emit(User(
+                response.userId,
+                response.userName,
+                response.userEmail,
+                response.accessToken,
+                response.profilePicUrl
+            ))
+        }.flowOn(Dispatchers.IO)
+    }
+
+
+
+    fun doUserSignup(name : String, email : String, password : String) : Flow<User> {
+
+        return flow {
+            val response = networkService.doSignupCall(SignupRequest(email,password,name))
+            emit(
                 User(
-                    it.userId,
-                    it.userName,
-                    it.userEmail,
-                    it.accessToken,
-                    it.profilePicUrl
+                    response.userId,
+                    response.userName,
+                    response.userEmail,
+                    response.accessToken,
+                    response.profilePicUrl
                 )
-            }
+            )
+        }.flowOn(Dispatchers.IO)
+    }
 
-    fun doUserSignup(name : String, email : String, password : String) : Single<User> =
-        networkService.doSignupCall(SignupRequest(email,password,name))
-            .map {
-                User(
-                    it.userId,
-                    it.userName,
-                    it.userEmail,
-                    it.accessToken,
-                    it.profilePicUrl
-                )
-            }
 
-    fun doUserProfileFetch(user: User) : Single<ProfileResponse> =
-        networkService.doProfileGetCall(user.id,user.accessToken).map {
-            return@map it
-        }
+    fun doUserProfileFetch(user: User) : Flow<ProfileResponse> {
+        return flow {
+            val response = networkService.doProfileGetCall(user.id,user.accessToken)
+            emit(response)
+        }.flowOn(Dispatchers.IO)
 
-    fun doLogout(user: User) : Single<GeneralResponse> =
-        networkService.doLogoutCall(user.id,user.accessToken).map {
-            return@map it
-        }
+    }
 
-    fun doUserProfileUpdate(user: User,name : String?, tagline : String?, profilePicUrl : String?) : Single<ProfileResponse.User> =
-        networkService.doProfileUpdateCall(ProfileUpdateRequest(name,profilePicUrl,tagline), user.id,user.accessToken).map {
-            ProfileResponse.User(user.id,name,profilePicUrl,tagline)
-        }
+    fun doLogout(user: User) : Flow<GeneralResponse> {
+        return flow {
+            val response = networkService.doLogoutCall(user.id, user.accessToken)
+            emit(response)
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun doUserProfileUpdate(user: User,name : String?, tagline : String?, profilePicUrl : String?) : Flow<ProfileResponse.User> {
+        return flow {
+            networkService.doProfileUpdateCall(ProfileUpdateRequest(name,profilePicUrl,tagline), user.id,user.accessToken)
+            emit(
+                ProfileResponse.User(user.id,name,profilePicUrl,tagline)
+            )
+        }.flowOn(Dispatchers.IO)
+    }
+
 
 
 

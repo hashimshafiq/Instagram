@@ -23,7 +23,7 @@ class GalleryItemViewHolder(parent : ViewGroup):BaseItemViewHolder<Image,Gallery
         binding = ItemViewGridPostBinding.bind(view)
 
         binding.ivPost.setOnClickListener {
-            GalleryAdapter.RxBus.itemClickStream.onNext(viewModel.data.value!!.url)
+            GalleryAdapter.RxBus.itemClickStream.tryEmit(viewModel.data.value!!.url)
         }
     }
 

@@ -24,12 +24,10 @@ import com.hashim.instagram.ui.signup.SignupViewModel
 import com.hashim.instagram.utils.ViewModelProviderFactory
 import com.hashim.instagram.utils.common.Constants
 import com.hashim.instagram.utils.network.NetworkHelper
-import com.hashim.instagram.utils.rx.SchedulerProvider
+import com.hashim.instagram.utils.rx.CoroutineDispatchers
 import com.mindorks.paracamera.Camera
 import dagger.Module
 import dagger.Provides
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.processors.PublishProcessor
 import java.io.File
 
 @Module
@@ -59,23 +57,21 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
 
     @Provides
     fun provideHomeViewModel(
-        schedulerProvider: SchedulerProvider,
-        compositeDisposable: CompositeDisposable,
+        coroutineDispatchers: CoroutineDispatchers,
+
         networkHelper: NetworkHelper,
         userRepository: UserRepository,
         postRepository: PostRepository
     ): HomeViewModel = ViewModelProvider(
         fragment, ViewModelProviderFactory(HomeViewModel::class) {
-            HomeViewModel(schedulerProvider, compositeDisposable, networkHelper,userRepository,postRepository,
-                ArrayList(),
-                PublishProcessor.create()
+            HomeViewModel(coroutineDispatchers, networkHelper,userRepository,postRepository,
+                ArrayList()
             )
         }).get(HomeViewModel::class.java)
 
     @Provides
     fun providePhotoViewModel(
-        schedulerProvider: SchedulerProvider,
-        compositeDisposable: CompositeDisposable,
+        coroutineDispatchers: CoroutineDispatchers,
         networkHelper: NetworkHelper,
         userRepository: UserRepository,
         photoRepository: PhotoRepository,
@@ -83,19 +79,18 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
         @TempDirectory directory: File
     ): PhotoViewModel = ViewModelProvider(
         fragment, ViewModelProviderFactory(PhotoViewModel::class) {
-            PhotoViewModel(schedulerProvider, compositeDisposable, networkHelper,userRepository, photoRepository, postRepository, directory)
+            PhotoViewModel(coroutineDispatchers, networkHelper,userRepository, photoRepository, postRepository, directory)
         }).get(PhotoViewModel::class.java)
 
     @Provides
     fun provideProfileViewModel(
-        schedulerProvider: SchedulerProvider,
-        compositeDisposable: CompositeDisposable,
+        coroutineDispatchers: CoroutineDispatchers,
         networkHelper: NetworkHelper,
         userRepository: UserRepository,
         postRepository: PostRepository
     ): ProfileViewModel = ViewModelProvider(
         fragment, ViewModelProviderFactory(ProfileViewModel::class) {
-            ProfileViewModel(schedulerProvider, compositeDisposable, networkHelper,userRepository,postRepository)
+            ProfileViewModel(coroutineDispatchers, networkHelper,userRepository,postRepository)
         }).get(ProfileViewModel::class.java)
 
     @Provides
@@ -111,60 +106,55 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
 
     @Provides
     fun provideMainSharedViewModel(
-        schedulerProvider: SchedulerProvider,
-        compositeDisposable: CompositeDisposable,
+        coroutineDispatchers: CoroutineDispatchers,
         networkHelper: NetworkHelper
     ): MainSharedViewModel = ViewModelProvider(
         fragment.activity!!, ViewModelProviderFactory(MainSharedViewModel::class) {
-            MainSharedViewModel(schedulerProvider, compositeDisposable, networkHelper)
+            MainSharedViewModel(coroutineDispatchers, networkHelper)
         }).get(MainSharedViewModel::class.java)
 
     @Provides
     fun provideEditProfileViewModel(
-        schedulerProvider: SchedulerProvider,
-        compositeDisposable: CompositeDisposable,
+        coroutineDispatchers: CoroutineDispatchers,
         networkHelper: NetworkHelper,
         userRepository: UserRepository,
         photoRepository: PhotoRepository,
         @TempDirectory directory: File
     ): EditProfileViewModel = ViewModelProvider(
         fragment, ViewModelProviderFactory(EditProfileViewModel::class) {
-            EditProfileViewModel(schedulerProvider, compositeDisposable, networkHelper,userRepository,photoRepository,directory)
+            EditProfileViewModel(coroutineDispatchers, networkHelper,userRepository,photoRepository,directory)
         }).get(EditProfileViewModel::class.java)
 
 
     @Provides
     fun providesLikedUserViewModel(
-        schedulerProvider: SchedulerProvider,
-        compositeDisposable: CompositeDisposable,
+        coroutineDispatchers: CoroutineDispatchers,
         networkHelper: NetworkHelper
     ): LikedUserViewModel = ViewModelProvider(
         fragment, ViewModelProviderFactory(LikedUserViewModel::class) {
-            LikedUserViewModel(schedulerProvider, compositeDisposable, networkHelper)
+            LikedUserViewModel(coroutineDispatchers, networkHelper)
             //this lambda creates and return SplashViewModel
         }).get(LikedUserViewModel::class.java)
 
     @Provides
     fun provideLoginViewModel(
-        schedulerProvider: SchedulerProvider,
-        compositeDisposable: CompositeDisposable,
+        coroutineDispatchers: CoroutineDispatchers,
         networkHelper: NetworkHelper,
         userRepository: UserRepository
     ): LoginViewModel = ViewModelProvider(
         fragment, ViewModelProviderFactory(LoginViewModel::class) {
-            LoginViewModel(schedulerProvider, compositeDisposable, networkHelper, userRepository)
+            LoginViewModel(coroutineDispatchers, networkHelper, userRepository)
         }).get(LoginViewModel::class.java)
 
 
     @Provides
     fun provideSignupViewModel(
-        schedulerProvider: SchedulerProvider,
-        compositeDisposable: CompositeDisposable,
+        coroutineDispatchers: CoroutineDispatchers,
         networkHelper: NetworkHelper,
         userRepository: UserRepository
     ): SignupViewModel = ViewModelProvider(
         fragment, ViewModelProviderFactory(SignupViewModel::class) {
-            SignupViewModel(schedulerProvider, compositeDisposable, networkHelper,userRepository)
+            SignupViewModel(coroutineDispatchers, networkHelper,userRepository)
         }).get(SignupViewModel::class.java)
 
 

@@ -3,7 +3,6 @@ package com.hashim.instagram.di.module
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
 import androidx.room.Room
 import com.bumptech.glide.util.ViewPreloadSizeProvider
 import com.hashim.instagram.BuildConfig
@@ -18,11 +17,10 @@ import com.hashim.instagram.utils.common.Constants
 import com.hashim.instagram.utils.common.FileUtils
 import com.hashim.instagram.utils.common.GridSpacingItemDecoration
 import com.hashim.instagram.utils.network.NetworkHelper
-import com.hashim.instagram.utils.rx.RxSchedulerProvider
-import com.hashim.instagram.utils.rx.SchedulerProvider
+import com.hashim.instagram.utils.rx.CoroutineDispatchers
+import com.hashim.instagram.utils.rx.CoroutineDispatchersProvider
 import dagger.Module
 import dagger.Provides
-import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Singleton
 
 @Module
@@ -44,15 +42,8 @@ class ApplicationModule(private val application: InstagramApplication) {
     @TempDirectory
     fun provideTempDirectory() = FileUtils.getDirectory(application, "temp")
 
-    /**
-     * Since this function do not have @Singleton then each time CompositeDisposable is injected
-     * then a new instance of CompositeDisposable will be provided
-     */
     @Provides
-    fun provideCompositeDisposable(): CompositeDisposable = CompositeDisposable()
-
-    @Provides
-    fun provideSchedulerProvider(): SchedulerProvider = RxSchedulerProvider()
+    fun provideSchedulerProvider(): CoroutineDispatchers = CoroutineDispatchersProvider()
 
     @Provides
     @Singleton
