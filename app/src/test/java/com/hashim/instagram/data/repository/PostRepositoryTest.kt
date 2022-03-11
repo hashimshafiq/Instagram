@@ -7,7 +7,7 @@ import com.hashim.instagram.data.remote.Networking
 import com.hashim.instagram.data.remote.response.PostListResponse
 import com.hashim.instagram.utils.network.NetworkBoundResource
 import com.hashim.instagram.utils.network.NetworkHelper
-import io.reactivex.Single
+import kotlinx.coroutines.flow.flow
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -54,10 +54,12 @@ class PostRepositoryTest {
 //                user.accessToken,
 //                Networking.API_KEY
 //            )
-
-        doReturn(Single.just((PostListResponse("statusCode","message", listOf()))))
+        val a = flow {
+            emit(PostListResponse("statusCode","message", listOf()))
+        }
+        doReturn(a)
             .`when`(networkBoundResource)
-            .asSingle()
+            .asFlow()
 
             postRepository.fetchHomePostList("firstId","lastId",user)
 
@@ -69,7 +71,7 @@ class PostRepositoryTest {
 //                Networking.API_KEY
 //            )
 
-        verify(networkBoundResource).asSingle()
+        verify(networkBoundResource).asFlow()
 
     }
 

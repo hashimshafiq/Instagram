@@ -1,6 +1,8 @@
 package com.hashim.instagram.ui.login
 
 import android.content.Intent
+import android.os.Bundle
+import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.rule.IntentsTestRule
@@ -18,10 +20,8 @@ class LoginFragmentTest {
 
     private val component = TestComponentRule(InstrumentationRegistry.getInstrumentation().targetContext)
 
-    private val main = IntentsTestRule(LoginFragment::class.java, false, false)
-
     @get:Rule
-    val chain: RuleChain = RuleChain.outerRule(component).around(main)
+    val chain : RuleChain = RuleChain.outerRule(component)
 
     @Before
     fun setup() {
@@ -30,7 +30,7 @@ class LoginFragmentTest {
 
     @Test
     fun testCheckViewsDisplay() {
-        main.launchActivity(Intent(component.getContext(), LoginFragment::class.java))
+        launchFragmentInContainer<LoginFragment>(Bundle(), R.style.AppTheme)
         onView(withId(R.id.layout_email))
             .check(matches(isDisplayed()))
         onView(withId(R.id.layout_password))
