@@ -13,8 +13,8 @@ class MainViewModel(
     private val userRepository: UserRepository
 ) : BaseViewModel(coroutineDispatchers, networkHelper) {
 
-    val profileNavigation = MutableLiveData<Event<Boolean>>()
-    val homeNavigation = MutableLiveData<Event<Boolean>>()
+    private val profileNavigation = MutableLiveData<Event<Boolean>>()
+    private val homeNavigation = MutableLiveData<Event<Boolean>>()
 
     override fun onCreate() {
         if (!userRepository.isThemeChange()) {

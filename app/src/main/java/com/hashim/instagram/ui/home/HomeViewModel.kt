@@ -45,18 +45,27 @@ class HomeViewModel(
     private val _paginator: MutableSharedFlow<Pair<String?, String?>> =
         MutableSharedFlow(extraBufferCapacity = 1)
 
+
     private var firstId: String? = null
     private var lastId: String? = null
 
     init {
 
-        _paginator
-            .onEach {
-                onFetchHomePostList()
-            }.catch {
-                messageStringId.postValue(Resource.error(R.string.try_again))
-            }
-            .launchIn(viewModelScope)
+        if (user!= null){
+
+            _paginator
+                .onEach {
+                    onFetchHomePostList()
+                }.catch {
+                    messageStringId.postValue(Resource.error(R.string.try_again))
+                }
+                .launchIn(viewModelScope)
+        }
+        else {
+            _isLoggedIn.postValue(Event(false))
+        }
+
+
 
     }
 

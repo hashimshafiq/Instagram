@@ -4,9 +4,6 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,8 +15,6 @@ import com.hashim.instagram.ui.base.BaseFragment
 import com.hashim.instagram.ui.home.post.PostsAdapter
 import com.hashim.instagram.ui.main.MainSharedViewModel
 import com.hashim.instagram.utils.common.Status
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 

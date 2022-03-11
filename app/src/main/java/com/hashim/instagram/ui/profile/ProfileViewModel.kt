@@ -37,8 +37,6 @@ class ProfileViewModel(
     val userPosts : MutableLiveData<List<Post>> = MutableLiveData()
     val numberOfPosts : MutableLiveData<Int> = MutableLiveData()
 
-
-
     private val user : User = userRepository.getCurrentUser()!!
 
     private val headers = mapOf(

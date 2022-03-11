@@ -89,11 +89,4 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
 
     }
-
-//    override fun onBackPressed() {
-//        if(navController.currentDestination?.id != R.id.itemHome){
-//            navController.popBackStack()
-//        }
-//        else super.onBackPressed()
-//    }
 }
