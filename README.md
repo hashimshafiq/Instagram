@@ -17,6 +17,8 @@ This app is a tailored version of real Intagram Android app with features like C
 * Dagger 2
 * Retrofit
 * LiveData
+* Flow
+* SharedFlow
 * Glide
 * Android Architecture Components
 * ~~Kotlin Synthetics~~ viewBindings
