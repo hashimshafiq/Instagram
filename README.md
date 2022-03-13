@@ -10,7 +10,7 @@ This app is a tailored version of real Intagram Android app with features like C
 
 ## Built by :hammer:
 * Kotlin
-* RxAndroid/RxJava
+* ~~RxAndroid/RxJava~~ Kotlin Coroutines
 * Material Theme
 * Room
 * MVVM
