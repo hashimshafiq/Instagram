@@ -13,6 +13,7 @@ import com.hashim.instagram.databinding.FragmentHomeBinding
 import com.hashim.instagram.di.component.FragmentComponent
 import com.hashim.instagram.ui.base.BaseFragment
 import com.hashim.instagram.ui.home.post.PostsAdapter
+import com.hashim.instagram.ui.main.MainActivity
 import com.hashim.instagram.ui.main.MainSharedViewModel
 import com.hashim.instagram.utils.common.Status
 import javax.inject.Inject

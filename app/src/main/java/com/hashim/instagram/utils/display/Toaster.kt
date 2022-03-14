@@ -1,14 +1,16 @@
 package com.hashim.instagram.utils.display
 
-import android.content.Context
-import android.graphics.PorterDuff
-import android.widget.TextView
-import androidx.core.content.ContextCompat
-import com.hashim.instagram.R
+import android.view.View
+import com.google.android.material.snackbar.Snackbar
 
 object Toaster {
-    fun show(context: Context, text: CharSequence) {
-        val toast = android.widget.Toast.makeText(context, text, android.widget.Toast.LENGTH_SHORT)
-        toast.show()
+    fun show(contextView: View, text: CharSequence, anchorView: View? = null) {
+
+        val snack = Snackbar.make(contextView, text, Snackbar.LENGTH_SHORT).apply {
+            setTextColor(contextView.resources.getColor(android.R.color.white,null))
+            setBackgroundTint(contextView.resources.getColor(android.R.color.black, null))
+        }
+        snack.anchorView = anchorView
+        snack.show()
     }
 }

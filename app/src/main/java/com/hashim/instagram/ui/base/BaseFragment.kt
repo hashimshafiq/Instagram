@@ -58,9 +58,9 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
     }
 
 
-    open fun showMessage(message: String) = context?.let { Toaster.show(it, message) }
+    open fun showMessage(message: String, anchorView: View? = null) = context?.let { Toaster.show(this.requireView(), message, anchorView) }
 
-    open fun showMessage(@StringRes resId: Int) = showMessage(getString(resId))
+    open fun showMessage(@StringRes resId: Int, anchorView: View? = null) = showMessage(getString(resId), anchorView)
 
 //    fun goBack() {
 //        if (activity is BaseActivity<*>) (activity as BaseActivity<*>).goBack()

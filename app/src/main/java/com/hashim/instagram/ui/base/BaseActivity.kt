@@ -52,9 +52,9 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
         })
     }
 
-    open fun showMessage(message: String) = Toaster.show(applicationContext, message)
+    open fun showMessage(message: String, anchorView: View? = null) = Toaster.show(this.provideLayoutId(), message, anchorView)
 
-    open fun showMessage(@StringRes resId: Int) = showMessage(getString(resId))
+    open fun showMessage(@StringRes resId: Int, anchorView: View? = null) = showMessage(getString(resId), anchorView)
 
     //open fun goBack() = onBackPressed()
 

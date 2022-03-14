@@ -64,9 +64,6 @@ class HomeViewModel(
         else {
             _isLoggedIn.postValue(Event(false))
         }
-
-
-
     }
 
     private fun onFetchHomePostList(){

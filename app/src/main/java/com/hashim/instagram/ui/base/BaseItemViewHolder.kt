@@ -67,7 +67,7 @@ abstract class BaseItemViewHolder<T : Any, VM : BaseItemViewModel<T>>(
             .viewHolderModule(ViewHolderModule(this))
             .build()
 
-    open fun showMessage(message: String) = Toaster.show(itemView.context, message)
+    open fun showMessage(message: String) = Toaster.show(itemView, message)
 
     open fun showMessage(@StringRes resId: Int) = showMessage(itemView.context.getString(resId))
 

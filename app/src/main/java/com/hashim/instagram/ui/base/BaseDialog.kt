@@ -85,9 +85,9 @@ abstract class BaseDialog<VM : BaseViewModel> : DialogFragment(){
         setupView(view)
     }
 
-    open fun showMessage(message: String) = Toaster.show(baseActivity!!.applicationContext, message)
+    open fun showMessage(message: String, anchorView: View? = null) = Toaster.show(requireView(), message, anchorView)
 
-    open fun showMessage(@StringRes resId: Int) = showMessage(getString(resId))
+    open fun showMessage(@StringRes resId: Int, anchorView: View? = null) = showMessage(getString(resId), anchorView)
 
 //    fun goBack() {
 //        if (activity is BaseActivity<*>) (activity as BaseActivity<*>).goBack()
