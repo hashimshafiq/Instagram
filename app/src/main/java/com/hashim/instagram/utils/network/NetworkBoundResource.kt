@@ -1,9 +1,9 @@
 package com.hashim.instagram.utils.network
 
+import androidx.annotation.MainThread
+import androidx.annotation.WorkerThread
 import com.hashim.instagram.data.model.Post
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 
 
 abstract class NetworkBoundResource() {
@@ -12,27 +12,28 @@ abstract class NetworkBoundResource() {
         return flow {
 
             //fetch database contents firsts
-            val db = loadFromDb().first()
+            val db = loadFromDb()
+            emit(db.first())
+
 
             //fetch from network
             val network = createCall()
+            saveCallResult(network)
 
-            if (shouldFetch()){
-                saveCallResult(network.first())
-                emit(network.first())
-            }else{
-                emit(db)
-            }
+            emitAll(db)
+
+        }.catch {
+
         }
     }
 
+    @WorkerThread
     protected abstract suspend fun saveCallResult(request: List<Post>)
 
-    protected abstract suspend fun loadFromDb(): Flow<List<Post>>
+    @MainThread
+    protected abstract fun loadFromDb(): Flow<List<Post>>
 
-    protected abstract suspend fun createCall(): Flow<List<Post>>
-
-    protected abstract fun shouldFetch(): Boolean
-
+    @MainThread
+    protected abstract suspend fun createCall(): List<Post>
 
 }

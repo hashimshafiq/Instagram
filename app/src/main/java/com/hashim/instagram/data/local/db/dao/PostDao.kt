@@ -6,6 +6,7 @@ import com.hashim.instagram.data.local.db.entity.PostEntity
 import com.hashim.instagram.data.local.db.entity.PostWithUser
 import com.hashim.instagram.data.local.db.entity.UserEntity
 import com.hashim.instagram.data.model.Post
+import kotlinx.coroutines.flow.Flow
 
 
 @Dao
@@ -13,7 +14,7 @@ abstract class PostDao {
 
     @Transaction
     @Query("SELECT * FROM user_entity")
-    abstract suspend fun getAll(): List<PostWithUser>
+    abstract fun getAll(): Flow<List<PostWithUser>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insert(entity: PostEntity)

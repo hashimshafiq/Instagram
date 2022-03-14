@@ -12,10 +12,7 @@ import com.hashim.instagram.utils.log.Logger
 import com.hashim.instagram.utils.network.NetworkBoundResource
 import com.hashim.instagram.utils.network.NetworkHelper
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 class PostRepository @Inject constructor(
@@ -29,46 +26,31 @@ class PostRepository @Inject constructor(
     }
 
     fun fetchHomePostList(firstPostId: String?, lastPostId: String?, user: User): Flow<List<Post>> {
-        return flow {
-            val response = networkService.doHomePostListCall(
-                firstPostId,
-                lastPostId,
-                user.id,
-                user.accessToken
-            )
-            emit(response.data)
-        }.flowOn(Dispatchers.IO)
+
+        return object : NetworkBoundResource() {
+            override suspend fun saveCallResult(request: List<Post>) {
+                postDao.preparePostAndCreator(request)
+            }
+
+            override fun loadFromDb(): Flow<List<Post>> {
+                return postDao.getAll()
+                    .map {
+                        processData(it)
+                    }
+            }
+
+            override suspend fun createCall(): List<Post> {
+
+                   return networkService.doHomePostListCall(
+                        firstPostId,
+                        lastPostId,
+                        user.id,
+                        user.accessToken
+                   ).data
+            }
 
 
-//        return object : NetworkBoundResource() {
-//            override suspend fun saveCallResult(request: List<Post>) {
-//                postDao.preparePostAndCreator(request)
-//            }
-//
-//            override suspend fun loadFromDb(): Flow<List<Post>> {
-//                val data = postDao.getAll()
-//                return flow {
-//                    processData(data)
-//                }
-//            }
-//
-//            override suspend fun createCall(): Flow<List<Post>> {
-//
-//                return flow {
-//                    networkService.doHomePostListCall(
-//                        firstPostId,
-//                        lastPostId,
-//                        user.id,
-//                        user.accessToken
-//                    )
-//                }
-//            }
-//
-//            override fun shouldFetch(): Boolean {
-//                return networkHelper.isNetworkConnected()
-//            }
-//
-//        }.asFlow()
+        }.asFlow().flowOn(Dispatchers.IO)
 
     }
 
