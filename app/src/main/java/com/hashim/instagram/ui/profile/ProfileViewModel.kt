@@ -23,11 +23,6 @@ class ProfileViewModel(
     private val postRepository: PostRepository
 ) : BaseViewModel(coroutineDispatchers, networkHelper) {
 
-    override fun onCreate() {
-        fetchProfileData()
-        fetchUserPostList()
-    }
-
 
     val name : MutableLiveData<String> = MutableLiveData()
     val profile : MutableLiveData<Image> = MutableLiveData()
@@ -39,11 +34,20 @@ class ProfileViewModel(
 
     private val user : User = userRepository.getCurrentUser()!!
 
+
     private val headers = mapOf(
         Pair(Networking.HEADER_API_KEY, Networking.API_KEY),
         Pair(Networking.HEADER_USER_ID, user.id),
         Pair(Networking.HEADER_ACCESS_TOKEN, user.accessToken)
     )
+
+    override fun onCreate() {
+
+            fetchProfileData()
+            fetchUserPostList()
+
+
+    }
 
     private fun fetchProfileData(){
 

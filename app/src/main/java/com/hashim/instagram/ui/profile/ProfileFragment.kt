@@ -112,7 +112,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
         }
 
         viewModel.userPosts.observe(this) {
-            userPostAdapter.appendData(it)
+            userPostAdapter.updateData(it)
         }
 
 

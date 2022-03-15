@@ -121,14 +121,14 @@ class HomeFragment : BaseFragment<HomeViewModel>() , onClickListener {
         }
 
 
-                viewModel.isLoggedIn.observe(this) {
-                    it.getIfNotHandled()?.run {
-                        if (!this){
-                            findNavController().navigate(R.id.action_itemHome_to_loginFragment)
-                        }
-
-                    }
+        viewModel.isLoggedIn.observe(this) {
+            it.getIfNotHandled()?.run {
+                if (!this){
+                    findNavController().navigate(R.id.action_itemHome_to_loginFragment)
                 }
+            }
+        }
+
     }
 
     private fun showLoading(isLoading: Boolean) {
@@ -185,4 +185,5 @@ class HomeFragment : BaseFragment<HomeViewModel>() , onClickListener {
         super.onDestroyView()
         _binding = null
     }
+
 }

@@ -13,7 +13,9 @@ import com.hashim.instagram.utils.common.Event
 import com.hashim.instagram.utils.common.Resource
 import com.hashim.instagram.utils.network.NetworkHelper
 import com.hashim.instagram.utils.rx.CoroutineDispatchers
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -43,24 +45,26 @@ class HomeViewModel(
     val isLoggedIn: LiveData<Event<Boolean>> = _isLoggedIn
 
     private val _paginator: MutableSharedFlow<Pair<String?, String?>> =
-        MutableSharedFlow(extraBufferCapacity = 1)
+        MutableSharedFlow(replay = 0,
+            extraBufferCapacity = 1,
+            onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
 
     private var firstId: String? = null
     private var lastId: String? = null
 
     init {
-
         if (user!= null){
 
             _paginator
                 .onEach {
                     onFetchHomePostList()
-                }.catch {
-                    messageStringId.postValue(Resource.error(R.string.try_again))
                 }
-                .launchIn(viewModelScope)
-        }
+                .catch {
+                    messageStringId.postValue(Resource.error(R.string.try_again))
+                }.launchIn(viewModelScope)
+            }
+
         else {
             _isLoggedIn.postValue(Event(false))
         }
@@ -93,11 +97,11 @@ class HomeViewModel(
     }
 
     private fun loadMorePosts() {
-        _paginator.tryEmit(Pair(firstId, lastId))
+        _paginator.tryEmit(Pair(firstId,lastId))
     }
 
     fun onLoadMore() {
-        if(loading.value !== null && loading.value == false) loadMorePosts()
+        if(loading.value == false) loadMorePosts()
     }
 
     fun onNewPost(post: Post) {
