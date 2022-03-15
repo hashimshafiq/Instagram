@@ -1,10 +1,8 @@
 package com.hashim.instagram.ui.photo
 
-import android.os.Environment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.hashim.instagram.R
-import com.hashim.instagram.data.model.Image
 import com.hashim.instagram.data.model.Post
 import com.hashim.instagram.data.model.User
 import com.hashim.instagram.data.repository.PhotoRepository
@@ -18,7 +16,6 @@ import com.hashim.instagram.utils.common.Resource
 import com.hashim.instagram.utils.network.NetworkHelper
 import com.hashim.instagram.utils.rx.CoroutineDispatchers
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.launch
 import java.io.File
@@ -35,15 +32,9 @@ class PhotoViewModel(
 
     override fun onCreate() {}
 
-    private var directries: ArrayList<String> = ArrayList()
-    private var imgageUrls : ArrayList<Image>? = ArrayList()
-    private var directoryNames : ArrayList<String> = ArrayList()
     private val user: User = userRepository.getCurrentUser()!! // should not be used without logged in user
     val loading: MutableLiveData<Boolean> = MutableLiveData()
     val post: MutableLiveData<Event<Post>> = MutableLiveData()
-    val directoriesList: MutableLiveData<List<String>> = MutableLiveData()
-    val imagesList: MutableLiveData<List<Image>> = MutableLiveData()
-    val imageDetail : MutableLiveData<Image> = MutableLiveData()
 
     fun onGalleryImageSelected(inputStream: InputStream) {
 
@@ -96,27 +87,4 @@ class PhotoViewModel(
         }
     }
 
-    fun getFilePaths() {
-        directries = FileUtils.getDirectoryPaths(Environment.getExternalStorageDirectory().absoluteFile)
-        for (i in directries){
-            directoryNames.add(i.substring(i.lastIndexOf("/")+1))
-        }
-
-        directoriesList.value = directoryNames
-    }
-
-
-    fun getImagePaths(index : Int){
-
-        imgageUrls = FileUtils.getFilePaths(directries?.get(index))?.map {
-            Image(it, mapOf())
-        } as ArrayList<Image>?
-
-        imagesList.value = imgageUrls
-
-    }
-
-    fun fetchDetailedImage(it: String) {
-        imageDetail.value = Image(it, mapOf())
-    }
 }

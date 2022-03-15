@@ -86,7 +86,6 @@ class ApplicationModule(private val application: InstagramApplication) {
     fun provideViewPreloadSizeProvider(): ViewPreloadSizeProvider<String> = ViewPreloadSizeProvider<String>()
 
     @Provides
-    fun providesGridItemDecoration(): GridSpacingItemDecoration = GridSpacingItemDecoration(Constants.SPAN_COUNT,Constants.SPAN_SPACING,Constants.IS_EDGE_CASE)
-
-    
+    fun providesGridItemDecoration(): GridSpacingItemDecoration = GridSpacingItemDecoration(
+        Constants.SPAN_COUNT,Constants.SPAN_SPACING,Constants.IS_EDGE_CASE)
 }

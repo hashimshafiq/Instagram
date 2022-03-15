@@ -16,13 +16,12 @@ import com.hashim.instagram.ui.home.post.likeduser.LikedUserViewModel
 import com.hashim.instagram.ui.login.LoginViewModel
 import com.hashim.instagram.ui.main.MainSharedViewModel
 import com.hashim.instagram.ui.photo.PhotoViewModel
-import com.hashim.instagram.ui.photo.gallery.GalleryAdapter
 import com.hashim.instagram.ui.profile.ProfileViewModel
 import com.hashim.instagram.ui.profile.editprofile.EditProfileViewModel
 import com.hashim.instagram.ui.profile.userposts.UserPostAdapter
 import com.hashim.instagram.ui.signup.SignupViewModel
 import com.hashim.instagram.utils.ViewModelProviderFactory
-import com.hashim.instagram.utils.common.Constants
+import com.hashim.instagram.utils.common.GridSpacingItemDecoration
 import com.hashim.instagram.utils.network.NetworkHelper
 import com.hashim.instagram.utils.rx.CoroutineDispatchers
 import com.mindorks.paracamera.Camera
@@ -40,20 +39,11 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
     fun providePostsAdapter() = PostsAdapter(fragment.lifecycle, ArrayList())
 
     @Provides
-    fun provideImagesAdapter() = GalleryAdapter(fragment.lifecycle, ArrayList())
-
-    @Provides
     fun providesLikedUserAdapter() = LikedUserAdapter(fragment.lifecycle, ArrayList())
 
     @Provides
-    fun provideArrayAdapter() = ArrayAdapter(fragment.requireContext(),android.R.layout.simple_spinner_item, ArrayList<String>())
-
-    @Provides
-    fun provideGridLayoutManager(): GridLayoutManager = GridLayoutManager(fragment.context,Constants.SPAN_COUNT)
-
-
-    @Provides
     fun provideUserPostsAdapter() = UserPostAdapter(fragment.lifecycle, ArrayList())
+
 
     @Provides
     fun provideHomeViewModel(

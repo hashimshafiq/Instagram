@@ -69,5 +69,4 @@ interface ApplicationComponent {
     fun getViewPreloadSizeProvider() : ViewPreloadSizeProvider<String>
 
     fun getGridItemDecoration() : GridSpacingItemDecoration
-
 }
