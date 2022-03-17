@@ -10,6 +10,8 @@ import com.hashim.instagram.R
 import com.hashim.instagram.databinding.ActivityMainBinding
 import com.hashim.instagram.di.component.ActivityComponent
 import com.hashim.instagram.ui.base.BaseActivity
+import com.hashim.instagram.utils.common.Status
+import com.hashim.instagram.utils.display.SnackBar
 import javax.inject.Inject
 
 
@@ -84,6 +86,23 @@ class MainActivity : BaseActivity<MainViewModel>() {
         mainSharedViewModel.homeRedirection.observe(this) {
             it.getIfNotHandled()?.run {
                 binding.bottomNavigation.selectedItemId = R.id.itemHome
+            }
+        }
+
+        mainSharedViewModel.snackBar.observe(this){
+            it.getIfNotHandled()?.let { resource ->
+                when(resource.status){
+                    Status.SUCCESS -> {
+                        SnackBar.showSuccess(binding.root, resource.data!!, binding.bottomNavigation)
+                    }
+                    Status.ERROR -> {
+                        SnackBar.showError(binding.root, resource.data!!, binding.bottomNavigation)
+                    }
+                    else -> {
+                        SnackBar.show(binding.root, resource.data!!, binding.bottomNavigation)
+                    }
+                }
+
             }
         }
 

@@ -109,7 +109,12 @@ class PhotoFragment : BaseFragment<PhotoViewModel>() {
                 mainSharedViewModel.newPost.postValue(Event(this))
                 mainSharedViewModel.onHomeRedirect()
             }
+        }
 
+        viewModel.messgae.observe(this){
+            it.getIfNotHandled()?.let { resource ->
+                mainSharedViewModel.showSnackBar(resource)
+            }
         }
     }
 

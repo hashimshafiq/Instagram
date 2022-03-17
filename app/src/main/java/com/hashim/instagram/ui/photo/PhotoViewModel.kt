@@ -35,56 +35,82 @@ class PhotoViewModel(
     private val user: User = userRepository.getCurrentUser()!! // should not be used without logged in user
     val loading: MutableLiveData<Boolean> = MutableLiveData()
     val post: MutableLiveData<Event<Post>> = MutableLiveData()
+    val messgae: MutableLiveData<Event<Resource<Int>>> = MutableLiveData()
 
     fun onGalleryImageSelected(inputStream: InputStream) {
 
-        viewModelScope.launch(coroutineDispatchers.default()) {
-            loading.postValue(true)
-            val file =
-                FileUtils.saveInputStreamToFile(inputStream, directory, "gallery_img_temp", 500)
+            try {
+                viewModelScope.launch(coroutineDispatchers.default()) {
+                    loading.postValue(true)
+                    val file =
+                        FileUtils.saveInputStreamToFile(
+                            inputStream,
+                            directory,
+                            "gallery_img_temp",
+                            500
+                        )
 
-            if (file != null) {
+                    if (file != null) {
 
-                    uploadPhotoAndCreatePost(
-                        file,
-                        FileUtils.getImageSize(file)!!
-                    )
+                        uploadPhotoAndCreatePost(
+                            file,
+                            FileUtils.getImageSize(file)!!
+                        )
 
 
-            } else {
-                loading.postValue(false)
-                messageStringId.postValue(Resource.error(R.string.try_again))
+                    } else {
+                        loading.postValue(false)
+                        messageStringId.postValue(Resource.error(R.string.try_again))
 
+                    }
+                }
+
+            } catch (ex: Exception) {
+                messgae.postValue(Event(handleNetworkError(ex)))
             }
-        }
+
     }
 
     fun onCameraImageTaken(cameraImageProcessor: () -> String) {
 
-        viewModelScope.launch(coroutineDispatchers.default()) {
-            loading.postValue(true)
-            val str = cameraImageProcessor()
-            val file = File(str)
-            val fileSize = FileUtils.getImageSize(file)
+        try {
 
-            uploadPhotoAndCreatePost(file, fileSize!!)
+            viewModelScope.launch(coroutineDispatchers.default()) {
+                loading.postValue(true)
+                val str = cameraImageProcessor()
+                val file = File(str)
+                val fileSize = FileUtils.getImageSize(file)
 
+                uploadPhotoAndCreatePost(file, fileSize!!)
+
+            }
+
+        }catch (e: Exception){
+            messgae.postValue(Event(handleNetworkError(e)))
         }
+
     }
 
     @OptIn(FlowPreview::class)
     private fun uploadPhotoAndCreatePost(imageFile: File, imageSize: Pair<Int, Int>?) {
 
-        viewModelScope.launch(coroutineDispatchers.io()) {
-            photoRepository.uploadPhoto(imageFile,user)
-                .flatMapMerge {
-                    postRepository.createPost(it, imageSize!!.first, imageSize.second, user)
-                }.collect {
-                    loading.postValue(false)
-                    post.postValue(Event(it))
-                }
+        try {
+            viewModelScope.launch(coroutineDispatchers.io()) {
+                photoRepository.uploadPhoto(imageFile,user)
+                    .flatMapMerge {
+                        postRepository.createPost(it, imageSize!!.first, imageSize.second, user)
+                    }.collect {
+                        loading.postValue(false)
+                        post.postValue(Event(it))
+                    }
 
+            }
+
+        }catch (ex: Exception){
+            messgae.postValue(Event(handleNetworkError(ex)))
         }
+
+
     }
 
 }

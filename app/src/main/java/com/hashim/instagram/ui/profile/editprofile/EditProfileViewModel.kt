@@ -35,6 +35,8 @@ class EditProfileViewModel(
     val loading : MutableLiveData<Boolean> = MutableLiveData()
     val profile : MutableLiveData<Image> = MutableLiveData()
     val selectedProfile : MutableLiveData<Bitmap> = MutableLiveData()
+    val message: MutableLiveData<Event<Resource<Int>>> = MutableLiveData()
+
     private var isProfileImageChange : Boolean = false
     private var fileName : String = ""
     private var file : File? = null
@@ -81,13 +83,13 @@ class EditProfileViewModel(
                         }
                     }catch (ex: Exception){
                         loading.postValue(false)
-                        handleNetworkError(ex)
+                        message.postValue(Event(handleNetworkError(ex)))
                     }
 
                 }
 
             }else {
-                if (checkInternetConnectionWithMessage()) {
+
 
                     try {
                         userRepository.doUserProfileUpdate(user, name, bio, fileName)
@@ -107,9 +109,9 @@ class EditProfileViewModel(
                             }
                     } catch (ex: java.lang.Exception) {
                         loading.postValue(false)
-                        handleNetworkError(ex)
+                        message.postValue(Event(handleNetworkError(ex)))
                     }
-                }
+
             }
         }
     }
@@ -133,7 +135,7 @@ class EditProfileViewModel(
                     }
             }catch (ex: Exception){
                 loading.postValue(false)
-                handleNetworkError(ex)
+                message.postValue(Event(handleNetworkError(ex)))
             }
         }
     }

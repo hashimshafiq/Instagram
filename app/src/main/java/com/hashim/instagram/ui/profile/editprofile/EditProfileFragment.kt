@@ -12,14 +12,19 @@ import com.hashim.instagram.R
 import com.hashim.instagram.databinding.FragmentEditProfileBinding
 import com.hashim.instagram.di.component.FragmentComponent
 import com.hashim.instagram.ui.base.BaseFragment
+import com.hashim.instagram.ui.main.MainSharedViewModel
 import com.hashim.instagram.utils.common.GlideHelper
 import java.io.FileNotFoundException
+import javax.inject.Inject
 
 class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
 
     private var _binding: FragmentEditProfileBinding? = null
 
     private val binding get() = _binding!!
+
+    @Inject
+    lateinit var mainSharedViewModel: MainSharedViewModel
 
     companion object {
         const val RESULT_GALLERY_IMAGE_CODE = 1001
@@ -123,6 +128,12 @@ class EditProfileFragment : BaseFragment<EditProfileViewModel>() {
         viewModel.emailField.observe(this) {
             if (binding.etEmail.text.toString() != it) {
                 binding.etEmail.setText(it.toString())
+            }
+        }
+
+        viewModel.message.observe(this){
+            it.getIfNotHandled()?.let { resource ->
+                mainSharedViewModel.showSnackBar(resource)
             }
         }
 

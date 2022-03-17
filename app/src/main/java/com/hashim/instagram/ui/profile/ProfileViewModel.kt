@@ -10,6 +10,7 @@ import com.hashim.instagram.data.repository.PostRepository
 import com.hashim.instagram.data.repository.UserRepository
 import com.hashim.instagram.ui.base.BaseViewModel
 import com.hashim.instagram.utils.common.Event
+import com.hashim.instagram.utils.common.Resource
 import com.hashim.instagram.utils.network.NetworkHelper
 import com.hashim.instagram.utils.rx.CoroutineDispatchers
 import kotlinx.coroutines.async
@@ -31,6 +32,7 @@ class ProfileViewModel(
     val launchLogin: MutableLiveData<Event<Map<String, String>>> = MutableLiveData()
     val userPosts : MutableLiveData<List<Post>> = MutableLiveData()
     val numberOfPosts : MutableLiveData<Int> = MutableLiveData()
+    val message: MutableLiveData<Event<Resource<Int>>> = MutableLiveData()
 
     private val user : User = userRepository.getCurrentUser()!!
 
@@ -68,7 +70,7 @@ class ProfileViewModel(
 
             }catch (ex: Exception){
                 loading.postValue(false)
-                handleNetworkError(ex)
+                message.postValue(Event(handleNetworkError(ex)))
             }
 
         }
@@ -88,7 +90,7 @@ class ProfileViewModel(
                 }
 
             }catch (ex: Exception){
-                handleNetworkError(ex)
+                message.postValue(Event(handleNetworkError(ex)))
             }
 
         }
@@ -110,7 +112,7 @@ class ProfileViewModel(
 
             }catch (ex: Exception){
                 loading.postValue(false)
-                handleNetworkError(ex)
+                message.postValue(Event(handleNetworkError(ex)))
             }
         }
 

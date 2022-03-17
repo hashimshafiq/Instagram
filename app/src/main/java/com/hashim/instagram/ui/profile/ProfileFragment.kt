@@ -10,6 +10,7 @@ import com.hashim.instagram.R
 import com.hashim.instagram.databinding.FragmentProfileBinding
 import com.hashim.instagram.di.component.FragmentComponent
 import com.hashim.instagram.ui.base.BaseFragment
+import com.hashim.instagram.ui.main.MainSharedViewModel
 import com.hashim.instagram.ui.profile.userposts.UserPostAdapter
 import com.hashim.instagram.utils.common.GlideHelper
 import com.hashim.instagram.utils.common.GridSpacingItemDecoration
@@ -38,6 +39,9 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
 
     @Inject
     lateinit var gridSpacingItemDecoration: GridSpacingItemDecoration
+
+    @Inject
+    lateinit var mainSharedViewModel: MainSharedViewModel
 
     private var _binding: FragmentProfileBinding? = null
 
@@ -115,7 +119,11 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
             userPostAdapter.updateData(it)
         }
 
-
+        viewModel.message.observe(this){
+            it.getIfNotHandled()?.let { resource ->
+                mainSharedViewModel.showSnackBar(resource)
+            }
+        }
     }
 
     override fun onDestroyView() {

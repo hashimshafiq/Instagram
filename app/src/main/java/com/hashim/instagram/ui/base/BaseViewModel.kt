@@ -31,24 +31,34 @@ abstract class BaseViewModel(
 
     protected fun checkInternetConnection(): Boolean = networkHelper.isNetworkConnected()
 
-    protected fun handleNetworkError(err: Throwable?) =
-        err?.let {
-            networkHelper.castToNetworkError(it).run {
-                when (status) {
-                    -1 -> messageStringId.postValue(Resource.error(R.string.network_default_error))
-                    0 -> messageStringId.postValue(Resource.error(R.string.server_connection_error))
-                    HttpsURLConnection.HTTP_UNAUTHORIZED -> {
-                        forcedLogoutUser()
-                        messageStringId.postValue(Resource.error(R.string.server_connection_error))
+    protected fun handleNetworkError(err: Throwable?) : Resource<Int> {
+
+        if (checkInternetConnection()) {
+            return err?.let {
+                networkHelper.castToNetworkError(it).run {
+                    when (status) {
+                        -1 -> Resource.error(R.string.network_default_error)
+                        0 -> Resource.error(R.string.server_connection_error)
+                        HttpsURLConnection.HTTP_UNAUTHORIZED -> {
+                            forcedLogoutUser()
+                            Resource.error(R.string.server_connection_error)
+                        }
+                        HttpsURLConnection.HTTP_INTERNAL_ERROR ->
+                            Resource.error(R.string.network_internal_error)
+                        HttpsURLConnection.HTTP_UNAVAILABLE ->
+                            Resource.error(R.string.network_server_not_available)
+
+                        else -> {
+                            Resource.error(R.string.try_again)
+                        }
                     }
-                    HttpsURLConnection.HTTP_INTERNAL_ERROR ->
-                        messageStringId.postValue(Resource.error(R.string.network_internal_error))
-                    HttpsURLConnection.HTTP_UNAVAILABLE ->
-                        messageStringId.postValue(Resource.error(R.string.network_server_not_available))
-                    else -> messageString.postValue(Resource.error(message))
                 }
-            }
+            } ?: Resource.error(R.string.try_again)
+        }else {
+            return Resource.error(R.string.network_connection_error)
         }
+
+    }
 
     protected open fun forcedLogoutUser() {
         // do something

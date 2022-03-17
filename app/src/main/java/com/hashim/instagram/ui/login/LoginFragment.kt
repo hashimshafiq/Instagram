@@ -3,7 +3,6 @@ package com.hashim.instagram.ui.login
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.fragment.findNavController
 import com.hashim.instagram.R
 import com.hashim.instagram.databinding.FragmentLoginBinding
@@ -17,15 +16,7 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
 
     private val binding get() = _binding!!
 
-    companion object{
-        const val TAG = "LoginActivity"
-        const val IS_LOGIN: String = "IS_LOGIN"
-    }
-
     override fun provideLayoutId(): Int  = R.layout.fragment_login
-
-    private lateinit var savedStateHandle: SavedStateHandle
-
 
     override fun injectDependencies(fragmentComponent: FragmentComponent) {
         fragmentComponent.inject(this)
