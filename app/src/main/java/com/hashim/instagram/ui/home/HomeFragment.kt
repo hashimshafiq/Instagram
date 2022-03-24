@@ -1,12 +1,10 @@
 package com.hashim.instagram.ui.home
 
 import android.content.DialogInterface
-import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityOptionsCompat
-import androidx.core.os.bundleOf
 import androidx.navigation.ActivityNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +15,6 @@ import com.hashim.instagram.data.model.Post
 import com.hashim.instagram.databinding.FragmentHomeBinding
 import com.hashim.instagram.di.component.FragmentComponent
 import com.hashim.instagram.ui.base.BaseFragment
-import com.hashim.instagram.ui.detail.DetailFragment
 import com.hashim.instagram.ui.home.post.PostsAdapter
 import com.hashim.instagram.ui.main.MainSharedViewModel
 import com.hashim.instagram.utils.common.Status

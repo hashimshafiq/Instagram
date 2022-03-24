@@ -15,6 +15,11 @@ android {
     compileSdkVersion 31
 
     defaultConfig {
+
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        buildConfigField "String", "API_KEY", "\"${properties.getProperty('API_KEY')}\""
+
         applicationId "com.hashim.instagram"
         minSdkVersion 23
         targetSdkVersion 31
@@ -28,13 +33,11 @@ android {
         // Add this debug config to provide debug settings
         debug {
             buildConfigField("String", "BASE_URL", "\"https://api.projects.bootcamp.mindorks.com/batch/green/\"")
-            buildConfigField("String", "API_KEY", "\"HBNA19QVVAPP\"")
         }
         release {
             minifyEnabled true // to apply the proguard
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField("String", "BASE_URL", "\"https://api.projects.bootcamp.mindorks.com/batch/green/\"")
-            buildConfigField("String", "API_KEY", "\"HBNA19QVVAPP\"")
         }
     }
 
