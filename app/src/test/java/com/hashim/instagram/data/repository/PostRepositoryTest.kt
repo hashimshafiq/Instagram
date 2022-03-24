@@ -5,7 +5,6 @@ import com.hashim.instagram.data.model.User
 import com.hashim.instagram.data.remote.NetworkService
 import com.hashim.instagram.data.remote.Networking
 import com.hashim.instagram.data.remote.response.PostListResponse
-import com.hashim.instagram.utils.network.NetworkBoundResource
 import com.hashim.instagram.utils.network.NetworkHelper
 import kotlinx.coroutines.flow.flow
 import org.junit.Before
@@ -23,9 +22,6 @@ class PostRepositoryTest {
     lateinit var networkService: NetworkService
 
     @Mock
-    lateinit var networkBoundResource: NetworkBoundResource
-
-    @Mock
     lateinit var postDao: PostDao
 
     @Mock
@@ -36,7 +32,7 @@ class PostRepositoryTest {
 
     @Before
     fun setUp(){
-        Networking.API_KEY = "FAKE API"
+        Networking.API_KEY = "FAKE API KEY"
         postRepository = PostRepository(networkService,networkHelper,postDao)
     }
 
@@ -45,33 +41,18 @@ class PostRepositoryTest {
 
         val user = User("id","name","email","accessToken","profilePicUrl")
 
-//        doReturn(Single.just(PostListResponse("statusCode","message", listOf())))
-//            .`when`(networkService)
-//            .doHomePostListCall(
-//                "firstId",
-//                "lastId",
-//                user.id,
-//                user.accessToken,
-//                Networking.API_KEY
-//            )
-        val a = flow {
-            emit(PostListResponse("statusCode","message", listOf()))
-        }
-        doReturn(a)
-            .`when`(networkBoundResource)
-            .asFlow()
+        doReturn(true)
+            .`when`(networkHelper)
+            .isNetworkConnected()
 
-            postRepository.fetchHomePostList("firstId","lastId",user)
+        postRepository.fetchHomePostList("firstId","lastId",user)
 
-//            verify(networkService).doHomePostListCall(
-//                "firstId",
-//                "lastId",
-//                user.id,
-//                user.accessToken,
-//                Networking.API_KEY
-//            )
+        verify(postDao).getAll()
 
-        verify(networkBoundResource).asFlow()
+
+
+
+
 
     }
 

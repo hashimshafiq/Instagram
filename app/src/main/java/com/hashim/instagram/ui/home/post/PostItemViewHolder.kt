@@ -17,11 +17,10 @@ import com.hashim.instagram.databinding.ItemViewPostBinding
 import com.hashim.instagram.di.component.ViewHolderComponent
 import com.hashim.instagram.ui.base.BaseItemViewHolder
 import com.hashim.instagram.ui.home.HomeFragmentDirections
-import com.hashim.instagram.ui.home.onClickListener
-import com.hashim.instagram.ui.home.post.likeduser.LikedUserFragment
+import com.hashim.instagram.ui.home.OnClickListener
 import com.hashim.instagram.utils.common.GlideHelper
 
-class PostItemViewHolder(parent: ViewGroup,private val onClickListener: onClickListener) : BaseItemViewHolder<Post,PostItemViewModel>(R.layout.item_view_post,parent) {
+class PostItemViewHolder(parent: ViewGroup,private val onClickListener: OnClickListener) : BaseItemViewHolder<Post,PostItemViewModel>(R.layout.item_view_post,parent) {
 
     lateinit var binding: ItemViewPostBinding
 
@@ -42,10 +41,10 @@ class PostItemViewHolder(parent: ViewGroup,private val onClickListener: onClickL
                 viewModel.onLikeCountClick()
             }
             tvShare.setOnClickListener { viewModel.onShareClick(ivPost.drawable.toBitmap(ivPost.width,ivPost.height,Bitmap.Config.ARGB_8888)) }
+            ivPost.setOnClickListener { viewModel.onImageClick() }
         }
 
     }
-
 
     override fun setupObservers() {
         super.setupObservers()
@@ -139,6 +138,12 @@ class PostItemViewHolder(parent: ViewGroup,private val onClickListener: onClickL
                     Intent.createChooser(shareIntent, "Share Image"),
                     null
                 )
+            }
+        }
+
+        viewModel.launchDetailFragment.observe(this){
+            it.getIfNotHandled()?.let { image ->
+                onClickListener.onClickPhoto(binding.ivPost, image)
             }
         }
     }

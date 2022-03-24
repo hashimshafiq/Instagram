@@ -1,28 +1,24 @@
 package com.hashim.instagram.utils
 
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.test.*
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
-import kotlin.coroutines.ContinuationInterceptor
 
 @ExperimentalCoroutinesApi
-class MainCoroutineRule():
-    TestWatcher(),
-    TestCoroutineScope by TestCoroutineScope() {
-    override fun starting(description: Description?) {
-        super.starting(description)
-        Dispatchers.setMain(this.coroutineContext[ContinuationInterceptor] as CoroutineDispatcher)
+class MainCoroutineRule(
+    private val scheduler: TestCoroutineScheduler =
+        TestCoroutineScheduler(),
+    private val dispatcher: TestDispatcher =
+        StandardTestDispatcher(scheduler),
+) : TestWatcher() {
+
+    override fun starting(description: Description) {
+        Dispatchers.setMain(dispatcher)
     }
 
-    override fun finished(description: Description?) {
-        super.finished(description)
-        cleanupTestCoroutines()
+    override fun finished(description: Description) {
         Dispatchers.resetMain()
     }
 }

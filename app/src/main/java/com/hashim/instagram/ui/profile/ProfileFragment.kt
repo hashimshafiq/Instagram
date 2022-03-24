@@ -2,11 +2,15 @@ package com.hashim.instagram.ui.profile
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
+import androidx.core.app.ActivityOptionsCompat
+import androidx.navigation.ActivityNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.hashim.instagram.R
+import com.hashim.instagram.data.model.Image
 import com.hashim.instagram.databinding.FragmentProfileBinding
 import com.hashim.instagram.di.component.FragmentComponent
 import com.hashim.instagram.ui.base.BaseFragment
@@ -17,7 +21,7 @@ import com.hashim.instagram.utils.common.GridSpacingItemDecoration
 import javax.inject.Inject
 
 
-class ProfileFragment : BaseFragment<ProfileViewModel>() {
+class ProfileFragment : BaseFragment<ProfileViewModel>() , OnClickListener {
 
     companion object {
 
@@ -56,6 +60,8 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
         _binding = FragmentProfileBinding.bind(view)
 
         gridLayoutManager = GridLayoutManager(requireContext(),3)
+
+        userPostAdapter.setupOnClickListener(this)
 
         binding.tvLogout.setOnClickListener {
             viewModel.doLogout()
@@ -129,5 +135,12 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onClickPhoto(view: ImageView, image: Image) {
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), view, view.transitionName)
+        val extras = ActivityNavigatorExtras(options)
+        val direction = ProfileFragmentDirections.actionItemProfileToDetailFragment(image)
+        findNavController().navigate(direction, extras)
     }
 }

@@ -78,10 +78,10 @@ class HomeViewModel(
                     .onStart { _loading.postValue(true) }
                     .collect {
                         _loading.postValue(false)
-                        allPostList.addAll(it)
+                        it.data?.let { it1 -> allPostList.addAll(it1.toMutableList()) }
                         firstId = allPostList.maxByOrNull { post -> post.createdAt.time }?.id
                         lastId = allPostList.minByOrNull { post -> post.createdAt.time }?.id
-                        _posts.postValue(Resource.success(it))
+                        _posts.postValue(it)
                     }
 
             } catch (ex: Exception) {

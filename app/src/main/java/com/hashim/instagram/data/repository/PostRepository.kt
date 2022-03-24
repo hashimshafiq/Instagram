@@ -8,9 +8,10 @@ import com.hashim.instagram.data.remote.NetworkService
 import com.hashim.instagram.data.remote.request.PostCreationRequest
 import com.hashim.instagram.data.remote.request.PostLikeModifyRequest
 import com.hashim.instagram.data.remote.response.GeneralResponse
+import com.hashim.instagram.utils.common.Resource
 import com.hashim.instagram.utils.log.Logger
-import com.hashim.instagram.utils.network.NetworkBoundResource
 import com.hashim.instagram.utils.network.NetworkHelper
+import com.hashim.instagram.utils.network.networkBoundResource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -25,32 +26,19 @@ class PostRepository @Inject constructor(
         const val TAG = "PostRepository"
     }
 
-    fun fetchHomePostList(firstPostId: String?, lastPostId: String?, user: User): Flow<List<Post>> {
+    fun fetchHomePostList(firstPostId: String?, lastPostId: String?, user: User): Flow<Resource<List<Post>>> {
 
-        return object : NetworkBoundResource() {
-            override suspend fun saveCallResult(request: List<Post>) {
-                postDao.preparePostAndCreator(request)
-            }
-
-            override fun loadFromDb(): Flow<List<Post>> {
-                return postDao.getAll()
-                    .map {
-                        processData(it)
-                    }
-            }
-
-            override suspend fun createCall(): List<Post> {
-
-                   return networkService.doHomePostListCall(
-                        firstPostId,
-                        lastPostId,
-                        user.id,
-                        user.accessToken
-                   ).data
-            }
-
-
-        }.asFlow().flowOn(Dispatchers.IO)
+        return networkBoundResource(
+            query = { postDao.getAll().map { processData(it) } },
+            fetch = { networkService.doHomePostListCall(firstPostId, lastPostId, user.id, user.accessToken)},
+            saveFetchResult = { apiResponse ->
+                if (apiResponse.statusCode == "success" && apiResponse.data.isNotEmpty()) {
+                    postDao.preparePostAndCreator(apiResponse.data)
+                }
+            },
+            shouldFetch = { networkHelper.isNetworkConnected() },
+            coroutineDispatcher = Dispatchers.IO
+        )
 
     }
 

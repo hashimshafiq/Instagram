@@ -16,6 +16,7 @@
         android:contentDescription="@string/image_post_description"
         android:id="@+id/ivPost"
         android:scaleType="centerCrop"
+        android:transitionName="photo"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

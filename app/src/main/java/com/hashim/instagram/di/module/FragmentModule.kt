@@ -9,6 +9,7 @@ import com.hashim.instagram.data.repository.PostRepository
 import com.hashim.instagram.data.repository.UserRepository
 import com.hashim.instagram.di.TempDirectory
 import com.hashim.instagram.ui.base.BaseFragment
+import com.hashim.instagram.ui.detail.DetailViewModel
 import com.hashim.instagram.ui.home.HomeViewModel
 import com.hashim.instagram.ui.home.post.PostsAdapter
 import com.hashim.instagram.ui.home.post.likeduser.LikedUserAdapter
@@ -48,7 +49,6 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
     @Provides
     fun provideHomeViewModel(
         coroutineDispatchers: CoroutineDispatchers,
-
         networkHelper: NetworkHelper,
         userRepository: UserRepository,
         postRepository: PostRepository
@@ -82,6 +82,15 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
         fragment, ViewModelProviderFactory(ProfileViewModel::class) {
             ProfileViewModel(coroutineDispatchers, networkHelper,userRepository,postRepository)
         }).get(ProfileViewModel::class.java)
+
+    @Provides
+    fun provideDetailViewModel(
+        coroutineDispatchers: CoroutineDispatchers,
+        networkHelper: NetworkHelper,
+    ): DetailViewModel = ViewModelProvider(
+        fragment, ViewModelProviderFactory(DetailViewModel::class) {
+            DetailViewModel(coroutineDispatchers, networkHelper)
+        }).get(DetailViewModel::class.java)
 
     @Provides
     fun provideCamera() = Camera.Builder()

@@ -22,6 +22,19 @@
         <action
             android:id="@+id/action_itemHome_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_itemHome_to_detailFragment"
+            app:destination="@id/detailFragment">
+
+            <argument
+                android:name="image"
+                app:argType="com.hashim.instagram.data.model.Image" />
+
+        </action>
+
+
+
+
 
 
     </fragment>
@@ -32,6 +45,7 @@
         android:label="PhotoFragment" >
 
     </fragment>
+
     <fragment
         android:id="@+id/itemProfile"
         android:name="com.hashim.instagram.ui.profile.ProfileFragment"
@@ -49,6 +63,16 @@
             app:destination="@id/loginFragment"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_itemProfile_to_detailFragment"
+            app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_itemProfile_to_detailFragment2"
+            app:destination="@id/detailFragment">
+            <argument
+                android:name="image"
+                app:argType="com.hashim.instagram.data.model.Image" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -106,5 +130,15 @@
             app:destination="@id/itemHome"
             app:popUpTo="@id/itemHome"
             app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.hashim.instagram.ui.detail.DetailFragment"
+        android:label="DetailFragment"
+        tools:layout="@layout/fragment_detail"
+        >
+        <argument
+            android:name="image"
+            app:argType="com.hashim.instagram.data.model.Image" />
     </fragment>
 </navigation>

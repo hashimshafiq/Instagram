@@ -25,6 +25,7 @@ class LoginViewModel(
 
     override fun onCreate() {}
 
+    private val ioContext = coroutineDispatchers.io()
     private val validationList : MutableLiveData<List<Validation>> = MutableLiveData()
     val emailField : MutableLiveData<String> = MutableLiveData()
     val passwordField : MutableLiveData<String> = MutableLiveData()
@@ -56,7 +57,7 @@ class LoginViewModel(
             val successValidation = validations.filter { it.resource.status == Status.SUCCESS }
             if(successValidation.size == validations.size && checkInternetConnectionWithMessage()){
 
-                viewModelScope.launch(coroutineDispatchers.io()) {
+                viewModelScope.launch(ioContext) {
 
                     try {
                         userRepository.doUserLogin(email, password)

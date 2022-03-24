@@ -13,7 +13,8 @@ import com.hashim.instagram.data.remote.Networking
 import com.hashim.instagram.data.repository.PostRepository
 import com.hashim.instagram.data.repository.UserRepository
 import com.hashim.instagram.ui.base.BaseItemViewModel
-import com.hashim.instagram.ui.home.onClickListener
+import com.hashim.instagram.ui.detail.DetailFragment
+import com.hashim.instagram.ui.home.OnClickListener
 import com.hashim.instagram.utils.common.Event
 import com.hashim.instagram.utils.common.Resource
 import com.hashim.instagram.utils.common.TimeUtils
@@ -21,7 +22,6 @@ import com.hashim.instagram.utils.display.ScreenUtils
 import com.hashim.instagram.utils.network.NetworkHelper
 import com.hashim.instagram.utils.rx.CoroutineDispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -50,6 +50,8 @@ class PostItemViewModel @Inject constructor(
     val isLiked : LiveData<Boolean> = Transformations.map(data){
         it.likedBy?.find {postUser -> postUser.id == user.id } !== null
     }
+
+    val launchDetailFragment : MutableLiveData<Event<Image>> = MutableLiveData()
 
     val profileImage : LiveData<Image> = Transformations.map(data){
         it.creator.profilePicUrl?.run { Image(this,headers) }
@@ -99,14 +101,28 @@ class PostItemViewModel @Inject constructor(
 
     }
 
-    fun onProfilePhotoClicked(onClickListener: onClickListener){
+    fun onImageClick(){
         data.value?.let {
-            if(it.creator.id==user.id)
-                onClickListener.onClickPhoto()
+            val image = Image(
+                it.imageUrl,
+                headers,
+                screenWidth,
+                it.imageHeight?.let { height ->
+                    return@let (calculateScaleFactor(it) * height) .toInt()
+                } ?: screenHeight/3
+            )
+            launchDetailFragment.postValue(Event(image))
         }
     }
 
-    fun userPostClick(onClickListener: onClickListener) : Boolean {
+    fun onProfilePhotoClicked(onClickListener: OnClickListener){
+        data.value?.let {
+            if(it.creator.id==user.id)
+                onClickListener.onClickProfilePhoto()
+        }
+    }
+
+    fun userPostClick(onClickListener: OnClickListener) : Boolean {
         data.value?.let {
             if(it.creator.id==user.id)
                 onClickListener.onLongClickPost(it)

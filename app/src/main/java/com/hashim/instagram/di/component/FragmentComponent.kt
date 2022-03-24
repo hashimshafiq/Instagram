@@ -2,6 +2,7 @@ package com.hashim.instagram.di.component
 
 import com.hashim.instagram.di.FragmentScope
 import com.hashim.instagram.di.module.FragmentModule
+import com.hashim.instagram.ui.detail.DetailFragment
 import com.hashim.instagram.ui.home.HomeFragment
 import com.hashim.instagram.ui.home.post.likeduser.LikedUserFragment
 import com.hashim.instagram.ui.login.LoginFragment
@@ -26,6 +27,7 @@ interface FragmentComponent {
     fun inject(fragment: LikedUserFragment)
     fun inject(fragment: LoginFragment)
     fun inject(fragment: SignupFragment)
+    fun inject(fragment: DetailFragment)
 
 
 }

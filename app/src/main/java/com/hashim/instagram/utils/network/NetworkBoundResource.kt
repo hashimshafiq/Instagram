@@ -1,39 +1,44 @@
 package com.hashim.instagram.utils.network
 
-import androidx.annotation.MainThread
-import androidx.annotation.WorkerThread
-import com.hashim.instagram.data.model.Post
+
+import com.hashim.instagram.utils.common.Resource
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.*
 
+inline fun <ResultType, RequestType> networkBoundResource(
+    crossinline query: () -> Flow<ResultType?>,
+    crossinline fetch: suspend () -> RequestType,
+    crossinline saveFetchResult: suspend (RequestType) -> Unit,
+    crossinline shouldFetch: (ResultType?) -> Boolean,
+    coroutineDispatcher: CoroutineDispatcher
+) = flow<Resource<ResultType>> {
 
-abstract class NetworkBoundResource() {
+    // check for data in database
+    val data = query().firstOrNull()
 
-    fun asFlow(): Flow<List<Post>> {
-        return flow {
-
-            //fetch database contents firsts
-            val db = loadFromDb()
-            emit(db.first())
-
-
-            //fetch from network
-            val network = createCall()
-            saveCallResult(network)
-
-            emitAll(db)
-
-        }.catch {
-
-        }
+    if (data != null) {
+        // data is not null -> update loading status
+        emit(Resource.loading(data))
     }
 
-    @WorkerThread
-    protected abstract suspend fun saveCallResult(request: List<Post>)
+    if (shouldFetch(data)) {
+        // Need to fetch data -> call backend
+        val fetchResult = fetch()
+        // got data from backend, store it in database
+        saveFetchResult(fetchResult)
+    }
 
-    @MainThread
-    protected abstract fun loadFromDb(): Flow<List<Post>>
+    // load updated data from database (must not return null anymore)
+    val updatedData = query().first()
 
-    @MainThread
-    protected abstract suspend fun createCall(): List<Post>
+    // emit updated data
+    emit(Resource.success(updatedData))
 
-}
+}.onStart {
+    emit(Resource.loading(null))
+
+}.catch { exception ->
+
+    emit(Resource.error(null))
+
+}.flowOn(coroutineDispatcher)

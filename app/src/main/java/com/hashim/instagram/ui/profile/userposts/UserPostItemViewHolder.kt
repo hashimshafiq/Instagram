@@ -8,9 +8,10 @@ import com.hashim.instagram.data.model.Post
 import com.hashim.instagram.databinding.ItemViewGridPostBinding
 import com.hashim.instagram.di.component.ViewHolderComponent
 import com.hashim.instagram.ui.base.BaseItemViewHolder
+import com.hashim.instagram.ui.profile.OnClickListener
 import com.hashim.instagram.utils.common.GlideHelper
 
-class UserPostItemViewHolder(parent : ViewGroup):BaseItemViewHolder<Post,UserPostItemViewModel>(R.layout.item_view_grid_post,parent) {
+class UserPostItemViewHolder(parent : ViewGroup, private val onClickListener: OnClickListener):BaseItemViewHolder<Post,UserPostItemViewModel>(R.layout.item_view_grid_post,parent) {
 
     lateinit var binding: ItemViewGridPostBinding
 
@@ -20,6 +21,10 @@ class UserPostItemViewHolder(parent : ViewGroup):BaseItemViewHolder<Post,UserPos
 
     override fun setupView(view: View) {
         binding = ItemViewGridPostBinding.bind(view)
+
+        binding.ivPost.setOnClickListener {
+            viewModel.onPostClicked()
+        }
     }
 
     override fun setupObservers() {
@@ -35,6 +40,11 @@ class UserPostItemViewHolder(parent : ViewGroup):BaseItemViewHolder<Post,UserPos
             }
         }
 
+        viewModel.launchDetailFragment.observe(this){
+            it.getIfNotHandled()?.let { image ->
+                onClickListener.onClickPhoto(binding.ivPost, image)
+            }
+        }
 
     }
 }

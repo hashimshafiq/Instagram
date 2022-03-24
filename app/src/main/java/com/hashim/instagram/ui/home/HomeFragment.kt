@@ -3,34 +3,31 @@ package com.hashim.instagram.ui.home
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.os.bundleOf
+import androidx.navigation.ActivityNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hashim.instagram.R
+import com.hashim.instagram.data.model.Image
 import com.hashim.instagram.data.model.Post
 import com.hashim.instagram.databinding.FragmentHomeBinding
 import com.hashim.instagram.di.component.FragmentComponent
 import com.hashim.instagram.ui.base.BaseFragment
+import com.hashim.instagram.ui.detail.DetailFragment
 import com.hashim.instagram.ui.home.post.PostsAdapter
-import com.hashim.instagram.ui.main.MainActivity
 import com.hashim.instagram.ui.main.MainSharedViewModel
 import com.hashim.instagram.utils.common.Status
 import javax.inject.Inject
 
 
-class HomeFragment : BaseFragment<HomeViewModel>() , onClickListener {
+class HomeFragment : BaseFragment<HomeViewModel>() , OnClickListener {
 
     companion object {
-
         const val TAG = "HomeFragment"
-
-        fun newInstance(): HomeFragment {
-            val args = Bundle()
-            val fragment = HomeFragment()
-            fragment.arguments = args
-            return fragment
-        }
     }
 
 
@@ -135,13 +132,20 @@ class HomeFragment : BaseFragment<HomeViewModel>() , onClickListener {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
-    override fun onClickPhoto() {
+    override fun onClickProfilePhoto() {
         mainSharedViewModel.onProfileRedirect()
     }
 
     override fun onLongClickPost(post: Post) {
 
         showDialog(post)
+    }
+
+    override fun onClickPhoto(view: ImageView, image: Image) {
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), view, view.transitionName)
+        val extras = ActivityNavigatorExtras(options)
+        val direction = HomeFragmentDirections.actionItemHomeToDetailFragment(image)
+        findNavController().navigate(direction, extras)
     }
 
     private fun showDialog(post: Post){
